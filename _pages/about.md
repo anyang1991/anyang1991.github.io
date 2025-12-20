@@ -16,5 +16,5 @@ Currently, I integrate system optimization with cognitive navigation strategies 
 
 I am always open to collaboration and discussion regarding autonomous and competitive sailing.
 
-**Email:** <u>aresan02@163.com/u>
+**Email:** <u>aresan02@163.com</u>
 
