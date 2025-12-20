@@ -7,8 +7,13 @@ redirect_from:
   - /about.html
 ---
 
-I am currently an Engineer at the Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences (IDSSE, CAS). I am dedicated to enhancing the sailing performance and observation efficiency of autonomous sailboats in complex marine environments.<br><br>
-  
-  I hold a Ph.D. in Mechatronic Engineering. During my doctoral studies, my research primarily focused on enhancing vessel performance through multidisciplinary overall design optimization, laying a solid foundation in system engineering.<br><br>
-  
-  Subsequently, during my postdoctoral research, I expanded my focus to intelligent navigation. I began exploring the transfer of human sailing expertise to autonomous systems, aiming to bridge the gap between experienced human sailors and robotic algorithms.<br><br>
+I am an Engineer at the **Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences (IDSSE, CAS)**, focusing on the performance and efficiency of autonomous sailboats in complex marine environments.
+
+My academic background includes a **Ph.D. in Mechatronic Engineering**, where I specialized in vessel performance via multidisciplinary design optimization. Later, as a postdoctoral researcher, I pivoted to **intelligent navigation**, bridging the gap between human sailing expertise and robotic control algorithms.
+
+Currently, I integrate **system optimization** with **cognitive navigation strategies** to enable robust autonomous ocean observation.
+
+I am always open to collaboration and discussion regarding autonomous and competitive sailing.
+
+**Email:** <u>aresan02@163.com/u>
+
