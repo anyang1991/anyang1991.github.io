@@ -9,7 +9,7 @@
 # Basic Site Settings
 locale                   : "en-US"
 site_theme               : "default" # Currently available options are "default", "air"
-title                    : "Dr. Yang An's Homepage" # 浏览器标签页标题
+title                    : "Yang An" # 浏览器标签页标题
 title_separator          : "-"
 name                     : &name "Yang An (安洋)"
 description              : &description "Engineer at IDSSE, CAS"
