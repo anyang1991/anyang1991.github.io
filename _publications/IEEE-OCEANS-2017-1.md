@@ -1,7 +1,7 @@
 ---
 title: "Path Planning for Multipoint Seabed Survey Mission Using Autonomous Underwater Vehicle"
 collection: publications
-category: manuscripts
+category: conferences
 permalink: /publication/2017-auv-path-planning
 excerpt: 'This conference paper focuses on the path planning algorithms for AUVs in seabed survey missions.'
 date: 2017-06-01
