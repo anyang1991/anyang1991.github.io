@@ -12,18 +12,18 @@ redirect_from:
 Education
 ======
 * **Ph.D. in Mechatronic Engineering**
-* Shenyang Institute of Automation, CAS, 2015 - 2023
+* Shenyang Institute of Automation, Chinese Academy of Sciences, 2015 - 2023
   * *Successive Master-Doctoral Program*
   * Dissertation: "Design and Optimization Methods for Autonomous Sailboats Targeting Speed Performance"
   * Advisor: Prof. Jiancheng Yu
 * **Joint Training Program**
-* University of Science and Technology of China (USTC), 2015 - 2016
+* University of Science and Technology of China, 2015 - 2016
 * **B.Eng. in Naval Architecture and Ocean Engineering**
 * Dalian Ocean University, 2010 - 2014
 
 Work experience
 ======
-* **Engineer**, Institute of Deep-sea Science and Engineering, CAS, 2025 - Present
+* **Engineer**, Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, 2025 - Present
 * **Postdoctoral Researcher**, Tsinghua Shenzhen International Graduate School, 2023 - 2025
 
 Research Interests
