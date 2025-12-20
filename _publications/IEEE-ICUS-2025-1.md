@@ -6,7 +6,7 @@ permalink: /publication/2025-multi-usv-monitoring
 excerpt: 'Monitoring scheme for multiple USVs in dynamic environments.'
 date: 2025-01-01
 venue: 'IEEE International Conference on Unmanned Systems (ICUS)'
-citation: 'M. Zhang, Z. Ren, Y. He, D. Li, L. Yang, and **Y. An**. (2025). &quot;A coordinate coverage water area monitoring scheme for multiple unmanned surface vehicles in dynamic environments.&quot; <i>IEEE ICUS 2025</i>. In Press.'
+citation: 'M. Zhang, Z. Ren, Y. He, D. Li, L. Yang, and <b>Y. An<b>. (2025). &quot;A coordinate coverage water area monitoring scheme for multiple unmanned surface vehicles in dynamic environments.&quot; <i>IEEE ICUS 2025</i>. In Press.'
 ---
 
 The contents above will be part of a list of publications, if the user clicks the link for the publication than the contents of section will be rendered as a full page, allowing you to provide more information about the paper for the reader. When publications are displayed as a single page, the contents of the above "citation" field will automatically be included below this section in a smaller font.
