@@ -5,7 +5,7 @@ category: thesis
 permalink: /publication/2023-phd-thesis
 excerpt: 'This research develops novel design evaluation and optimization methods to enhance the speed performance of autonomous sailboats, specifically addressing the conflict between speed and capsize resistance through CFD-based evaluation, Bayesian optimization with knowledge transfer, and passive hydrofoil stabilizers.'
 date: 2023-06-01
-venue: 'Shenyang Institute of Automation, Chinese Academy of Sciences'
+venue: 'Chinese Doctoral Dissertations Full-text Database'
 paperurl: 'https://doi.org/10.27589/d.cnki.gsyzs.2023.000001'
 citation: '<b>Yang An</b>,. (2023). &quot;Design and Optimization Methods for Autonomous Sailboats Targeting Speed Performance.&quot; <i>Ph.D. Dissertation</i>.'
 ---
