@@ -1,7 +1,7 @@
 ---
 title: "Relative Motion Prediction for Integrated Floating Offshore Wind Turbine Installation Scheme Based on Data-Driven"
 collection: publications
-category: manuscripts
+category: conferences
 permalink: /publication/2024-wind-turbine-prediction
 excerpt: 'Data-driven relative motion prediction for wind turbine installation.'
 date: 2024-06-01
