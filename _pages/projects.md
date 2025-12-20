@@ -28,7 +28,8 @@ author_profile: true
 ## Honors & Competitions
 
 ### **Zhuhai Wanshan International Intelligent Vessel Competition**
-* **Award:** Overall Champion (Grand Prize)
+* **Awards:** * **Overall Champion (Grand Prize)**
+    * **Subject Champion** (Dynamic Obstacle Avoidance)
 * **Role:** Team Leader
 * **Host:** Southern Marine Science and Engineering Guangdong Laboratory (Zhuhai)
 * **Prize:** USD 20,000
