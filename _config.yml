@@ -12,7 +12,7 @@ site_theme               : "default" # Currently available options are "default"
 title                    : "Dr. Yang An's Homepage" # 浏览器标签页标题
 title_separator          : "-"
 name                     : &name "Yang An (安洋)"
-description              : &description "Engineer at IDSSE, CAS. Researching Autonomous Sailboats."
+description              : &description "Engineer at IDSSE, CAS"
 url                      : "https://anyang.space" # 【重要】这里必须填你的自定义域名
 baseurl                  : "" # 自定义域名不需要子路径
 repository               : "anyang1991/anyang1991.github.io" # 指向你的仓库
