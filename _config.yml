@@ -22,7 +22,7 @@ repository               : "anyang1991/anyang1991.github.io" # 指向你的仓�
 #               Additional customization can be done by editing /_includes/author-profile.html
 author:
   # Biographic information
-  avatar           : "https://anyang.space/images/me.png" # 确保你的照片文件名是 avatar.png
+  avatar           : "me.png" # 确保你的照片文件名是 avatar.png
   name             : "Yang An (安洋)"
   pronouns         : # example: "she/her"  
   bio              : "Ph.D. in Mechatronic Engineering<br>Engineer at IDSSE, CAS"
