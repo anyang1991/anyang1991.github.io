@@ -1,7 +1,7 @@
 ---
 permalink: /
 title: "Homepage"
-author_profile: Fulse
+author_profile: True
 redirect_from: 
   - /about/
   - /about.html
