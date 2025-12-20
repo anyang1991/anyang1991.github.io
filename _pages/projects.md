@@ -9,21 +9,55 @@ author_profile: true
 
 ## Research Projects
 
-* **Full-scale Data-driven Modeling and Control of Soft-sail Sailboats**, RMB 100,000, 2023 – 2025
-    * *Shenzhen Science and Technology Program*
-    * No. WDZC20231128135104001
-    * **Role: Principal Investigator (PI)**
-
-* **Novel Hydrofoil-based Autonomous Sailboat**, RMB 1,000,000, 2018 – 2020
-    * *Frontier Technology Exploration Project*
-    * Contract No.18-H863-00-TS-002-036-01
-    * **Role: Principal Investigator (PI)**
+### **Full-scale Data-driven Modeling and Control of Soft-sail Sailboats**
+* **Role:** Principal Investigator (PI)
+* **Program:** Shenzhen Science and Technology Program (WDZC20231128135104001)
+* **Funding:** RMB 100,000
+* **Period:** 2023 – 2025
 
 ---
 
-## Honors and Awards
+### **Novel Hydrofoil-based Autonomous Sailboat**
+* **Role:** Principal Investigator (PI)
+* **Program:** Frontier Technology Exploration Project (18-H863-00-TS-002-036-01)
+* **Funding:** RMB 1,000,000
+* **Period:** 2018 – 2020
 
-* **Overall Champion & Subject Champion** (Overcoming Obstacles), Zhuhai Wanshan International Intelligent Vessel Competition, 2020
-* **Semi-final Winner**, 1st "Pioneer Cup" Future Technology Innovation Competition, 2018
-* **First Prize**, Liaoning Provincial Postgraduate Big Data Technology Innovation Competition, 2016
-* **Top 32 Nationwide & Third Place (Eastern Division)**, RoboMasters National Undergraduate Robotics Competition, 2016
+---
+
+## Honors & Competitions
+
+### **Zhuhai Wanshan International Intelligent Vessel Competition**
+* **Award:** Overall Champion (Grand Prize)
+* **Role:** Team Leader
+* **Host:** Southern Marine Science and Engineering Guangdong Laboratory (Zhuhai)
+* **Prize:** USD 20,000
+* **Date:** 2020
+
+---
+
+### **1st "Pioneer Cup" Future Technology Innovation Competition**
+* **Award:** Semi-final Winner (Merit Prize)
+* **Role:** Team Leader
+* **Host:** Chinese Academy of Sciences
+* **Impact:** Converted to a funded project (RMB 1,000,000)
+* **Date:** 2018
+
+---
+
+### **Liaoning Provincial Graduate Big Data Innovation Competition**
+* **Award:** First Prize
+* **Role:** Team Leader
+* **Host:** Liaoning Provincial Department of Education
+* **Date:** 2016
+
+---
+
+### **RoboMasters National Undergraduate Robotics Competition**
+* **Award:** National Top 32 / Regional 3rd Place
+* **Role:** Vision Group Leader
+* **Host:** DJI & School Department of the Communist Youth League Central Committee
+* **Date:** 2016
+
+
+
