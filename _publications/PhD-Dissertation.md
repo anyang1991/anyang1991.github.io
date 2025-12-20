@@ -3,10 +3,10 @@ title: "Design and Optimization Methods for Autonomous Sailboats Targeting Speed
 collection: publications
 category: manuscripts
 permalink: /publication/2023-phd-thesis
-excerpt: 'Doctoral dissertation on the design and optimization of autonomous sailboats.'
+excerpt: 'This research develops novel design evaluation and optimization methods to enhance the speed performance of autonomous sailboats, specifically addressing the conflict between speed and capsize resistance through CFD-based evaluation, Bayesian optimization with knowledge transfer, and passive hydrofoil stabilizers.'
 date: 2023-06-01
 venue: 'Shenyang Institute of Automation, Chinese Academy of Sciences'
 paperurl: 'https://doi.org/10.27589/d.cnki.gsyzs.2023.000001'
 citation: '<b>Yang An</b>,. (2023). &quot;Design and Optimization Methods for Autonomous Sailboats Targeting Speed Performance.&quot; <i>Ph.D. Dissertation</i>.'
 ---
-The contents above will be part of a list of publications, if the user clicks the link for the publication than the contents of section will be rendered as a full page, allowing you to provide more information about the paper for the reader. When publications are displayed as a single page, the contents of the above "citation" field will automatically be included below this section in a smaller font.
+This study systematically addresses the critical speed limitation in autonomous sailboats caused by the inherent conflict between velocity and capsize resistance. It establishes a CFD and optimization-based Velocity Prediction Program (VPP) for accurate performance assessment, proposes a simulation-driven design framework utilizing Bayesian optimization and knowledge transfer to efficiently optimize hull-sail configurations under stability constraints, and introduces passive hydrofoils as an adaptive stabilization solution to indirectly boost speed. Validated through prototype testing (“Seagull”) and hydrodynamic simulations, these methods provide comprehensive theoretical foundations and practical tools for designing high-performance autonomous sailboats, significantly advancing their ocean observation efficiency and area accessibility.
