@@ -14,7 +14,7 @@ Education
 * **Ph.D. in Mechatronic Engineering**
   * Shenyang Institute of Automation, Chinese Academy of Sciences, 2015 - 2023
   * *Successive Master-Doctoral Program*
-  * Dissertation: "Design and Optimization Methods for Autonomous Sailboats Targeting Speed Performance"
+  * Dissertation: "Research on Design and Optimization Methods for the Speed Performance of Autonomous Sailboats"
   * Advisor: Prof. Jiancheng Yu
 * **Joint Training Program**
   * University of Science and Technology of China, 2015 - 2016
