@@ -10,7 +10,7 @@ redirect_from:
 {% include base_path %}
 
 ## Education
-======
+
 * **Ph.D. in Mechatronic Engineering**
   * Shenyang Institute of Automation, Chinese Academy of Sciences, 2015 - 2023
   * *Successive Master-Doctoral Program*
@@ -22,7 +22,7 @@ redirect_from:
   * Dalian Ocean University, 2010 - 2014
 
 ## Work experience
-======
+
 * **Engineer**,
   *  Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, 2025 - Present
 * **Postdoctoral Researcher**
@@ -30,7 +30,7 @@ redirect_from:
   *  Co-advisor: Assoc. Prof. Zhengru Ren
 
 ## Research Interests
-======
+
 * Autonomous Sailboats
 * Marine Robotics
 * Simulation-Based Optimization
@@ -38,7 +38,7 @@ redirect_from:
 * Learning-Based Control
 
 ## Publications
-======
+
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
