@@ -1,7 +1,7 @@
 ---
 title: "A coordinate coverage water area monitoring scheme for multiple unmanned surface vehicles in dynamic environments"
 collection: publications
-category: manuscripts
+category: conferences
 permalink: /publication/2025-multi-usv-monitoring
 excerpt: 'Monitoring scheme for multiple USVs in dynamic environments.'
 date: 2025-01-01
