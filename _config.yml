@@ -25,9 +25,9 @@ author:
   avatar           : "bio.png" # 确保你的照片文件名是 avatar.png
   name             : "Yang An (安洋)"
   pronouns         : # example: "she/her"  
-  bio              : "Ph.D. in Mechatronic Engineering<br>Engineer at IDSSE, CAS"
+  bio              : "Ph.D.<br>Engineer"
   location         : "Sanya, China"
-  employer         : "Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences"
+  employer         : "IDSSE, CAS"
   uri              : # URL
   email            : "aresan02@163.com" # 【请修改】换成你的真实邮箱
 
