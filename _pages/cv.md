@@ -11,24 +11,28 @@ redirect_from:
 
 Education
 ======
-* **Ph.D. in Mechatronic Engineering**, Shenyang Institute of Automation, CAS, 2023
+* **Ph.D. in Mechatronic Engineering**
+* Shenyang Institute of Automation, CAS, 2015 - 2023
   * *Successive Master-Doctoral Program*
   * Dissertation: "Design and Optimization Methods for Autonomous Sailboats Targeting Speed Performance"
   * Advisor: Prof. Jiancheng Yu
-* **Joint Training Program (Ph.D. Coursework)**, University of Science and Technology of China (USTC), 2015 - 2016
-* **B.Eng. in Naval Architecture and Ocean Engineering**, in Dalian Ocean University, 2014
+* **Joint Training Program**
+* University of Science and Technology of China (USTC), 2015 - 2016
+* **B.Eng. in Naval Architecture and Ocean Engineering**
+* Dalian Ocean University, 2010 - 2014
 
 Work experience
 ======
-* **Engineer**, Institute of Deep-sea Science and Engineering, CAS (2025 - Present)
-* **Postdoctoral Researcher**, Tsinghua Shenzhen International Graduate School (2023 - 2025)
+* **Engineer**, Institute of Deep-sea Science and Engineering, CAS, 2025 - Present
+* **Postdoctoral Researcher**, Tsinghua Shenzhen International Graduate School, 2023 - 2025
 
-Skills
+Research Interests
 ======
-* **Research Interests**: Autonomous Sailboats, Marine Robotics, Design Optimization
-* **Programming**: Python, C++, MATLAB
-* **Tools**: ROS, SolidWorks, Latex
-* **Languages**: Chinese (Native), English (Fluent)
+* Autonomous Sailboats
+* Marine Robotics
+* Simulation-Based Optimization
+* Adaptive Path Planning
+* Learning-Based Control
 
 Publications
 ======
@@ -48,6 +52,11 @@ Teaching
     {% include archive-single-cv.html %}
   {% endfor %}</ul>
   
-Service and leadership
-======
-* Reviewer for Ocean Engineering, IEEE JOE
+## Professional Service
+
+* **Editorial Board Member**
+    * *Journal of Sailing Technology*
+* **Journal Reviewer**
+    * *Ocean Engineering*
+    * *Structural and Multidisciplinary Optimization*
+    * *Journal of Sailing Technology*
