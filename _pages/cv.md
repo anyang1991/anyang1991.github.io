@@ -23,7 +23,7 @@ redirect_from:
 
 ## Work experience
 
-* **Engineer**,
+* **Engineer**
   *  Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, 2025 - Present
 * **Postdoctoral Researcher**
   *  Tsinghua Shenzhen International Graduate School, 2023 - 2025
