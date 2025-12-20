@@ -3,11 +3,11 @@ title: "Path Planning for Multipoint Seabed Survey Mission Using Autonomous Unde
 collection: publications
 category: conferences
 permalink: /publication/2017-auv-path-planning
-excerpt: 'This paper proposes a novel two-stage framework combining iterative K-means clustering and ant colony optimization to solve energy-optimal path planning for large-scale seabed survey missions using endurance-constrained AUVs, validated through comprehensive simulations.'
+excerpt: 'This study proposes a data-driven artificial neural network model to predict extreme relative motions between mating points during floating offshore wind turbine installation, enabling safer mating operations and informed crew decision-making.'
 date: 2017-06-01
 venue: 'IEEE OCEANS'
 paperurl: 'https://doi.org/10.1109/OCEANSE.2017.8084941'
 citation: '<b>Yang An</b>,, Gaofei Xu, Chunhui Xu, Hongyu Zhao, and Jian Liu. (2017). &quot;Path Planning for Multipoint Seabed Survey Mission Using Autonomous Underwater Vehicle.&quot; <i>IEEE OCEANS Conference</i>.'
 ---
 
-Addressing the challenge of limited AUV endurance in large-scale seabed surveys, this work develops a hierarchical path planning methodology for multi-point missions. The approach first employs iterative K-means clustering with dynamic pruning to strategically position support vessel anchor points while ensuring target coverage under operational constraints. Subsequently, it applies a modified ant colony algorithm to optimize survey paths from each anchor point, incorporating critical constraints including dive duration, sampling capacity, and travel efficiency. Simulation results across a 160×160 nautical mile area with 100 target points demonstrate the framework’s effectiveness in minimizing total energy consumption while satisfying operational limitations. The solution provides significant efficiency gains for resource-constrained underwater survey operations, particularly in multi-AUV deployments.
+This research addresses the challenge of unpredictable relative motions between preassembled floating wind turbine components and foundations during offshore mating operations. By simulating installation scenarios across diverse sea states and utilizing statistical motion data (mean values and central moments) as inputs, a backpropagation neural network model is developed to forecast the maximum and minimum relative displacements and velocities at critical mating points. The model demonstrates high prediction accuracy (with R² values up to 0.95 and low MSE), providing crucial early warnings of potential hazards and supporting operational safety decisions for the novel catamaran-based installation method. This data-driven approach enhances the feasibility of installing floating wind turbines in deeper waters.
