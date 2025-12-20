@@ -11,35 +11,22 @@ redirect_from:
 
 Education
 ======
-* Ph.D in Version Control Theory, GitHub University, 2018 (expected)
-* M.S. in Jekyll, GitHub University, 2014
-* B.S. in GitHub, GitHub University, 2012
+* **Ph.D. in Mechatronic Engineering**, Shenyang Institute of Automation, CAS, 2023
+  * *Dissertation: "Design and Optimization Methods for Autonomous Sailboats Targeting Speed Performance"*
+* **Joint Training**, University of Science and Technology of China (USTC), 2015-2016
+* **B.Eng.**, Dalian Ocean University, 2014
 
 Work experience
 ======
-* Spring 2024: Academic Pages Collaborator
-  * GitHub University
-  * Duties includes: Updates and improvements to template
-  * Supervisor: The Users
+* **Engineer**, Institute of Deep-sea Science and Engineering, CAS (2025 - Present)
+* **Postdoctoral Researcher**, Tsinghua Shenzhen International Graduate School (2023 - 2025)
 
-* Fall 2015: Research Assistant
-  * GitHub University
-  * Duties included: Merging pull requests
-  * Supervisor: Professor Hub
-
-* Summer 2015: Research Assistant
-  * GitHub University
-  * Duties included: Tagging issues
-  * Supervisor: Professor Git
-  
 Skills
 ======
-* Skill 1
-* Skill 2
-  * Sub-skill 2.1
-  * Sub-skill 2.2
-  * Sub-skill 2.3
-* Skill 3
+* **Research Interests**: Autonomous Sailboats, Marine Robotics, Design Optimization
+* **Programming**: Python, C++, MATLAB
+* **Tools**: ROS, SolidWorks, Latex
+* **Languages**: Chinese (Native), English (Fluent)
 
 Publications
 ======
@@ -61,4 +48,4 @@ Teaching
   
 Service and leadership
 ======
-* Currently signed in to 43 different slack teams
+* Reviewer for Ocean Engineering, IEEE JOE
