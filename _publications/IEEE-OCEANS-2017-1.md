@@ -3,11 +3,11 @@ title: "Path Planning for Multipoint Seabed Survey Mission Using Autonomous Unde
 collection: publications
 category: conferences
 permalink: /publication/2017-auv-path-planning
-excerpt: 'This conference paper focuses on the path planning algorithms for AUVs in seabed survey missions.'
+excerpt: 'This paper proposes a novel two-stage framework combining iterative K-means clustering and ant colony optimization to solve energy-optimal path planning for large-scale seabed survey missions using endurance-constrained AUVs, validated through comprehensive simulations.'
 date: 2017-06-01
 venue: 'IEEE OCEANS'
 paperurl: 'https://doi.org/10.1109/OCEANSE.2017.8084941'
 citation: '<b>Yang An</b>,, Gaofei Xu, Chunhui Xu, Hongyu Zhao, and Jian Liu. (2017). &quot;Path Planning for Multipoint Seabed Survey Mission Using Autonomous Underwater Vehicle.&quot; <i>IEEE OCEANS Conference</i>.'
 ---
 
-The contents above will be part of a list of publications, if the user clicks the link for the publication than the contents of section will be rendered as a full page, allowing you to provide more information about the paper for the reader. When publications are displayed as a single page, the contents of the above "citation" field will automatically be included below this section in a smaller font.
+Addressing the challenge of limited AUV endurance in large-scale seabed surveys, this work develops a hierarchical path planning methodology for multi-point missions. The approach first employs iterative K-means clustering with dynamic pruning to strategically position support vessel anchor points while ensuring target coverage under operational constraints. Subsequently, it applies a modified ant colony algorithm to optimize survey paths from each anchor point, incorporating critical constraints including dive duration, sampling capacity, and travel efficiency. Simulation results across a 160×160 nautical mile area with 100 target points demonstrate the framework’s effectiveness in minimizing total energy consumption while satisfying operational limitations. The solution provides significant efficiency gains for resource-constrained underwater survey operations, particularly in multi-AUV deployments.
