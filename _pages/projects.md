@@ -19,7 +19,7 @@ author_profile: true
 
 ### **Novel Hydrofoil-based Autonomous Sailboat**
 * **Role:** Principal Investigator (PI)
-* **Program:** Frontier Technology Exploration Project (18-H863-00-TS-002-036-01)
+* **Program:** Frontier Technology Exploration Project
 * **Funding:** RMB 1,000,000
 * **Period:** 2018 – 2020
 
