@@ -9,7 +9,7 @@ redirect_from:
 
 {% include base_path %}
 
-Education
+## Education
 ======
 * **Ph.D. in Mechatronic Engineering**
   * Shenyang Institute of Automation, Chinese Academy of Sciences, 2015 - 2023
@@ -21,7 +21,7 @@ Education
 * **B.Eng. in Naval Architecture and Ocean Engineering**
   * Dalian Ocean University, 2010 - 2014
 
-Work experience
+## Work experience
 ======
 * **Engineer**,
   *  Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, 2025 - Present
@@ -29,7 +29,7 @@ Work experience
   *  Tsinghua Shenzhen International Graduate School, 2023 - 2025
   *  Co-advisor: Assoc. Prof. Zhengru Ren
 
-Research Interests
+## Research Interests
 ======
 * Autonomous Sailboats
 * Marine Robotics
@@ -37,7 +37,7 @@ Research Interests
 * Adaptive Path Planning
 * Learning-Based Control
 
-Publications
+## Publications
 ======
   <ul>{% for post in site.publications reversed %}
     {% include archive-single-cv.html %}
