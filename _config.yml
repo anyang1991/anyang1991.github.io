@@ -156,7 +156,7 @@ social:
 
 # Analytics
 analytics:
-  provider: "google-gtag"      # 注意：一定要改成 google-gtag
+  provider: ""      # 注意：一定要改成 google-gtag
   google:
     tracking_id: "G-KCQYGWLZHH"  # 【这里】粘贴你刚才复制的 ID
     anonymize_ip: false
