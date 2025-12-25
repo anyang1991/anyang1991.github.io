@@ -1,5 +1,13 @@
 {% include base_path %}
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-KCQYGWLZHH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-KCQYGWLZHH');
+</script>
 <meta charset="utf-8">
 
 {% include seo.html %}
@@ -12,5 +20,4 @@
   document.documentElement.className = document.documentElement.className.replace(/\bno-js\b/g, '') + ' js ';
 </script>
 
-<!-- For all browsers -->
 <link rel="stylesheet" href="{{ base_path }}/assets/css/main.css">
