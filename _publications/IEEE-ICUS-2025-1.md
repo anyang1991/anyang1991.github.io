@@ -6,9 +6,10 @@ permalink: /publication/2025-multi-usv-monitoring
 excerpt: 'This paper develops a novel kinematic-aware distributed scheme for coordinated water pollution monitoring using multiple Unmanned Surface Vehicles (USVs), achieving real-time coverage optimization in dynamically expanding aquatic environments.'
 date: 2025-01-01
 venue: 'IEEE International Conference on Unmanned Systems (ICUS)'
+paperurl: '/files/IEEE-ICUS-2025-1.pdf'
 citation: 'M. Zhang, Z. Ren<sup>*</sup>, Y. He, D. Li, L. Yang, and <b>Yang An</b>. (2025). &quot;A Coordinate Coverage Water Area Monitoring Scheme for Multiple Unmanned Surface Vehicles in Dynamic Environments.&quot; <i>2025 IEEE International Conference on Unmanned Systems (ICUS)</i>.'
 ---
 
 Addressing the critical challenge of dynamic water pollution control in fragile urban waters, this work proposes a real-time multi-USV coverage scheme integrating dynamic map interactions and motion constraints. Key innovations include synchronized inter-USV pollution dispersion mapping and distributed path optimization that minimizes redundant coverage. Simulation results validate high efficiency: deploying more USVs reduces monitoring time by up to 41% while maintaining coverage rates above 90%, significantly advancing autonomous environmental monitoring capabilities. This framework directly tackles limitations in existing static coverage methods, demonstrating practical value for rapidly evolving pollution scenarios.
 
-[Download PDF](/files/IEEE-ICUS-2025-1.pdf) | [View on Publisher Site (DOI)](https://doi.org/10.1109/ICUS66297.2025.11295601)
+[View on Publisher Site (DOI)](https://doi.org/10.1109/ICUS66297.2025.11295601)
