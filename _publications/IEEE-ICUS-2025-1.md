@@ -10,3 +10,5 @@ citation: 'M. Zhang, Z. Ren<sup>*</sup>, Y. He, D. Li, L. Yang, and <b>Yang An</
 ---
 
 Addressing the critical challenge of dynamic water pollution control in fragile urban waters, this work proposes a real-time multi-USV coverage scheme integrating dynamic map interactions and motion constraints. Key innovations include synchronized inter-USV pollution dispersion mapping and distributed path optimization that minimizes redundant coverage. Simulation results validate high efficiency: deploying more USVs reduces monitoring time by up to 41% while maintaining coverage rates above 90%, significantly advancing autonomous environmental monitoring capabilities. This framework directly tackles limitations in existing static coverage methods, demonstrating practical value for rapidly evolving pollution scenarios.
+
+[Download PDF](/files/IEEE-ICUS-2025-1.pdf) | [View on Publisher Site (DOI)](https://doi.org/10.1109/ICUS66297.2025.11295601)
