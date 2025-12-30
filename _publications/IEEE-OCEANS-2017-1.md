@@ -11,3 +11,5 @@ citation: '<b>Yang An</b>, Gaofei Xu, Chunhui Xu, Hongyu Zhao, and Jian Liu<sup>
 ---
 
 Addressing the challenge of limited AUV endurance in large-scale seabed surveys, this work develops a hierarchical path planning methodology for multi-point missions. The approach first employs iterative K-means clustering with dynamic pruning to strategically position support vessel anchor points while ensuring target coverage under operational constraints. Subsequently, it applies a modified ant colony algorithm to optimize survey paths from each anchor point, incorporating critical constraints including dive duration, sampling capacity, and travel efficiency. Simulation results across a 160×160 nautical mile area with 100 target points demonstrate the framework’s effectiveness in minimizing total energy consumption while satisfying operational limitations. The solution provides significant efficiency gains for resource-constrained underwater survey operations, particularly in multi-AUV deployments.
+
+[Download PDF](/files/IEEE-OCEANS-2017-1.pdf) | [View on Publisher Site (DOI)](https://doi.org/10.1109/OCEANSE.2017.8084941)
