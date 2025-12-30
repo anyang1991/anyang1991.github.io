@@ -11,4 +11,4 @@ citation: 'B. Peng, <b>Y. An</b>, M. Zhang, and Z. Ren<sup>*</sup>. (2025). &quo
 ---
 This study develops a pioneering high-fidelity process plant model for unmanned sailboats with wing sails, implemented in MATLAB/Simulink. The 6-DoF multi-body dynamics framework incorporates frequency-domain hydrodynamics (via WAMIT), Morison equation-based fluid load modeling with precomputed CFD coefficients, and discretized panel methods for distributed foil forces. Validated through static sail/rudder force characterization and dynamic wave-response analysis, the modular model enables bidirectional coupling between rigid-body dynamics and environmental forces, providing a physically consistent tool for design optimization and control validation in realistic marine conditions.
 
-[View on Publisher Site (DOI)](https://doi.org/10.1016/j.ifacol.2025.11.687)
+<small>[View on Publisher Site (DOI)](https://doi.org/10.1016/j.ifacol.2025.11.687)</small>
