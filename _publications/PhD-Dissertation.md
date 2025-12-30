@@ -10,3 +10,5 @@ paperurl: 'https://www.researchgate.net/publication/372912784_Research_on_Design
 citation: '<b>Yang An</b>.(2023). &quot;Design and Optimization Methods for Autonomous Sailboats Targeting Speed Performance.&quot; <i>Ph.D. Dissertation</i>.'
 ---
 This study systematically addresses the critical speed limitation in autonomous sailboats caused by the inherent conflict between velocity and capsize resistance. It establishes a CFD and optimization-based Velocity Prediction Program (VPP) for accurate performance assessment, proposes a simulation-driven design framework utilizing Bayesian optimization and knowledge transfer to efficiently optimize hull-sail configurations under stability constraints, and introduces passive hydrofoils as an adaptive stabilization solution to indirectly boost speed. Validated through prototype testing (“Seagull”) and hydrodynamic simulations, these methods provide comprehensive theoretical foundations and practical tools for designing high-performance autonomous sailboats, significantly advancing their ocean observation efficiency and area accessibility.
+
+[Download PDF](/files/PhD-Dissertation.pdf) 
