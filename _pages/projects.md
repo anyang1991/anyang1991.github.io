@@ -7,65 +7,15 @@ author_profile: true
 
 {% include base_path %}
 
-## 项目与竞赛（中文） / Projects & Competitions (Chinese)
+## 项目与竞赛 / Projects and Competitions
 
-## 科研项目
+## 科研项目 / Research Projects
 
 ### 实船数据驱动的软帆帆船建模与控制
 * **角色：** 项目负责人
 * **项目：** 深圳市高等院校稳定支持计划面上项目（WDZC20231128135104001）
 * **经费：** 10 万元
 * **周期：** 2023 – 2025
-
----
-
-### 新型水翼无人帆船
-* **角色：** 项目负责人
-* **项目：** 军委科技委深远海专项前沿科技探索项目
-* **经费：** 100 万元
-* **周期：** 2018 – 2020
-
----
-
-## 荣誉与竞赛
-
-### 珠海万山国际智能船艇公开赛
-* **奖项：** 综合总冠军；“跨越险阻”项目赛冠军
-* **角色：** 队长
-* **主办：** 南方海洋科学与工程广东省实验室（珠海）
-* **奖金：** 2 万美元
-* **时间：** 2020
-
----
-
-### 第二届“率先杯”未来技术创新大赛
-* **奖项：** 复赛优胜
-* **时间：** 2022
-
----
-
-### 第一届“率先杯”未来技术创新大赛
-* **奖项：** 复赛优胜
-* **主办：** 军委科技委
-* **时间：** 2018
-
----
-
-### 辽宁省研究生大数据技术创新大赛
-* **奖项：** 一等奖
-* **时间：** 2016
-
----
-
-### RoboMasters 2016 全国大学生机器人大赛
-* **奖项：** 东部赛区季军；全国 32 强
-* **时间：** 2016
-
----
-
-## Projects & Competitions (English)
-
-## Research Projects
 
 ### Full-scale Data-driven Modeling and Control of Soft-sail Sailboats
 * **Role:** Principal Investigator (PI)
@@ -75,6 +25,12 @@ author_profile: true
 
 ---
 
+### 新型水翼无人帆船
+* **角色：** 项目负责人
+* **项目：** 深远海专项前沿科技探索项目
+* **经费：** 100 万元
+* **周期：** 2018 – 2020
+
 ### Novel Hydrofoil-based Autonomous Sailboat
 * **Role:** Principal Investigator (PI)
 * **Program:** Frontier Technology Exploration Project (Deep & Far-Sea Program), Science and Technology Commission of the Central Military Commission
@@ -83,7 +39,14 @@ author_profile: true
 
 ---
 
-## Honors & Competitions
+## 荣誉与竞赛 / Honors & Competitions
+
+### 珠海万山国际智能船艇公开赛
+* **奖项：** 综合总冠军；“跨越险阻”项目赛冠军
+* **角色：** 队长
+* **主办：** 南方海洋科学与工程广东省实验室（珠海）
+* **奖金：** 2 万美元
+* **时间：** 2020
 
 ### Zhuhai Wanshan International Intelligent Vessel Competition
 * **Awards:** Overall Champion; Subject Champion (Dynamic Obstacle Avoidance)
@@ -94,6 +57,10 @@ author_profile: true
 
 ---
 
+### 第二届“率先杯”未来技术创新大赛
+* **奖项：** 复赛优胜
+* **时间：** 2022
+
 ### 2nd "Pioneer Cup" Future Technology Innovation Competition
 * **Award:** Merit Prize (Semi-final Winner)
 * **Role:** Team Leader
@@ -101,6 +68,11 @@ author_profile: true
 * **Date:** 2022
 
 ---
+
+### 第一届“率先杯”未来技术创新大赛
+* **奖项：** 复赛优胜
+* **主办：** 军委科技委
+* **时间：** 2018
 
 ### 1st "Pioneer Cup" Future Technology Innovation Competition
 * **Award:** Merit Prize (Semi-final Winner)
@@ -111,6 +83,10 @@ author_profile: true
 
 ---
 
+### 辽宁省研究生大数据技术创新大赛
+* **奖项：** 一等奖
+* **时间：** 2016
+
 ### Liaoning Provincial Graduate Big Data Innovation Competition
 * **Award:** First Prize
 * **Role:** Team Leader
@@ -118,6 +94,10 @@ author_profile: true
 * **Date:** 2016
 
 ---
+
+### RoboMasters 2016 全国大学生机器人大赛
+* **奖项：** 东部赛区季军；全国 32 强
+* **时间：** 2016
 
 ### RoboMasters National Undergraduate Robotics Competition
 * **Award:** Regional 3rd Place (East China); National Top 32
