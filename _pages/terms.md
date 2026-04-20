@@ -1,6 +1,6 @@
 ---
 permalink: /terms/
-title: "Terms and Privacy Policy"
+title: "条款与隐私 / Terms and Privacy Policy"
 modified: 2016-06-06
 ---
 
@@ -8,6 +8,10 @@ modified: 2016-06-06
 {% include toc %}
 
 ## Privacy Policy
+
+## 隐私政策（中文摘要）
+
+本网站重视你的隐私。下面提供隐私与条款的英文原文；中文部分为摘要说明，若与英文原文存在不一致，请以英文原文为准。
 
 The privacy of my visitors is extremely important. This Privacy Policy outlines the types of personal information that is received and collected and how it is used.
 
