@@ -64,15 +64,6 @@ redirect_from:
 * 自适应路径规划 / Adaptive Path Planning
 * 基于学习的控制 / Learning-Based Control
 
----
-
-
-## 论文 / Publications
-
-  <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
- 
 ## 学术服务 / Professional Service
 
 * **编委 / Editorial Board Member**

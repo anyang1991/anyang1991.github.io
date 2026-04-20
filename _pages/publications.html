@@ -25,15 +25,17 @@ author_profile: true
     {% assign posts_in_category = site.publications | where: "category", category[0] | sort: "date" | reverse %}
     {% for post in posts_in_category %}
       {% unless title_shown %}
-        <h2>{{ category[1].title }}</h2><hr />
+        <h2>{{ category[1].title }}</h2>
         {% assign title_shown = true %}
       {% endunless %}
       {% include archive-single.html %}
+      <hr />
     {% endfor %}
   {% endfor %}
 {% else %}
   {% assign posts_sorted = site.publications | sort: "date" | reverse %}
   {% for post in posts_sorted %}
     {% include archive-single.html %}
+    <hr />
   {% endfor %}
 {% endif %}
