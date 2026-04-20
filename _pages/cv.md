@@ -9,11 +9,11 @@ redirect_from:
 
 {% include base_path %}
 
-## 简历（中文） / CV (Chinese)
+## 中文
 
 ## 教育背景
 
- * **硕博连读**
+* **硕博连读**
   * 中国科学院沈阳自动化研究所，2015 - 2023
   * 博士论文：《面向航速最优的无人帆船设计与优化方法研究》
   * 导师：俞建成 教授
@@ -38,24 +38,9 @@ redirect_from:
 * 自适应路径规划
 * 基于学习的控制
 
-## 论文
-
-  <ul>{% for post in site.publications reversed %}
-    {% include archive-single-cv.html %}
-  {% endfor %}</ul>
- 
-## 学术服务
-
-* **编委**
-    * *Journal of Sailing Technology*
-* **审稿人**
-    * *Ocean Engineering*
-    * *Structural and Multidisciplinary Optimization*
-    * *Journal of Sailing Technology*
-
 ---
 
-## CV (English)
+## English
 
 ## Education
 
@@ -84,6 +69,8 @@ redirect_from:
 * Simulation-Based Optimization
 * Adaptive Path Planning
 * Learning-Based Control
+
+---
 
 ## Publications
 

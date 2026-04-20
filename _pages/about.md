@@ -13,8 +13,6 @@ redirect_from:
 
 研究方向主要包括无人帆船系统优化设计、路径规划，以及面向人类竞技帆船操作经验的航行策略迁移，致力于提升复杂海况下无人帆船的海洋观测效率。
 
-研究兴趣主要包括：**帆船气-水动力耦合驱动机理、仿真驱动的多学科性能优化、自主任务规划与数据驱动的智能控制**。
-
 期待与同仁在自主航行及竞技帆船领域开展广泛交流与合作。
 
 I am an Engineer at the Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, focusing on the performance and efficiency of autonomous sailboats in complex marine environments.
