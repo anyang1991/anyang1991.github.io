@@ -3,7 +3,7 @@ title: "A coordinate coverage water area monitoring scheme for multiple unmanned
 collection: publications
 category: conferences
 permalink: /publication/2025-multi-usv-monitoring
-excerpt: '本文提出一种考虑运动学约束的分布式协同覆盖方案，用于多无人水面艇（USV）在动态扩展水域中的水污染监测，实现实时覆盖优化与冗余抑制。<br />This paper develops a novel kinematic-aware distributed scheme for coordinated water pollution monitoring using multiple Unmanned Surface Vehicles (USVs), achieving real-time coverage optimization in dynamically expanding aquatic environments.'
+excerpt: '本文提出一种考虑运动学约束的分布式协同覆盖方案，用于多无人水面艇（USV）在动态扩展水域中的水污染监测，实现实时覆盖优化与冗余抑制。<br /><br />This paper develops a novel kinematic-aware distributed scheme for coordinated water pollution monitoring using multiple Unmanned Surface Vehicles (USVs), achieving real-time coverage optimization in dynamically expanding aquatic environments.'
 date: 2025-01-01
 venue: 'IEEE International Conference on Unmanned Systems (ICUS)'
 paperurl: '/files/IEEE-ICUS-2025-1.pdf'

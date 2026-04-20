@@ -3,7 +3,7 @@ title: "Relative Motion Prediction for Integrated Floating Offshore Wind Turbine
 collection: publications
 category: conferences
 permalink: /publication/2024-wind-turbine-prediction
-excerpt: '本文针对浮式海上风电机组整体化安装对接（mating）过程中关键对接点相对运动难以预测的问题，提出一种数据驱动的人工神经网络模型用于预测极值相对位移与速度，从而为对接安全预警与人员决策提供支持。<br />This study proposes a data-driven artificial neural network model to predict extreme relative motions between mating points during floating offshore wind turbine installation, enabling safer mating operations and informed crew decision-making.'
+excerpt: '本文针对浮式海上风电机组整体化安装对接（mating）过程中关键对接点相对运动难以预测的问题，提出一种数据驱动的人工神经网络模型用于预测极值相对位移与速度，从而为对接安全预警与人员决策提供支持。<br /><br />This study proposes a data-driven artificial neural network model to predict extreme relative motions between mating points during floating offshore wind turbine installation, enabling safer mating operations and informed crew decision-making.'
 date: 2024-06-01
 venue: 'International Conference on Ocean, Offshore and Arctic Engineering (OMAE)'
 paperurl: '/files/ASME-OMAE-2024-1.pdf'

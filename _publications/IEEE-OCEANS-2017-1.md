@@ -3,7 +3,7 @@ title: "Path Planning for Multipoint Seabed Survey Mission Using Autonomous Unde
 collection: publications
 category: conferences
 permalink: /publication/2017-auv-path-planning
-excerpt: '本文提出一种两阶段新框架，将迭代 K-means 聚类与蚁群优化相结合，面向续航受限 AUV 的大尺度海底测量任务求解能耗最优路径规划问题，并通过系统仿真验证其有效性。<br />This paper proposes a novel two-stage framework combining iterative K-means clustering and ant colony optimization to solve energy-optimal path planning for large-scale seabed survey missions using endurance-constrained AUVs, validated through comprehensive simulations.'
+excerpt: '本文提出一种两阶段新框架，将迭代 K-means 聚类与蚁群优化相结合，面向续航受限 AUV 的大尺度海底测量任务求解能耗最优路径规划问题，并通过系统仿真验证其有效性。<br /><br />This paper proposes a novel two-stage framework combining iterative K-means clustering and ant colony optimization to solve energy-optimal path planning for large-scale seabed survey missions using endurance-constrained AUVs, validated through comprehensive simulations.'
 date: 2017-06-01
 venue: 'IEEE OCEANS'
 paperurl: '/files/IEEE-OCEANS-2017-1.pdf'

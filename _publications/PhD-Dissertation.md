@@ -3,7 +3,7 @@ title: "Research on Design and Optimization Methods for the Speed Performance of
 collection: publications
 category: thesis
 permalink: /publication/2023-phd-thesis
-excerpt: '本研究围绕无人帆船“航速性能提升”这一核心目标，针对航速与抗倾覆能力之间的矛盾，提出并系统构建了多种设计评估与优化方法，包括基于 CFD 的性能评估、结合知识迁移的贝叶斯优化设计框架，以及用于提高稳性与间接增速的被动水翼稳性方案。<br />This research develops novel design evaluation and optimization methods to enhance the speed performance of autonomous sailboats, specifically addressing the conflict between speed and capsize resistance through CFD-based evaluation, Bayesian optimization with knowledge transfer, and passive hydrofoil stabilizers.'
+excerpt: '本研究围绕无人帆船“航速性能提升”这一核心目标，针对航速与抗倾覆能力之间的矛盾，提出并系统构建了多种设计评估与优化方法，包括基于 CFD 的性能评估、结合知识迁移的贝叶斯优化设计框架，以及用于提高稳性与间接增速的被动水翼稳性方案。<br /><br />This research develops novel design evaluation and optimization methods to enhance the speed performance of autonomous sailboats, specifically addressing the conflict between speed and capsize resistance through CFD-based evaluation, Bayesian optimization with knowledge transfer, and passive hydrofoil stabilizers.'
 date: 2023-06-01
 venue: 'Chinese Doctoral Dissertations Full-text Database'
 paperurl: '/files/PhD-Dissertation.pdf'

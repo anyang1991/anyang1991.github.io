@@ -3,7 +3,7 @@ title: "High-fidelity process plant modeling of an unmanned sailboat with a wing
 collection: publications
 category: conferences
 permalink: /publication/2025-high-fidelity-modeling
-excerpt: '本文提出首个面向翼帆无人帆船的高保真 MATLAB/Simulink 过程对象（process plant）模型，将多体动力学与基于 CFD 的气/水动力建模相融合，并通过静态与动态试验完成验证。<br />This paper presents the first high-fidelity MATLAB/Simulink process plant model for wing-sail unmanned sailboats, integrating multi-body dynamics with CFD-informed aerodynamics/hydrodynamics and validating it through static-dynamic tests.'
+excerpt: '本文提出首个面向翼帆无人帆船的高保真 MATLAB/Simulink 过程对象（process plant）模型，将多体动力学与基于 CFD 的气/水动力建模相融合，并通过静态与动态试验完成验证。<br /><br />This paper presents the first high-fidelity MATLAB/Simulink process plant model for wing-sail unmanned sailboats, integrating multi-body dynamics with CFD-informed aerodynamics/hydrodynamics and validating it through static-dynamic tests.'
 date: 2025-05-01
 venue: 'IFAC Conference on Control Applications in Marine Systems, Robotics, and Vehicles'
 paperurl: '/files/IFAC-CAMS-2025-1.pdf'

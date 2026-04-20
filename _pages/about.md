@@ -9,11 +9,13 @@ redirect_from:
 ---
 
 <br><br>
-中国科学院大学机械电子工程博士，曾于清华大学深圳国际研究生院从事博士后研究，现任中国科学院深海科学与工程研究所工程师。
+中国科学院大学机械电子工程工学博士，曾于清华大学深圳国际研究生院从事博士后研究，现任中国科学院深海科学与工程研究所工程师。
 
-本人长期致力于复杂海洋环境下无人帆船的性能提升与效率优化。目前，研究重心聚焦于通过集成系统优化设计与认知导航策略，强化无人帆船在执行海洋观测任务时的鲁棒性与自主航行能力。
+研究方向主要包括无人帆船系统优化设计、路径规划，以及面向人类竞技帆船操作经验的航行策略迁移，致力于提升复杂海况下无人帆船的海洋观测效率。
 
-期待与同仁在自主航行及竞技帆船领域开展广泛的交流与合作。
+研究兴趣主要包括：**帆船气-水动力耦合驱动机理、仿真驱动的多学科性能优化、自主任务规划与数据驱动的智能控制**。
+
+期待与同仁在自主航行及竞技帆船领域开展广泛交流与合作。
 
 I am an Engineer at the Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, focusing on the performance and efficiency of autonomous sailboats in complex marine environments.
 

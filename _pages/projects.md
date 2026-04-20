@@ -9,17 +9,17 @@ author_profile: true
 
 ## 科研项目 / Research Projects
 
-### **Full-scale Data-driven Modeling and Control of Soft-sail Sailboats**
+### **Full-scale Data-driven Modeling and Control of Soft-sail Sailboats（实船数据驱动的软帆帆船建模与控制）**
 * **角色 / Role:** Principal Investigator (PI)
-* **项目 / Program:** Shenzhen Science and Technology Program (WDZC20231128135104001)
+* **项目 / Program:** 深圳市高等院校稳定支持计划面上项目（WDZC20231128135104001）
 * **经费 / Funding:** RMB 100,000
 * **周期 / Period:** 2023 – 2025
 
 ---
 
-### **Novel Hydrofoil-based Autonomous Sailboat**
+### **Novel Hydrofoil-based Autonomous Sailboat（新型水翼无人帆船）**
 * **角色 / Role:** Principal Investigator (PI)
-* **项目 / Program:** Frontier Technology Exploration Project
+* **项目 / Program:** 军委科技委深远海专项前沿科技探索项目
 * **经费 / Funding:** RMB 1,000,000
 * **周期 / Period:** 2018 – 2020
 
@@ -27,9 +27,9 @@ author_profile: true
 
 ## 荣誉与竞赛 / Honors & Competitions
 
-### **Zhuhai Wanshan International Intelligent Vessel Competition**
-* **奖项 / Awards:** * **Overall Champion (Grand Prize)**
-    * **Subject Champion** (Dynamic Obstacle Avoidance)
+### **Zhuhai Wanshan International Intelligent Vessel Competition（珠海万山国际智能船艇公开赛）**
+* **奖项 / Awards:** * **综合总冠军（Overall Champion）**
+    * **“跨越险阻”项目赛冠军（Subject Champion: Dynamic Obstacle Avoidance）**
 * **角色 / Role:** Team Leader
 * **主办 / Host:** Southern Marine Science and Engineering Guangdong Laboratory (Zhuhai)
 * **奖金 / Prize:** USD 20,000
@@ -37,8 +37,16 @@ author_profile: true
 
 ---
 
-### **1st "Pioneer Cup" Future Technology Innovation Competition**
-* **奖项 / Award:** Semi-final Winner (Merit Prize)
+### **2nd "Pioneer Cup" Future Technology Innovation Competition（第二届“率先杯”未来技术创新大赛）**
+* **奖项 / Award:** 复赛优胜（Merit Prize）
+* **角色 / Role:** Team Leader
+* **主办 / Host:** Chinese Academy of Sciences
+* **时间 / Date:** 2022
+
+---
+
+### **1st "Pioneer Cup" Future Technology Innovation Competition（第一届“率先杯”未来技术创新大赛）**
+* **奖项 / Award:** 复赛优胜（Merit Prize）
 * **角色 / Role:** Team Leader
 * **主办 / Host:** Chinese Academy of Sciences
 * **成果 / Impact:** Converted to a funded project (RMB 1,000,000)
@@ -55,7 +63,7 @@ author_profile: true
 ---
 
 ### **RoboMasters National Undergraduate Robotics Competition**
-* **奖项 / Award:** National Top 32 / Regional 3rd Place
+* **奖项 / Award:** 东部赛区季军 / 全国32强（Regional 3rd Place / National Top 32）
 * **角色 / Role:** Vision Group Leader
 * **主办 / Host:** DJI & School Department of the Communist Youth League Central Committee
 * **时间 / Date:** 2016
