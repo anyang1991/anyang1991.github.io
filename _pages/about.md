@@ -2,6 +2,7 @@
 permalink: /
 title: "Welcome to my homepage!"
 author_profile: True
+hide_github: true
 redirect_from: 
   - /about/
   - /about.html
