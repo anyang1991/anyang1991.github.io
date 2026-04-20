@@ -32,7 +32,7 @@ redirect_from:
 
 ---
 
-* **船舶与海洋工程学士**
+* **本科**
   * 大连海洋大学，船舶与海洋工程学院，2010 - 2014
 
 * **B.Eng. in Naval Architecture and Ocean Engineering**
@@ -44,7 +44,7 @@ redirect_from:
   * 中国科学院深海科学与工程研究所，深海信息技术研究室，2025 - 至今
 
 * **Engineer**
-  * Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, Deep-sea Information Technology Research Office, 2025 - Present
+  * Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, 2025 - Present
 
 ---
 
@@ -53,24 +53,19 @@ redirect_from:
   * 合作导师：任政儒 副教授
 
 * **Postdoctoral Researcher**
-  * Tsinghua Shenzhen International Graduate School, Institute of Ocean Engineering, 2023 - 2025
+  * Tsinghua Shenzhen International Graduate School, 2023 - 2025
   * Co-advisor: Assoc. Prof. Zhengru Ren
 
 ## 研究方向 / Research Interests
 
-* 无人帆船
-* 海洋机器人
-* 基于仿真的优化
-* 自适应路径规划
-* 基于学习的控制
+* 无人帆船 / Autonomous Sailboats
+* 海洋机器人 / Marine Robotics
+* 基于仿真的优化 / Simulation-Based Optimization
+* 自适应路径规划 / Adaptive Path Planning
+* 基于学习的控制 / Learning-Based Control
 
 ---
 
-* Autonomous Sailboats
-* Marine Robotics
-* Simulation-Based Optimization
-* Adaptive Path Planning
-* Learning-Based Control
 
 ## 论文 / Publications
 
