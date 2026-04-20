@@ -7,8 +7,6 @@ author_profile: true
 
 {% include base_path %}
 
-## 项目与竞赛 / Projects and Competitions
-
 ## 科研项目 / Research Projects
 
 ### 实船数据驱动的软帆帆船建模与控制

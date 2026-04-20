@@ -14,7 +14,7 @@ redirect_from:
 * **硕博连读**
   * 中国科学院沈阳自动化研究所，2015 - 2023
   * 博士论文：《面向航速最优的无人帆船设计与优化方法研究》
-  * 导师：俞建成 教授
+  * 导师：俞建成 研究员
 
 * **Ph.D. in Mechatronic Engineering**
   * Shenyang Institute of Automation, Chinese Academy of Sciences, 2015 - 2023
