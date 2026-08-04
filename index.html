@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yang An (安洋) — Autonomous Sailboats</title>
+  <meta name="description" content="Engineer at IDSSE, CAS. Research on autonomous sailboats, marine robotics, and intelligent navigation." />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oxanium:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a class="active" href="/">About</a>
+      <a href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-label="Hero">
+      <div class="hero-visual">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-wash"></div>
+        <div class="hud-frame" aria-hidden="true"></div>
+        <div class="hud-corners" aria-hidden="true"><span></span><span></span></div>
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker-track">
+            AUTONOMOUS SAILBOATS · MARINE ROBOTICS · PATH PLANNING · LEARNING CONTROL · IDSSE CAS · SANYA · DEEP SIGNAL ONLINE ·&nbsp;
+            AUTONOMOUS SAILBOATS · MARINE ROBOTICS · PATH PLANNING · LEARNING CONTROL · IDSSE CAS · SANYA · DEEP SIGNAL ONLINE ·&nbsp;
+          </div>
+        </div>
+      </div>
+      <div class="hero-content">
+        <p class="eyebrow">Deep Signal // IDSSE · CAS</p>
+        <h1 class="hero-brand glitch" data-text="YANG AN">
+          YANG AN
+          <span>安洋</span>
+        </h1>
+        <p class="hero-line">无人帆船系统优化与智能航行 —— 把竞技帆船经验迁入自主海洋观测。</p>
+        <div class="hero-meta">
+          <span><strong>Role</strong> Engineer</span>
+          <span><strong>Focus</strong> Autonomous Sailboats</span>
+          <span><strong>Base</strong> Sanya, China</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn" href="/publications/">Publications</a>
+          <a class="btn btn-ghost" href="mailto:anyang@idsse.ac.cn">Contact</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="profile-grid reveal">
+          <div class="portrait">
+            <img src="/images/bio.png" alt="Portrait of Yang An" width="640" height="640" />
+          </div>
+          <div>
+            <p class="page-kicker">01 / Identity</p>
+            <h2 class="section-title">About</h2>
+            <p class="bio-zh">中国科学院大学机械电子工程工学博士，曾于清华大学深圳国际研究生院从事博士后研究，现任中国科学院深海科学与工程研究所工程师。</p>
+            <p class="bio-zh">研究方向主要包括无人帆船系统优化设计、路径规划，以及面向人类竞技帆船操作经验的航行策略迁移，致力于提升复杂海况下无人帆船的海洋观测效率。</p>
+            <p class="bio-en">I am an Engineer at the Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, focusing on the performance and efficiency of autonomous sailboats in complex marine environments.</p>
+            <p class="bio-en">My academic background includes a Ph.D. in Mechatronic Engineering, with specialization in vessel performance via multidisciplinary design optimization. As a postdoctoral researcher, I pivoted toward intelligent navigation—bridging human sailing expertise and robotic control.</p>
+            <p class="bio-en">I am always open to collaboration on autonomous and competitive sailing.</p>
+            <div class="contact-chip">Email · <a href="mailto:anyang@idsse.ac.cn">anyang@idsse.ac.cn</a></div>
+            <div class="link-row">
+              <a href="https://scholar.google.com/citations?user=1vLLs6wAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+              <a href="https://orcid.org/0000-0001-8838-3197" target="_blank" rel="noopener">ORCID</a>
+              <a href="https://www.researchgate.net/profile/Yang-An-12" target="_blank" rel="noopener">ResearchGate</a>
+              <a href="https://github.com/anyang1991" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-strip reveal">
+          <div class="stat"><strong>11</strong><span>Publications</span></div>
+          <div class="stat"><strong>95</strong><span>Citations</span></div>
+          <div class="stat"><strong>3</strong><span>H-index</span></div>
+          <div class="stat"><strong>2026</strong><span>Updated</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="wrap reveal">
+        <p class="page-kicker">02 / Research</p>
+        <h2 class="section-title">Interests</h2>
+        <p class="section-lead">从总体优化到认知导航，把风力推进平台做成可部署的深海观测节点。</p>
+        <ul class="interest-list">
+          <li>无人帆船<span>Autonomous Sailboats</span></li>
+          <li>海洋机器人<span>Marine Robotics</span></li>
+          <li>基于仿真的优化<span>Simulation-Based Optimization</span></li>
+          <li>自适应路径规划<span>Adaptive Path Planning</span></li>
+          <li>基于学习的控制<span>Learning-Based Control</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© Yang An / 安洋 · anyang.space</span>
+      <span>ENGINEER · IDSSE, CAS</span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/cyber.js"></script>
+</body>
+</html>
