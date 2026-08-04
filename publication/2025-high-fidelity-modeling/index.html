@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>High-fidelity process plant modeling of an unmanned sailboat with a wing sail based on mul — Yang An</title>
+  <meta name="description" content="This paper presents a high-fidelity MATLAB/Simulink process plant model for wing-sailed unmanned sailboats. Within a six-degree-of-freedom multi-body dynamics f" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oxanium:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="hex-field" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scan-beam" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a href="/">About</a>
+      <a class="active" href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+    </nav>
+  </header>
+
+  <main class="wrap pub-detail" style="padding-bottom:4rem">
+    <p class="back-link"><a href="/publications/">← 返回论文列表 / Back to Publications</a></p>
+    <header class="page-head reveal" style="border-bottom:none;margin-bottom:1.5rem;padding-bottom:0">
+      <p class="page-kicker">IFAC Conference on Control Applications in Marine Systems, Robotics, and Vehicles · 2025</p>
+      <h1 class="section-title pub-detail-title">High-fidelity process plant modeling of an unmanned sailboat with a wing sail based on multi-body dynamics</h1>
+    </header>
+
+    <div class="reveal holo-card" style="margin-bottom:1.5rem">
+      <p class="pub-cite" style="margin:0 0 1rem">B. Peng, <b>Y. An</b>, M. Zhang, and Z. Ren<sup>*</sup>. (2025). "High-fidelity process plant modeling of an unmanned sailboat with a wing sail based on multi-body dynamics." <i>IFAC-PapersOnLine</i>.</p>
+      <div class="pub-actions" style="gap:0.75rem;flex-wrap:wrap">
+        <a class="btn" href="/files/IFAC-CAMS-2025-1.pdf" target="_blank" rel="noopener">Download PDF</a>
+        <a class="btn btn-ghost" href="https://doi.org/10.1016/j.ifacol.2025.11.687" target="_blank" rel="noopener">DOI / Publisher</a>
+      </div>
+    </div>
+
+    <section class="reveal">
+      <h2 class="section-title" style="font-size:1.15rem">摘要 / Abstract</h2>
+      <div class="long-abstract">
+        <div class="abs-block abs-zh"><p>无人帆船动力学具有显著非线性，翼帆、舵、龙骨与船体在风、浪、流激励下存在强耦合。面向实时控制的控制对象模型通常采用线性化或解耦近似，难以充分刻画流动分离、船体振荡及跨子系统耦合效应；而用于设计验证与数字孪生的高保真过程对象模型在无人帆船领域仍相对不足。</p><p>针对这一差距，本文构建了面向翼帆无人帆船的 MATLAB/Simulink 高保真过程对象模型（据作者所知属该方向的首次系统实现）。模型在六自由度多体动力学框架中计入帆–舵–龙骨–船体耦合；船体波浪响应由 WAMIT 频域势流系数驱动；翼面、舵与龙骨载荷统一采用 Morison 方程描述，升阻力系数取自预计算 CFD 系数图，并通过离散面元方法分配分布力。模块化实现支持刚体动力学与环境力之间的双向耦合。静力试验与波浪激励下的动态响应分析验证了模型的物理一致性，可为复杂海况下的设计优化、控制器验证与故障场景测试提供可复用的仿真基础。</p></div>
+<div class="abs-block abs-en"><p>The dynamics of unmanned sailboats are strongly nonlinear, with the wing sail, rudder, keel, and hull tightly coupled under wind, wave, and current excitation. Control plant models intended for real-time implementation are typically linearised or decoupled, and therefore may not adequately represent flow separation, hull oscillation, or cross-subsystem coupling. High-fidelity process plant models, which are valuable for design validation and digital-twin development, remain comparatively underexplored for unmanned sailboats.</p><p>To address this gap, this paper develops a MATLAB/Simulink high-fidelity process plant model for a wing-sailed unmanned sailboat which, to the best of the authors’ knowledge, constitutes a first systematic realisation of this kind. The six-degree-of-freedom multi-body formulation accounts for sail–rudder–keel–hull coupling; hull wave responses are driven by WAMIT frequency-domain potential-flow coefficients; and loads on the foils are described uniformly by the Morison equation, with lift and drag coefficients taken from precomputed CFD maps and distributed through a discretised panel method. The modular implementation supports bidirectional coupling between rigid-body dynamics and environmental forces. Static force characterisation and dynamic response analysis under wave excitation confirm physical consistency, providing a reusable simulation basis for design optimisation, controller validation, and failure-scenario testing under complex sea conditions.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© Yang An / 安洋 · anyang.space</span>
+      <span>ENGINEER · IDSSE, CAS</span>
+    </div>
+  </footer>
+  <script src="/assets/js/cyber.js"></script>
+</body>
+</html>

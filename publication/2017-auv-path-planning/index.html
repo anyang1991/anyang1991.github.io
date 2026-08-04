@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Path Planning for Multipoint Seabed Survey Mission Using Autonomous Underwater Vehicle — Yang An</title>
+  <meta name="description" content="For multipoint seabed resurvey missions with discrete targets distributed over large sea areas, this paper proposes a two-stage greedy path-planning method. Ite" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oxanium:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="hex-field" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scan-beam" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a href="/">About</a>
+      <a class="active" href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+    </nav>
+  </header>
+
+  <main class="wrap pub-detail" style="padding-bottom:4rem">
+    <p class="back-link"><a href="/publications/">← 返回论文列表 / Back to Publications</a></p>
+    <header class="page-head reveal" style="border-bottom:none;margin-bottom:1.5rem;padding-bottom:0">
+      <p class="page-kicker">IEEE OCEANS · 2017</p>
+      <h1 class="section-title pub-detail-title">Path Planning for Multipoint Seabed Survey Mission Using Autonomous Underwater Vehicle</h1>
+    </header>
+
+    <div class="reveal holo-card" style="margin-bottom:1.5rem">
+      <p class="pub-cite" style="margin:0 0 1rem"><b>Yang An</b>, Gaofei Xu, Chunhui Xu, Hongyu Zhao, and Jian Liu<sup>*</sup>. (2017). "Path Planning for Multipoint Seabed Survey Mission Using Autonomous Underwater Vehicle." <i>IEEE OCEANS Conference</i>.</p>
+      <div class="pub-actions" style="gap:0.75rem;flex-wrap:wrap">
+        <a class="btn" href="/files/IEEE-OCEANS-2017-1.pdf" target="_blank" rel="noopener">Download PDF</a>
+        <a class="btn btn-ghost" href="https://doi.org/10.1109/OCEANSE.2017.8084941" target="_blank" rel="noopener">DOI / Publisher</a>
+      </div>
+    </div>
+
+    <section class="reveal">
+      <h2 class="section-title" style="font-size:1.15rem">摘要 / Abstract</h2>
+      <div class="long-abstract">
+        <div class="abs-block abs-zh"><p>在首轮调查之后，海洋地质学家通常会圈定需要进一步观测或取样的离散目标点，这些点可能分布于大尺度海域。随着自主水下航行器（AUV）续航能力的提升，单次下潜完成多点作业成为可能；多艇协同亦可进一步提高效率，因而需要航次尺度上的全局路径规划。既有研究多关注单点附近的区域覆盖，或含海流与障碍条件下的点到点路径，对大尺度多点任务讨论相对不足；校车路径等问题中的经典分派框架亦因要求精确到达每一目标点而难以直接套用。</p><p>本文采用贪心策略将问题分解为两个阶段：首先通过迭代 K-means 聚类确定支撑船锚点布局，随后以蚁群（ant-cycle）系统优化各锚点至邻近目标点的访问顺序。仿真结果验证了算法的有效性，表明该方法适用于资源受限条件下的水下多点测量及多 AUV 部署场景。</p></div>
+<div class="abs-block abs-en"><p>Following an initial survey, marine geologists typically designate discrete targets requiring further observation or sampling; such points may be distributed over large sea areas. Advances in the endurance of autonomous underwater vehicles (AUVs) make it feasible to survey multiple targets in a single dive, and multi-AUV cooperation can further improve efficiency, thereby motivating voyage-level global path planning. Prior studies have largely addressed local coverage around individual targets or point-to-point routing in the presence of currents and obstacles, while large-scale multipoint missions remain comparatively underexplored. Classical assignment frameworks from problems such as school bus routing are likewise difficult to apply directly, because every target must be visited exactly.</p><p>This paper decomposes the problem into two stages by a greedy strategy. Iterative K-means clustering first determines the layout of support-vessel anchor points; an ant-cycle system then optimises the visit order from each anchor to neighbouring targets. Simulation results confirm the effectiveness of the algorithm and indicate its suitability for resource-constrained multipoint seabed surveys and multi-AUV deployments.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© Yang An / 安洋 · anyang.space</span>
+      <span>ENGINEER · IDSSE, CAS</span>
+    </div>
+  </footer>
+  <script src="/assets/js/cyber.js"></script>
+</body>
+</html>

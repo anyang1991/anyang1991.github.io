@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Towards a general design evaluation tool: The development and validation of a VPP for auto — Yang An</title>
+  <meta name="description" content="For autonomous sailing monohulls characterised by mission-specific and morphologically diverse designs, this paper develops a generalised velocity prediction pr" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oxanium:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="hex-field" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scan-beam" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a href="/">About</a>
+      <a class="active" href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+    </nav>
+  </header>
+
+  <main class="wrap pub-detail" style="padding-bottom:4rem">
+    <p class="back-link"><a href="/publications/">← 返回论文列表 / Back to Publications</a></p>
+    <header class="page-head reveal" style="border-bottom:none;margin-bottom:1.5rem;padding-bottom:0">
+      <p class="page-kicker">Applied Ocean Research · 2022</p>
+      <h1 class="section-title pub-detail-title">Towards a general design evaluation tool: The development and validation of a VPP for autonomous sailing monohulls</h1>
+    </header>
+
+    <div class="reveal holo-card" style="margin-bottom:1.5rem">
+      <p class="pub-cite" style="margin:0 0 1rem"><b>Yang An</b>, Jiancheng Yu<sup>*</sup>, Feng Hu, and Zhenyu Wang. (2022). "Towards a general design evaluation tool: The development and validation of a VPP for autonomous sailing monohulls." <i>Applied Ocean Research</i>. 121, 103053.</p>
+      <div class="pub-actions" style="gap:0.75rem;flex-wrap:wrap">
+        <a class="btn" href="/files/APOR-2022-1.pdf" target="_blank" rel="noopener">Download PDF</a>
+        <a class="btn btn-ghost" href="https://doi.org/10.1016/j.apor.2022.103053" target="_blank" rel="noopener">DOI / Publisher</a>
+      </div>
+    </div>
+
+    <section class="reveal">
+      <h2 class="section-title" style="font-size:1.15rem">摘要 / Abstract</h2>
+      <div class="long-abstract">
+        <div class="abs-block abs-zh"><p>航速是影响无人单体帆船区域通过性、覆盖效率与目标跟踪能力的关键性能指标，且与风向、风速强耦合，难以用单一平均航速或某一分系统指标加以完整表征。船体与龙骨通常按任务需求进行非常规设计，基于经验公式与梯度类求解器的传统速度预报程序（VPP）易产生偏差，并往往依赖性能先验估计。</p><p>本文提出面向无人单体帆船的通用 VPP：水动力建模可与计算流体力学（CFD）衔接；增强遗传算法（含末位优化模块）在缺乏先验估计时仍具有较好的全局收敛能力；邻域信息优化（NIBO）策略利用相邻真风速或真风向状态之间的连续性，避免对各风态孤立求解，从而加速计算并抑制预测波动。原型应用以及数值与海试结果表明，该工具尤其适用于概念设计阶段对不同船体–帆装–龙骨组合进行定量比较，可为后续优化与任务规划提供评价基础。</p></div>
+<div class="abs-block abs-en"><p>Sailing speed is a critical performance measure governing the trafficability, coverage efficiency, and target-tracking capability of autonomous sailing monohulls. It is strongly coupled to wind direction and wind speed, and cannot be adequately represented by a single average speed or by the characteristics of an individual subsystem. Hull and keel geometries are commonly task-oriented and unconventional; classical velocity prediction programs (VPPs) based on empirical formulae and gradient-type solvers are therefore prone to error and often depend on prior performance estimates.</p><p>This paper proposes a generalised VPP for autonomous sailing monohulls. The hydrodynamic modelling is compatible with computational fluid dynamics (CFD); an enhanced genetic algorithm incorporating end-place optimisation retains favourable global convergence in the absence of prior estimates; and a neighbourhood information-based optimisation (NIBO) strategy exploits continuity across neighbouring true-wind states, thereby avoiding independent solutions for each state, accelerating computation, and reducing prediction fluctuations. Prototype application, together with numerical and sea-trial results, indicates that the tool is particularly suitable for quantitative comparison of unconventional hull–sail–keel configurations at the conceptual design stage, and provides an evaluation basis for subsequent optimisation and mission planning.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© Yang An / 安洋 · anyang.space</span>
+      <span>ENGINEER · IDSSE, CAS</span>
+    </div>
+  </footer>
+  <script src="/assets/js/cyber.js"></script>
+</body>
+</html>

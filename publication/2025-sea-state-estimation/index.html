@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Estimating semi-stationary sea states through wavelet-based adaptive segmentation of ship  — Yang An</title>
+  <meta name="description" content="Addressing spectral estimation errors induced by fixed-window stationarity assumptions in the wave buoy analogy (WBA), this paper defines semi-stationary sea st" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oxanium:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="hex-field" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scan-beam" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a href="/">About</a>
+      <a class="active" href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+    </nav>
+  </header>
+
+  <main class="wrap pub-detail" style="padding-bottom:4rem">
+    <p class="back-link"><a href="/publications/">← 返回论文列表 / Back to Publications</a></p>
+    <header class="page-head reveal" style="border-bottom:none;margin-bottom:1.5rem;padding-bottom:0">
+      <p class="page-kicker">Ocean Engineering · 2026</p>
+      <h1 class="section-title pub-detail-title">Estimating semi-stationary sea states through wavelet-based adaptive segmentation of ship motions</h1>
+    </header>
+
+    <div class="reveal holo-card" style="margin-bottom:1.5rem">
+      <p class="pub-cite" style="margin:0 0 1rem">Taiyu Zhang, Can Ma, <b>Yang An</b>, and Zhengru Ren<sup>*</sup>. (2026). "Estimating semi-stationary sea states through wavelet-based adaptive segmentation of ship motions." <i>Ocean Engineering</i>. 350, 124030.</p>
+      <div class="pub-actions" style="gap:0.75rem;flex-wrap:wrap">
+        <a class="btn" href="/files/OE-2026-1.pdf" target="_blank" rel="noopener">Download PDF</a>
+        <a class="btn btn-ghost" href="https://doi.org/10.1016/j.oceaneng.2025.124030" target="_blank" rel="noopener">DOI / Publisher</a>
+      </div>
+    </div>
+
+    <section class="reveal">
+      <h2 class="section-title" style="font-size:1.15rem">摘要 / Abstract</h2>
+      <div class="long-abstract">
+        <div class="abs-block abs-zh"><p>环境信息是保障海上作业安全的重要前提，其中波浪构成作用于浮体结构的主要外激励。波浪浮标类比（WBA）依据船舶运动响应反演现场波浪能谱，具有成本较低、部署灵活等优势，可作为卫星遥感、波浪浮标与船载雷达观测的有效补充。然而，实际海浪具有显著的时间演化特征。若在固定时长（通常约 30 分钟）窗口内将其近似为平稳过程，则将忽略该时变特性，从而在响应谱中引入偏差，并在病态反演问题中被显著放大。</p><p>为此，本文提出半平稳演化海况概念，以分段稳态与渐变过渡共同刻画连续变化的波浪参数，并设计基于小波分析的自适应分段算法：在兼顾时域分辨率与频域精度的条件下分析船舶运动响应谱，识别环境转折点，进而在相对平稳的区间内分别估计方向波浪谱。动力定位场景下的数值仿真结果表明，相较于固定窗口方法，所提方案能够更为稳健地跟踪海况演化。本研究采用理想响应幅值算子（RAO）；传递函数不确定性的处理（例如基于受限等距性质等准则）将作为后续研究方向。</p></div>
+<div class="abs-block abs-en"><p>Environmental information is essential for the safety of marine operations, with waves constituting the dominant external excitation acting on floating structures. The wave buoy analogy (WBA) estimates the on-site wave energy spectrum from ship motion responses and offers a cost-effective, flexible complement to satellite observations, wave-rider buoys, and ship-borne radar. In practice, however, ocean waves exhibit pronounced temporal evolution. Approximating them as stationary over fixed windows (commonly of approximately 30 minutes) neglects this time dependence, introduces bias into the response spectra, and can substantially amplify estimation errors in the associated ill-posed inverse problem.</p><p>This paper therefore introduces the concept of semi-stationary evolutionary sea states, in which piecewise stationary regimes are connected by gradual transitions to represent continuously varying wave parameters, and develops a wavelet-based adaptive segmentation algorithm. The algorithm analyses ship motion response spectra under an explicit time–frequency trade-off, detects environmental transitions, and estimates directional wave spectra on comparatively coherent segments. Numerical simulations in a dynamic positioning setting indicate that the proposed approach tracks sea-state evolution more robustly than fixed-window baselines. Ideal response amplitude operators (RAOs) are assumed in the present study; the treatment of RAO uncertainty, for example via criteria related to the restricted isometry property, is identified as a direction for future research.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© Yang An / 安洋 · anyang.space</span>
+      <span>ENGINEER · IDSSE, CAS</span>
+    </div>
+  </footer>
+  <script src="/assets/js/cyber.js"></script>
+</body>
+</html>

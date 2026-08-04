@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coverage Path Planning for Autonomous Sailboats in Inhomogeneous and Time-Varying Oceans:  — Yang An</title>
+  <meta name="description" content="This paper addresses coverage path planning (CPP) for autonomous sailboats in inhomogeneous and time-varying wind–current fields by proposing a spatiotemporal o" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Oxanium:wght@500;600;700&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css" />
+</head>
+<body>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="hex-field" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scan-beam" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a href="/">About</a>
+      <a class="active" href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+    </nav>
+  </header>
+
+  <main class="wrap pub-detail" style="padding-bottom:4rem">
+    <p class="back-link"><a href="/publications/">← 返回论文列表 / Back to Publications</a></p>
+    <header class="page-head reveal" style="border-bottom:none;margin-bottom:1.5rem;padding-bottom:0">
+      <p class="page-kicker">arXiv · 2026</p>
+      <h1 class="section-title pub-detail-title">Coverage Path Planning for Autonomous Sailboats in Inhomogeneous and Time-Varying Oceans: A Spatiotemporal Optimization Approach</h1>
+    </header>
+
+    <div class="reveal holo-card" style="margin-bottom:1.5rem">
+      <p class="pub-cite" style="margin:0 0 1rem"><b>Yang An</b>, Zhikang Ge, Taiyu Zhang, Jean-Baptiste RG Souppez, Gaofei Xu, and Zhengru Ren<sup>*</sup>. (2026). "Coverage Path Planning for Autonomous Sailboats in Inhomogeneous and Time-Varying Oceans: A Spatiotemporal Optimization Approach." <i>arXiv preprint</i> arXiv:2602.15901.</p>
+      <div class="pub-actions" style="gap:0.75rem;flex-wrap:wrap">
+        <a class="btn" href="/files/ARXIV-2026-1.pdf" target="_blank" rel="noopener">Download PDF</a>
+        <a class="btn btn-ghost" href="https://doi.org/10.48550/arXiv.2602.15901" target="_blank" rel="noopener">DOI / Publisher</a>
+      </div>
+    </div>
+
+    <section class="reveal">
+      <h2 class="section-title" style="font-size:1.15rem">摘要 / Abstract</h2>
+      <div class="long-abstract">
+        <div class="abs-block abs-zh"><p>无人帆船具有优良的续航能力，适用于长时海洋观测任务。然而，其航行性能相对风向呈现显著各向异性；同时，风场与流场在空间上非均匀、在时间上持续演化，致使部分区域在特定时段仅能从有限方向进入。现有覆盖路径规划（CPP）方法多依赖静态区域分解与往复扫掠（boustrophedon），难以有效处理上述性能各向异性与局部方向不可达问题；既有点到点路径规划研究亦未直接求解覆盖问题。</p><p>针对上述挑战，本文提出面向该问题设定的时空 CPP 框架。在空间层面，采用拓扑形态约束调控已覆盖区域的几何形态，以抑制碎片化覆盖与过度折返；在时间层面，利用气象预报信息进行前瞻决策，并在预报不确定性随预测视距累积的假设下权衡短期效率与长期可达性。环境被离散为网格，动作空间取 16 个方向，有效航速由速度预报程序（VPP）与流场叠加得到。在包含局部方向不可达情形的随机非均匀时变海洋环境中开展的仿真表明，相对于基线扫掠策略，所提方法在覆盖效率与路径可行性方面具有明显优势，并为多艇协同覆盖研究奠定了基础。</p></div>
+<div class="abs-block abs-en"><p>Autonomous sailboats offer favourable endurance for long-duration ocean observation. Their sailing performance is, however, strongly anisotropic with respect to the wind, while wind and current fields are spatially inhomogeneous and temporally varying, so that certain regions may be accessible only from limited directions during particular intervals. Existing coverage path planning (CPP) methods typically rely on static regional decomposition and boustrophedon sweeping, and are therefore ill-suited to performance anisotropy and partial directional inaccessibility; prior point-to-point sailboat planners likewise do not directly address the coverage problem.</p><p>To this end, the present study proposes a spatiotemporal CPP framework tailored to these conditions. In the spatial domain, topology-based morphological constraints regulate the geometry of the covered region in order to reduce fragmentation and excessive backtracking. In the temporal domain, forecast-aware look-ahead planning exploits meteorological predictions and balances short-term efficiency against long-term feasibility under the assumption that forecast uncertainty accumulates with prediction horizon. The environment is discretised on a grid, a 16-direction action set is adopted, and effective velocity is obtained by combining a velocity prediction program (VPP) with the ambient current. Simulations in stochastic inhomogeneous and time-varying seas, including cases with partial directional inaccessibility, demonstrate clear improvements in coverage efficiency and path feasibility relative to boustrophedon baselines, and provide a foundation for future cooperative multi-sailboat coverage.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© Yang An / 安洋 · anyang.space</span>
+      <span>ENGINEER · IDSSE, CAS</span>
+    </div>
+  </footer>
+  <script src="/assets/js/cyber.js"></script>
+</body>
+</html>
