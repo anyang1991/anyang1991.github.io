@@ -73,9 +73,9 @@
         </aside>
 
         <aside class="status-panel" aria-hidden="true">
-          <div><i></i> UNDERWAY · SANYA</div>
+          <div><i></i> HOME PORT · SANYA</div>
           <div><i class="amber"></i> <span id="live-wind">WIND · -- KT</span></div>
-          <div><i class="hot"></i> <span id="live-sea">SEA · -- M</span></div>
+          <div><i class="hot"></i> <span id="live-sea">WAVE · -- M</span></div>
         </aside>
     </section>
 
@@ -111,7 +111,7 @@
         </div>
         <p class="stats-note" id="stats-note">Scholar metrics updated · 2026-08</p>
         <div class="timeline-chart">
-          <p class="chart-title"><span>论文引用 · Citations per Year</span><span>GOOGLE SCHOLAR · 每日更新</span></p>
+          <p class="chart-title"><span>论文引用 · Cited by</span><span>GOOGLE SCHOLAR · 每日更新</span></p>
           <div class="chart-bars" id="pub-chart"></div>
         </div>
       </div>
@@ -121,7 +121,7 @@
       <div class="wrap reveal">
         <p class="page-kicker">02 / Research</p>
         <h2 class="section-title">Interests</h2>
-        <p class="section-lead">从总体优化到认知导航，把风力推进平台做成可部署的深海观测节点。</p>
+        <p class="section-lead">从总体优化到智能航行，把风力推进平台做成可部署的深海观测节点。</p>
         <ul class="interest-list">
           <li>无人帆船<span>Autonomous Sailboats</span></li>
           <li>海洋机器人<span>Marine Robotics</span></li>
@@ -165,7 +165,7 @@
         .then(function (d) {
           var c = d.current, el = document.getElementById("live-sea");
           if (el && c && c.wave_height != null) {
-            el.textContent = "SEA · " + c.wave_height.toFixed(1) + " M";
+            el.textContent = "WAVE · " + c.wave_height.toFixed(1) + " M";
             window.__SEA_STATE__ = window.__SEA_STATE__ || {};
             window.__SEA_STATE__.h = c.wave_height;
           }
