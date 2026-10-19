@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/css/cyber.css" />
+  <link rel="stylesheet" href="/assets/css/cyber.css?v=20261019-imoca" />
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -68,8 +68,25 @@
 
       </div>
         <aside class="hero-polar" aria-label="VPP 极坐标控制">
-          <p class="hp-title">VPP · POLAR<span id="hp-tws">15 KT</span></p>
+          <p class="hp-title">VPP · POLAR<span id="hp-tws">8 KT</span></p>
+          <div class="vpp-tws" role="group" aria-label="选择真风速">
+            <button type="button" data-tws="8" aria-pressed="true" class="active">小风 · 8 kn</button>
+            <button type="button" data-tws="28" aria-pressed="false">大风 · 28 kn</button>
+          </div>
           <div class="vpp-polar" id="vpp-polar"></div>
+          <label class="vpp-angle-label" for="vpp-twa"><span>真风角 TWA</span><b id="ro-twa">90°</b></label>
+          <input id="vpp-twa" type="range" min="0" max="180" step="10" value="90" aria-label="真风角，每10度选择" />
+          <div class="hp-readout"><span>示意船速 <b id="ro-bs">7.8 kn</b></span><span>左舷风 · 船头向右</span></div>
+          <p class="vpp-sail-state" id="ro-sails" aria-live="polite">主帆全升 + MH0</p>
+          <div class="sail-legend" aria-label="帆的颜色图例">
+            <span><i style="--sail-color:#66cfc4"></i>主帆</span>
+            <span><i style="--sail-color:#edb45d"></i>J0 前帆</span>
+            <span><i style="--sail-color:#75b8ff"></i>J2 前帆</span>
+            <span><i style="--sail-color:#a7d879"></i>J3 前帆</span>
+            <span><i style="--sail-color:#b89aff"></i>MH0</span>
+            <span><i style="--sail-color:#f58296"></i>A2 球帆</span>
+          </div>
+          <p class="vpp-caption">示意极曲线与配帆 · 非实测 VPP</p>
         </aside>
 
         <aside class="status-panel" aria-hidden="true">
@@ -140,8 +157,9 @@
     </div>
   </footer>
 
-  <script src="/assets/js/cyber.js"></script>
-  <script src="/assets/js/home-vpp.js"></script>
+  <script src="/assets/js/imoca-sails.js?v=20261019-imoca"></script>
+  <script src="/assets/js/home-vpp.js?v=20261019-imoca"></script>
+  <script src="/assets/js/cyber.js?v=20261019-imoca"></script>
   <script>
     // 实时海况: Open-Meteo(免费无密钥, 支持跨域), 三亚近海; 失败时保留占位符
     (function () {

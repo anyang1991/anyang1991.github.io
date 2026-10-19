@@ -10,20 +10,6 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     });
   }
 
-  // VPP 极坐标面板顶边与 eyebrow 行顶边对齐
-  const heroEl = document.querySelector(".hero");
-  const polarEl = document.querySelector(".hero-polar");
-  const eyebrowEl = document.querySelector(".hero .eyebrow");
-  if (heroEl && polarEl && eyebrowEl) {
-    const alignPolar = () => {
-      var top = eyebrowEl.getBoundingClientRect().top - heroEl.getBoundingClientRect().top;
-      polarEl.style.top = Math.max(24, Math.round(top)) + "px";
-    };
-    alignPolar();
-    window.addEventListener("resize", alignPolar);
-    setTimeout(alignPolar, 350);
-  }
-
   const reveals = document.querySelectorAll(".reveal");
   if (reveals.length && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(
@@ -100,7 +86,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
   let seaMult = 1; // eases toward the live Open-Meteo wave height
-  let vppPhase = 0, lastTs = 0, spScale = 0, vppTwa = 90, vppBs = 11, vppHeel = 16, heelTilt = 0, mainRot = -0.06;
+  let vppPhase = 0, lastTs = 0, vppTwa = 90, vppTws = 8, vppBs = 7.8;
   const SQUALL_LEN = 9;
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
@@ -188,8 +174,6 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       compass: "rgba(150, 200, 210, 0.07)",
       compassText: "rgba(150, 200, 210, 0.3)",
       hull: "rgba(5, 13, 22, 0.96)",
-      sailMain: "rgba(7, 17, 28, 0.94)",
-      sailJib: "rgba(9, 21, 33, 0.94)",
       sailEdge: "rgba(180, 216, 224, 0.4)",
       headlight: "rgba(226, 240, 244, 0.95)",
       lantern: "rgba(240, 190, 110, 0.95)",
@@ -441,6 +425,9 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     const bowX = bx + 74 * u;
     const sternX = bx - 58 * u;
     const sternY = surf + 13 * u;
+    const wakeAlpha = Math.min(1, vppBs / 8);
+    ctx.save();
+    ctx.globalAlpha = wakeAlpha;
     ctx.strokeStyle = pal.wake;
     ctx.lineWidth = 1.3;
     ctx.beginPath();
@@ -458,142 +445,28 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       const f = i / 5;
       const fx = sternX - (16 + i * 12) * u;
       const fy = sternY + (i % 2 ? 7 : -3) * u;
-      ctx.globalAlpha = 0.55 * (1 - f);
+      ctx.globalAlpha = 0.55 * (1 - f) * wakeAlpha;
       ctx.beginPath();
       ctx.moveTo(fx, fy);
       ctx.lineTo(fx - 9 * u, fy);
       ctx.stroke();
     }
-    ctx.globalAlpha = 1;
+    ctx.restore();
 
     ctx.save();
     ctx.translate(bx, surf + 2);
     ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1) * 0.07 * squall);
     ctx.scale(u, u);
 
-    // 帆装: 横倾压缩 + 主帆帆形随航角变化 (迎风平直 → 顺风鼓满)
-    const rigScaleY = 1 - (vppHeel / 30) * 0.3;
-    const trimF = vppTwa < 60 ? 0 : vppTwa < 115 ? 0.5 : 1;
-    mainRot += (-(0.06 + trimF * 0.38) - mainRot) * 0.05;
-
+    // Fixed port-side profile: main aft of the mast, bow to the right.
+    // The exact same 38 configurations drive both the VPP readout and this scene.
+    const sailState = window.ImocaSails.getState(vppTws, vppTwa);
     ctx.save();
-    ctx.translate(0, -12);
-    ctx.scale(1, rigScaleY);
-    ctx.translate(0, 12);
-
-    // mast (29.5m, 轻微后倾) + backstay + shrouds
-    ctx.strokeStyle = pal.mast || pal.hull;
-    ctx.lineWidth = 2.6;
-    ctx.beginPath();
-    ctx.moveTo(14, -12);
-    ctx.lineTo(1, -222);
-    ctx.stroke();
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(1, -222);
-    ctx.lineTo(-54, -5);
-    ctx.moveTo(5, -150);
-    ctx.lineTo(60, -10);
-    ctx.moveTo(3, -108);
-    ctx.lineTo(62, -10);
-    ctx.stroke();
-
-    // mainsail ~120m²: 绕挂点旋转 — 迎风绷紧, 顺风松帆后倒; luff 沿桅, square-top head
-    var lcx = 88 + trimF * 18;
-    var hx = 34 + trimF * 15;
-    ctx.save();
-    ctx.translate(13, -13);
-    ctx.rotate(mainRot);
-    ctx.beginPath();
-    ctx.moveTo(0, -1);
-    ctx.lineTo(-11, -206);
-    ctx.lineTo(hx - 12, -194);
-    ctx.quadraticCurveTo(lcx - 13, -110, 50 - trimF * 6, -2);
-    ctx.closePath();
-    ctx.fillStyle = pal.sailMain;
-    ctx.fill();
-    ctx.strokeStyle = pal.sailEdge;
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(hx - 12, -194);
-    ctx.quadraticCurveTo(lcx - 13, -110, 50 - trimF * 6, -2);
-    ctx.stroke();
+    ctx.translate(14, -12);
+    ctx.scale(0.55, 0.55);
+    ctx.translate(-181, -400);
+    window.ImocaSails.draw(ctx, sailState, {hull: pal.hull, edge: pal.sailEdge});
     ctx.restore();
-
-    // spinnaker (球帆) — masthead kite, 桅顶到船首的巨球 (顺风才升)
-    if (spScale > 0.02) {
-      ctx.save();
-      ctx.globalAlpha = Math.min(1, spScale);
-      ctx.translate(1, -222);
-      ctx.beginPath();
-      ctx.moveTo(0, 0);
-      ctx.quadraticCurveTo(40, 110, 72, 212);
-      ctx.lineTo(30, 206);
-      ctx.quadraticCurveTo(-26, 108, 0, 0);
-      ctx.closePath();
-      ctx.fillStyle = "rgba(96, 138, 166, 0.97)"; // moonlit spinnaker
-      ctx.fill();
-      ctx.strokeStyle = pal.sailEdge;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(72, 212);
-      ctx.quadraticCurveTo(78, 100, 60, 20);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    // jib on the forestay (furl 当球帆升起)
-    if (spScale < 0.5) {
-      ctx.beginPath();
-      ctx.moveTo(9, -206);
-      ctx.lineTo(71, -9);
-      ctx.quadraticCurveTo(40, -14, 20, -12);
-      ctx.closePath();
-      ctx.fillStyle = pal.sailJib;
-      ctx.fill();
-    }
-
-    ctx.restore(); // rig 压缩结束
-
-    // hull — knuckle bow, near-vertical stem, open transom
-    ctx.beginPath();
-    ctx.moveTo(74, -10);
-    ctx.lineTo(71, 6);
-    ctx.quadraticCurveTo(66, 12, 48, 15);
-    ctx.quadraticCurveTo(8, 19, -28, 13);
-    ctx.lineTo(-50, 11);
-    ctx.lineTo(-57, -3);
-    ctx.lineTo(-49, -7);
-    ctx.quadraticCurveTo(-6, -14, 34, -12);
-    ctx.closePath();
-    ctx.fillStyle = pal.hull;
-    ctx.fill();
-
-    // canting keel + bulb (吃水 4.5m, 球头 3.4m)
-    ctx.beginPath();
-    ctx.moveTo(1, 15);
-    ctx.lineTo(6, 46);
-    ctx.lineTo(11, 46);
-    ctx.lineTo(4, 15);
-    ctx.closePath();
-    ctx.fillStyle = pal.hull;
-    ctx.fill();
-    ctx.beginPath();
-    ctx.ellipse(9, 49, 12, 4.5, -0.05, 0, Math.PI * 2);
-    ctx.fill();
-
-    // J-foil amidships + twin rudder
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = pal.hull;
-    ctx.beginPath();
-    ctx.moveTo(26, -4);
-    ctx.lineTo(31, 18);
-    ctx.quadraticCurveTo(35, 30, 52, 37);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(-43, 11);
-    ctx.lineTo(-49, 34);
-    ctx.stroke();
 
     // masthead light + stern lantern
     ctx.beginPath();
@@ -723,15 +596,13 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       ? Math.max(0.6, Math.min(2.3, 0.55 + seaState.h * 0.55))
       : 1;
     seaMult += (seaTarget - seaMult) * 0.03;
-    const vpp = window.__VPP_STATE__ || { twa: 90, bs: 11 };
+    const vpp = window.__VPP_STATE__ || { tws: 8, twa: 90, bs: 7.8 };
     vppTwa = vpp.twa;
+    vppTws = vpp.tws;
     vppBs = vpp.bs;
-    vppHeel = vpp.heel || 16;
-    heelTilt += ((vppHeel / 30) * 0.11 - heelTilt) * 0.04;
     const vppDt = Math.min(Math.max(ts - lastTs, 0), 60) / 1000;
     lastTs = ts;
     vppPhase += vppDt * (vppBs / 14) * 2.6;
-    spScale += ((vppTwa > 115 ? 1 : 0) - spScale) * 0.05;
     const vppWind = 1 + (vppBs / 14 - 1) * 0.55;
     const windBoost = (1 + Math.min(1.1, (typeof seaState.wind === "number" ? seaState.wind : 8) / 30)) * vppWind;
     ctx.clearRect(0, 0, cw, ch);

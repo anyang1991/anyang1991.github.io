@@ -1674,7 +1674,7 @@ body::before,
   right: 2rem;
   top: 2rem;
   bottom: auto;
-  width: 196px;
+  width: 244px;
   z-index: 2;
   padding: 0.7rem 0.75rem 0.6rem;
   background: rgba(var(--bg-rgb), 0.55);
@@ -1723,6 +1723,17 @@ body::before,
   height: auto;
   display: block;
 }
+.vpp-tws button[data-tws="28"].active { background: var(--amber); border-color: var(--amber); }
+.vpp-polar .no-go { fill: rgba(var(--accent-rgb), 0.035); }
+.vpp-angle-label { display: flex; justify-content: space-between; margin-top: 0.45rem; color: var(--fog-dim); font-size: 0.64rem; font-family: var(--mono); }
+.vpp-angle-label b { color: var(--paper); }
+#vpp-twa { display: block; width: 100%; margin: 0.65rem 0; accent-color: var(--cyan); }
+.vpp-tws button:focus-visible, #vpp-twa:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
+.vpp-sail-state { margin: 0.6rem 0; min-height: 2.5em; color: var(--paper); font-size: 0.69rem; line-height: 1.5; }
+.sail-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 0.35rem; font-size: 0.58rem; color: var(--fog-dim); }
+.sail-legend span { display: flex; align-items: center; gap: 0.28rem; white-space: nowrap; }
+.sail-legend i { width: 7px; height: 7px; background: var(--sail-color); flex-shrink: 0; }
+.vpp-caption { margin: 0.65rem 0 0; color: var(--fog-dim); font-size: 0.57rem; line-height: 1.5; }
 .vpp-polar .ring {
   fill: none;
   stroke: rgba(var(--accent-rgb), 0.22);
@@ -1782,13 +1793,17 @@ body::before,
 }
 @media (max-width: 720px) {
   .hero-polar {
-    display: none;
+    position: relative;
+    display: block;
+    inset: auto;
+    width: min(100% - 2.5rem, 360px);
+    margin: 1.5rem auto 0;
   }
 }
 
 @media (max-width: 1024px) {
   .hero-polar {
-    width: 198px;
+    width: 230px;
     right: 0.75rem;
     top: 5.9rem;
   }
@@ -1798,6 +1813,10 @@ body::before,
   left: 0;
   top: 0;
   pointer-events: none;
+}
+@media (max-width: 720px) {
+  .hero-polar { inset: auto; width: min(100% - 2.5rem, 360px); }
+  .hero-visual { bottom: auto; height: min(100%, 680px); }
 }
 .pc-col i {
   font-style: normal;

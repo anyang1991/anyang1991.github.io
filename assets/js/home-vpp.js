@@ -1,140 +1,120 @@
-/* Homepage VPP polar — two indicative IMOCA-class curves (15/25 kn wind).
-   Selection drives the 2D night-sea scene via window.__VPP_STATE__. */
+/* Illustrative IMOCA-class polars, not measured VPP results.
+   Sail selection shares the 38 port-tack configurations in imoca-sails.js. */
 (() => {
-  const TWAS = [30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180];
+  const host = document.getElementById("vpp-polar");
+  if (!host || !window.ImocaSails) return;
+  const TWAS = Array.from({length: 19}, (_, i) => i * 10);
+  // Zero entries denote the non-sailing / marginal angles shown in this illustration.
+  // These hand-shaped curves are visual examples, not a recalculated physical VPP.
   const POLAR = {
-    15: [4.2, 6.3, 7.8, 8.9, 9.7, 10.4, 11.0, 11.6, 12.3, 13.0, 13.8, 14.2, 14.0, 13.4, 12.6, 11.8],
-    25: [5.6, 8.1, 10.0, 11.5, 12.8, 14.0, 15.2, 16.5, 18.0, 19.4, 20.8, 21.8, 22.2, 21.9, 21.0, 20.0],
+    8: [0, 0, 0, 0, 0, 4.6, 5.6, 6.4, 7.1, 7.8, 8.5, 9.2, 9.8, 10.2, 10.4, 10.0, 9.1, 7.0, 5.2],
+    28: [0, 0, 0, 0, 0, 10.5, 12.2, 14.4, 16.8, 18.7, 21.0, 23.2, 25.2, 27.0, 28.0, 27.4, 25.8, 22.0, 18.5],
   };
-  const CURVES = [
-    { tws: 15, color: "#66cfc4" },
-    { tws: 25, color: "#e0a248" },
-  ];
-  const VMAX = 26, CX = 160, CY = 160, RMAX = 140;
-
-  const heelFor = (twa, tws) =>
-    Math.round(Math.max(4, Math.min(28, (tws / 30) * (26 - 14 * ((twa - 30) / 150)))));
-  const sailsFor = (twa) => (twa > 115 ? "主帆 + 球帆" : "主帆 + 前帆");
-
-  const state = { tws: 15, twa: 90, bs: 11.0 };
-
+  const CURVES = [{tws: 8, color: "#66cfc4"}, {tws: 28, color: "#e0a248"}];
+  const VMAX = 32, CX = 180, CY = 180, RMAX = 150;
+  const state = {tws: 8, twa: 90, bs: 7.8};
   const SVGNS = "http://www.w3.org/2000/svg";
   const el = (tag, attrs) => {
-    const n = document.createElementNS(SVGNS, tag);
-    for (const k in attrs) n.setAttribute(k, attrs[k]);
-    return n;
+    const node = document.createElementNS(SVGNS, tag);
+    for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+    return node;
   };
-  const polarXY = (twa, val) => {
-    const r = (RMAX * val) / VMAX;
-    const th = (twa * Math.PI) / 180;
-    return [CX + Math.sin(th) * r, CY - Math.cos(th) * r];
+  const polarXY = (twa, speed) => {
+    const r = RMAX * speed / VMAX, angle = twa * Math.PI / 180;
+    return [CX + Math.sin(angle) * r, CY - Math.cos(angle) * r];
   };
-
-  let markerDot, markerLine;
-
-  function buildPolar() {
-    const host = document.getElementById("vpp-polar");
-    if (!host) return;
-    const svg = el("svg", { viewBox: "0 0 320 320" });
-
-    for (const v of [5, 10, 15, 20, 25]) {
-      const r = (RMAX * v) / VMAX;
-      svg.appendChild(el("circle", { class: "ring", cx: CX, cy: CY, r: r }));
-      const t = el("text", { x: CX + 7, y: CY - r + 13, "text-anchor": "start" });
-      t.textContent = v + " kn";
-      svg.appendChild(t);
-    }
-    for (const a of [30, 60, 90, 120, 150]) {
-      const [x1, y1] = polarXY(a, VMAX);
-      const [x2, y2] = polarXY(-a, VMAX);
-      svg.appendChild(el("line", { class: "spoke", x1: CX, y1: CY, x2: x1, y2: y1 }));
-      svg.appendChild(el("line", { class: "spoke", x1: CX, y1: CY, x2: x2, y2: y2 }));
-      // 角度标注放圆外, 按所在侧对齐
-      const lr = RMAX + 13;
-      const dirs = [
-        [Math.sin((a * Math.PI) / 180), a],
-        [-Math.sin((a * Math.PI) / 180), a],
-      ];
-      dirs.forEach(([sx, aa]) => {
-        const lx = CX + sx * lr;
-        const ly = CY - Math.cos((aa * Math.PI) / 180) * lr + 4;
-        const anchor = sx > 0.3 ? "end" : sx < -0.3 ? "start" : "middle";
-        const t = el("text", { x: lx.toFixed(1), y: ly.toFixed(1), "text-anchor": anchor });
-        t.textContent = aa + "°";
-        svg.appendChild(t);
-      });
-    }
-
-    CURVES.forEach((cv) => {
-      const pts = TWAS.map((twa) => polarXY(twa, POLAR[cv.tws][TWAS.indexOf(twa)]));
-      const mir = pts.slice().reverse().map(([x, y]) => [CX - (x - CX), y]);
-      const d = "M" + pts.map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join("L") +
-        "L" + mir.map((p) => p[0].toFixed(1) + " " + p[1].toFixed(1)).join("L") + "Z";
-      svg.appendChild(el("path", { class: "curve" + (cv.tws === state.tws ? " active" : ""), d, style: "stroke:" + cv.color }));
-    });
-
-    markerLine = el("line", { class: "marker-line", x1: CX, y1: CY, x2: CX, y2: CY });
-    markerDot = el("circle", { class: "marker-dot", cx: CX, cy: CY, r: 4.5 });
-    svg.appendChild(markerLine);
-    svg.appendChild(markerDot);
-
-    // 悬停预览点: 移入极坐标图才出现, 吸附到最近的可选点
-    const previewDot = el("circle", { class: "pp-preview", cx: -50, cy: -50, r: 6 });
-    svg.appendChild(previewDot);
-
-    CURVES.forEach((cv) => {
-      TWAS.forEach((twa) => {
-        const [x, y] = polarXY(twa, POLAR[cv.tws][TWAS.indexOf(twa)]);
-        const c = el("circle", { class: "pp", cx: x, cy: y, r: 17 });
-        const t = el("title", {});
-        t.textContent = cv.tws + " kn 风 · " + twa + "° · " + POLAR[cv.tws][TWAS.indexOf(twa)].toFixed(1) + " kt";
-        c.appendChild(t);
-        c.addEventListener("mouseenter", () => {
-          previewDot.setAttribute("cx", x);
-          previewDot.setAttribute("cy", y);
-          previewDot.setAttribute("r", 6.5);
-        });
-        c.addEventListener("click", () => select(cv.tws, twa));
-        svg.appendChild(c);
-      });
-    });
-
-    svg.addEventListener("mouseleave", () => previewDot.setAttribute("r", 0));
-
-    host.appendChild(svg);
+  const set = (id, value) => {
+    const node = document.getElementById(id);
+    if (node) node.textContent = value;
+  };
+  const svg = el("svg", {viewBox: "0 0 360 360", "aria-label": "8节和28节真风速示意极曲线；可点击曲线选择风角", role: "img"});
+  const title = el("title", {});
+  title.textContent = "IMOCA 60 示意极曲线，船速单位 kn";
+  svg.appendChild(title);
+  const [nx, ny] = polarXY(40, VMAX), [nx2, ny2] = polarXY(-40, VMAX);
+  svg.appendChild(el("path", {class: "no-go", d: `M${CX},${CY} L${nx},${ny} A${RMAX},${RMAX} 0 0 0 ${nx2},${ny2} Z`}));
+  for (const speed of [5, 10, 15, 20, 25, 30]) {
+    const r = RMAX * speed / VMAX;
+    svg.appendChild(el("circle", {class: "ring", cx: CX, cy: CY, r}));
+    const label = el("text", {x: CX + 6, y: CY - r + 11});
+    label.textContent = speed + " kn";
+    svg.appendChild(label);
   }
-
-  function apply() {
-    const set = (id, v) => { var e = document.getElementById(id); if (e) e.textContent = v; };
-    set("ro-twa", state.twa + "°");
-    set("ro-tws", state.tws + " KT");
-    set("hp-tws", state.tws + " KT");
-    set("ro-bs", state.bs.toFixed(1) + " KT");
-    set("ro-heel", state.heel + "°");
-    set("ro-sails", sailsFor(state.twa));
-
-    if (markerDot) {
-      const [x, y] = polarXY(state.twa, state.bs);
-      const [ex, ey] = polarXY(state.twa, VMAX);
-      markerDot.setAttribute("cx", x);
-      markerDot.setAttribute("cy", y);
-      markerLine.setAttribute("x2", ex);
-      markerLine.setAttribute("y2", ey);
+  for (const angle of [0, 30, 60, 90, 120, 150, 180]) {
+    for (const sign of angle === 0 || angle === 180 ? [1] : [-1, 1]) {
+      const [x, y] = polarXY(angle * sign, VMAX);
+      svg.appendChild(el("line", {class: "spoke", x1: CX, y1: CY, x2: x, y2: y}));
+      const [lx, ly] = polarXY(angle * sign, VMAX * 1.12);
+      const label = el("text", {x: lx, y: ly + 4, "text-anchor": "middle"});
+      label.textContent = angle + "°";
+      svg.appendChild(label);
     }
-    document.querySelectorAll(".curve").forEach((p) => {
-      p.classList.toggle("active", Number(p.dataset.tws) === state.tws);
-    });
   }
-
+  const coordinates = (points) => points.map(([x, y]) => `${x.toFixed(2)},${y.toFixed(2)}`).join(" L");
+  for (const curve of CURVES) {
+    // Leave the no-go sector open instead of joining the two upwind limits.
+    const pts = TWAS.filter((angle) => angle >= 50).map((angle) => polarXY(angle, POLAR[curve.tws][angle / 10]));
+    const mirror = pts.slice(0, -1).reverse().map(([x, y]) => [2 * CX - x, y]);
+    svg.appendChild(el("path", {class: "curve", "data-tws": curve.tws, d: "M" + coordinates(pts.concat(mirror)), style: "stroke:" + curve.color}));
+  }
+  const markerLine = el("line", {class: "marker-line", x1: CX, y1: CY, x2: CX, y2: CY});
+  const markerDot = el("circle", {class: "marker-dot", cx: CX, cy: CY, r: 4.5});
+  const preview = el("circle", {class: "pp-preview", cx: CX, cy: CY, r: 0});
+  svg.append(markerLine, markerDot, preview);
+  // Nearest-point selection works for both mirrored branches without overlapping hit targets.
+  function closest(event) {
+    const box = svg.getBoundingClientRect();
+    const x = (event.clientX - box.left) * 360 / box.width;
+    const y = (event.clientY - box.top) * 360 / box.height;
+    let best = null, distance = Infinity;
+    for (const curve of CURVES) {
+      for (const angle of TWAS.filter((angle) => angle >= 50)) {
+        for (const sign of [-1, 1]) {
+          const [px, py] = polarXY(angle * sign, POLAR[curve.tws][angle / 10]);
+          const d = Math.hypot(x - px, y - py);
+          if (d < distance) { distance = d; best = {tws: curve.tws, twa: angle, x: px, y: py}; }
+        }
+      }
+    }
+    return distance <= 24 ? best : null;
+  }
+  svg.addEventListener("pointermove", (event) => {
+    const point = closest(event);
+    preview.setAttribute("r", point ? 6 : 0);
+    if (point) { preview.setAttribute("cx", point.x); preview.setAttribute("cy", point.y); }
+  });
+  svg.addEventListener("pointerleave", () => preview.setAttribute("r", 0));
+  svg.addEventListener("click", (event) => {
+    const point = closest(event);
+    if (point) select(point.tws, point.twa);
+  });
+  host.appendChild(svg);
   function select(tws, twa) {
-    state.tws = tws;
-    state.twa = twa;
-    state.bs = POLAR[tws][TWAS.indexOf(twa)];
-    state.heel = heelFor(twa, tws);
-    window.__VPP_STATE__ = { tws: tws, twa: twa, bs: state.bs, heel: state.heel };
-    apply();
+    const sails = window.ImocaSails.getState(tws, twa);
+    state.tws = sails.tws;
+    state.twa = sails.twa;
+    state.bs = POLAR[state.tws][state.twa / 10];
+    state.heel = sails.luffing ? 0 : Math.round(Math.max(3, Math.min(28, state.tws / 30 * (26 - 14 * (state.twa - 30) / 150))));
+    window.__VPP_STATE__ = {...state, sails};
+    set("hp-tws", state.tws + " KT");
+    set("ro-twa", state.twa + "°");
+    set("ro-bs", state.bs.toFixed(1) + " kn");
+    set("ro-sails", sails.description);
+    const slider = document.getElementById("vpp-twa");
+    slider.value = state.twa;
+    slider.setAttribute("aria-valuetext", `${state.twa}度真风角，${sails.description}`);
+    document.querySelectorAll(".vpp-tws button").forEach((button) => {
+      const active = Number(button.dataset.tws) === state.tws;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    host.querySelectorAll(".curve").forEach((p) => p.classList.toggle("active", Number(p.dataset.tws) === state.tws));
+    const [x, y] = polarXY(-state.twa, state.bs), [ex, ey] = polarXY(-state.twa, VMAX);
+    markerDot.setAttribute("cx", x); markerDot.setAttribute("cy", y);
+    markerLine.setAttribute("x2", ex); markerLine.setAttribute("y2", ey);
+    window.dispatchEvent(new CustomEvent("vppchange", {detail: window.__VPP_STATE__}));
   }
-
-  buildPolar();
-  select(15, 90);
+  document.querySelectorAll(".vpp-tws button").forEach((button) => button.addEventListener("click", () => select(Number(button.dataset.tws), state.twa)));
+  document.getElementById("vpp-twa").addEventListener("input", (event) => select(state.tws, Number(event.target.value)));
+  select(8, 90);
 })();
