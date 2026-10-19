@@ -1806,3 +1806,31 @@ body::before,
   color: var(--paper);
   margin-bottom: 4px;
 }
+.stu-affil {
+  margin: 0.2rem 0 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--fog-dim);
+}
+.entry .en b {
+  color: var(--cyan);
+  font-weight: 500;
+}
+.stu-affil {
+  margin: 0.2rem 0 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--fog-dim);
+}
+.entry .en b {
+  color: var(--cyan);
+  font-weight: 500;
+}
+
+/* ---- anchor cursor ---- */
+body,
+a, button, .btn, .pp, .vpp-tws button {
+  cursor: url("/images/anchor-cursor.png") 16 6, auto;
+}
