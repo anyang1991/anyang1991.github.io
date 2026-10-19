@@ -85,6 +85,7 @@
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
   let seaMult = 1; // eases toward the live Open-Meteo wave height
+  let vppPhase = 0, lastTs = 0, spScale = 0, vppTwa = 90, vppBs = 11;
   const SQUALL_LEN = 9;
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
@@ -466,14 +467,40 @@
     ctx.quadraticCurveTo(80, -94, 54, -16);
     ctx.stroke();
 
-    // jib on the forestay
-    ctx.beginPath();
-    ctx.moveTo(8, -128);
-    ctx.lineTo(60, -11);
-    ctx.quadraticCurveTo(32, -16, 14, -13);
-    ctx.closePath();
-    ctx.fillStyle = pal.sailJib;
-    ctx.fill();
+    // jib on the forestay (furled when the spinnaker is up)
+    if (spScale < 0.5) {
+      ctx.beginPath();
+      ctx.moveTo(8, -128);
+      ctx.lineTo(60, -11);
+      ctx.quadraticCurveTo(32, -16, 14, -13);
+      ctx.closePath();
+      ctx.fillStyle = pal.sailJib;
+      ctx.fill();
+    }
+
+    // spinnaker (球帆) — opens downwind
+    if (spScale > 0.02) {
+      ctx.save();
+      ctx.globalAlpha = Math.min(1, spScale);
+      ctx.translate(14, -132);
+      ctx.scale(spScale, spScale);
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.quadraticCurveTo(-6, 62, 36, 116);
+      ctx.lineTo(60, 120);
+      ctx.quadraticCurveTo(76, 56, 48, -8);
+      ctx.quadraticCurveTo(26, -10, 0, 0);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(96, 138, 166, 0.97)"; // moonlit spinnaker
+      ctx.fill();
+      ctx.strokeStyle = pal.sailEdge;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(28, 118);
+      ctx.quadraticCurveTo(50, 66, 42, -6);
+      ctx.stroke();
+      ctx.restore();
+    }
 
     // hull: plumb bow, wide open transom
     ctx.beginPath();
@@ -625,7 +652,15 @@
       ? Math.max(0.6, Math.min(2.3, 0.55 + seaState.h * 0.55))
       : 1;
     seaMult += (seaTarget - seaMult) * 0.03;
-    const windBoost = 1 + Math.min(1.1, (typeof seaState.wind === "number" ? seaState.wind : 8) / 30);
+    const vpp = window.__VPP_STATE__ || { twa: 90, bs: 11 };
+    vppTwa = vpp.twa;
+    vppBs = vpp.bs;
+    const vppDt = Math.min(Math.max(ts - lastTs, 0), 60) / 1000;
+    lastTs = ts;
+    vppPhase += vppDt * (vppBs / 14) * 1.2;
+    spScale += ((vppTwa > 115 ? 1 : 0) - spScale) * 0.05;
+    const vppWind = 1 + (vppBs / 14 - 1) * 0.55;
+    const windBoost = (1 + Math.min(1.1, (typeof seaState.wind === "number" ? seaState.wind : 8) / 30)) * vppWind;
     ctx.clearRect(0, 0, cw, ch);
 
     let squall = 0;
@@ -638,22 +673,23 @@
       }
     }
     const waveMult = (1 + squall * 1.7) * seaMult;
+    const tSea = t + vppPhase;
 
     drawSky(cw, ch, t, pal, squall, windBoost);
     const orb = drawOrb(cw, ch, pal);
     drawCompass(cw, ch, t, pal);
     drawLighthouse(cw, ch, t, pal);
-    drawSeaLayer(seaLayers[0], 0, cw, ch, t, pal, waveMult);
+    drawSeaLayer(seaLayers[0], 0, cw, ch, tSea, pal, waveMult);
     drawGlitter(cw, ch, t, orb, pal);
-    drawSeaLayer(seaLayers[1], 1, cw, ch, t, pal, waveMult);
-    drawBoat(cw, ch, t, pal, squall);
+    drawSeaLayer(seaLayers[1], 1, cw, ch, tSea, pal, waveMult);
+    drawBoat(cw, ch, tSea, pal, squall);
     if (squall > 0.02) {
       const boatX = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
       drawDolphin(cw, ch, (ts - squallStart) / 1000, boatX, pal);
     }
-    drawSeaLayer(seaLayers[2], 2, cw, ch, t, pal, waveMult);
-    drawSeaLayer(seaLayers[3], 3, cw, ch, t, pal, waveMult);
-    drawFoam(cw, ch, t, pal, waveMult, squall);
+    drawSeaLayer(seaLayers[2], 2, cw, ch, tSea, pal, waveMult);
+    drawSeaLayer(seaLayers[3], 3, cw, ch, tSea, pal, waveMult);
+    drawFoam(cw, ch, tSea, pal, waveMult, squall);
 
     // squall rain
     if (squall > 0.05) {

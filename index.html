@@ -38,7 +38,7 @@
   <main id="main">
     <section class="hero" aria-label="Hero">
       <div class="hero-visual">
-        <canvas id="hero3d-canvas"></canvas>
+        <canvas id="hero-canvas"></canvas>
         <div class="hero-wash"></div>
         <div class="hud-frame" aria-hidden="true"></div>
         <div class="hud-corners" aria-hidden="true"><span></span><span></span></div>
@@ -147,9 +147,8 @@
     </div>
   </footer>
 
-  <script src="/assets/js/vendor/three.min.js"></script>
-  <script src="/assets/js/hero3d.js"></script>
   <script src="/assets/js/cyber.js"></script>
+  <script src="/assets/js/home-vpp.js"></script>
   <script>
     // 实时海况: Open-Meteo(免费无密钥, 支持跨域), 三亚近海; 失败时保留占位符
     (function () {
