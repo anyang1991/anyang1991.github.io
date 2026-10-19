@@ -100,7 +100,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
   let seaMult = 1; // eases toward the live Open-Meteo wave height
-  let vppPhase = 0, lastTs = 0, spScale = 0, vppTwa = 90, vppBs = 11, vppHeel = 16, heelTilt = 0;
+  let vppPhase = 0, lastTs = 0, spScale = 0, vppTwa = 90, vppBs = 11, vppHeel = 16, heelTilt = 0, mainRot = -0.06;
   const SQUALL_LEN = 9;
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
@@ -428,19 +428,17 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   };
 
   const drawBoat = (cw, ch, t, pal, squall) => {
-    // IMOCA 60, 2022 foiling generation — geometry after the PRB-class
-    // reference photos: wide plumb-bow knuckle, low sheer, open transom,
-    // mast stepped aft, square-top mainsail, canting keel + J-foil
-    const u = Math.min(cw, ch) / 440;
+    // IMOCA 60, 2022 foiling generation — proportions per published specs:
+    // LOA 18.28m · mast ~29.5m (1.6×LOA) · main ~120m² · draft 4.5m · bulb ~3.4m
+    const u = Math.min(cw, ch) / 400;
     const bx = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
     const layer = seaLayers[1];
-    const rigScaleY = 1 - (vppHeel / 30) * 0.3;  // 横倾: 帆装侧视压缩
     const mult = 1 + squall * 0.8;
     const surf = crestY(layer, bx, t, ch, mult);
     const slope = (crestY(layer, bx + 14, t, ch, mult) - crestY(layer, bx - 14, t, ch, mult)) / 28;
 
-    // racing wake: 船首 V 波 + 船尾尾流 + 沿途泡沫
-    const bowX = bx + 50 * u;
+    // racing wake: 船首 V 波 + 船尾尾流 + 泡沫
+    const bowX = bx + 74 * u;
     const sternX = bx - 58 * u;
     const sternY = surf + 13 * u;
     ctx.strokeStyle = pal.wake;
@@ -470,78 +468,90 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
 
     ctx.save();
     ctx.translate(bx, surf + 2);
-    ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1 + vppTwa * 0.05) * 0.045);
+    ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1) * 0.07 * squall);
     ctx.scale(u, u);
 
-    // rig — 横倾压缩: 桅与帆在侧视中变矮 (船朝观察者倾倒)
-    ctx.save();
-    ctx.translate(0, -10);
-    ctx.scale(1, rigScaleY);
-    ctx.translate(0, 10);
+    // 帆装: 横倾压缩 + 主帆帆形随航角变化 (迎风平直 → 顺风鼓满)
+    const rigScaleY = 1 - (vppHeel / 30) * 0.3;
+    mainRot += (-(0.06 + trimF * 0.38) - mainRot) * 0.05;
+    const trimF = vppTwa < 60 ? 0 : vppTwa < 115 ? 0.5 : 1;
 
-    // mast (stepped aft) + backstay + shrouds
+    ctx.save();
+    ctx.translate(0, -12);
+    ctx.scale(1, rigScaleY);
+    ctx.translate(0, 12);
+
+    // mast (29.5m, 轻微后倾) + backstay + shrouds
     ctx.strokeStyle = pal.mast || pal.hull;
-    ctx.lineWidth = 2.4;
+    ctx.lineWidth = 2.6;
     ctx.beginPath();
     ctx.moveTo(14, -12);
-    ctx.lineTo(2, -158);
+    ctx.lineTo(1, -222);
     ctx.stroke();
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(2, -158);
-    ctx.lineTo(-52, -5);
-    ctx.moveTo(6, -102);
-    ctx.lineTo(56, -10);
-    ctx.moveTo(4, -76);
+    ctx.moveTo(1, -222);
+    ctx.lineTo(-54, -5);
+    ctx.moveTo(5, -150);
     ctx.lineTo(60, -10);
+    ctx.moveTo(3, -108);
+    ctx.lineTo(62, -10);
     ctx.stroke();
 
-    // mainsail — square-top head, deep roach
+    // mainsail ~120m²: 绕挂点旋转 — 迎风绷紧, 顺风松帆后倒; luff 沿桅, square-top head
+    ctx.save();
+    ctx.translate(13, -13);
+    ctx.rotate(mainRot);
     ctx.beginPath();
-    ctx.moveTo(13, -14);
-    ctx.lineTo(5, -153);
-    ctx.lineTo(50, -141);
-    ctx.quadraticCurveTo(97, -76, 69, -13);
+    ctx.moveTo(0, -1);
+    ctx.lineTo(-11, -206);
+    ctx.lineTo(hx - 12, -194);
+    ctx.quadraticCurveTo(lcx - 13, -110, 50 - trimF * 6, -2);
     ctx.closePath();
     ctx.fillStyle = pal.sailMain;
     ctx.fill();
     ctx.strokeStyle = pal.sailEdge;
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(50, -141);
-    ctx.quadraticCurveTo(97, -76, 69, -13);
+    ctx.moveTo(hx - 12, -194);
+    ctx.quadraticCurveTo(lcx - 13, -110, 50 - trimF * 6, -2);
     ctx.stroke();
+    ctx.restore();
 
-    // spinnaker (球帆) — masthead kite, flying beyond the bow
+    // spinnaker (球帆) — masthead kite, 桅顶到船首的巨球 (顺风才升)
     if (spScale > 0.02) {
       ctx.save();
       ctx.globalAlpha = Math.min(1, spScale);
-      ctx.translate(2, -152);
-      ctx.scale(spScale, spScale);
+      ctx.translate(1, -222);
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.quadraticCurveTo(48, 58, 71, 139);
-      ctx.lineTo(26, 146);
-      ctx.quadraticCurveTo(-28, 76, 0, 0);
+      ctx.quadraticCurveTo(40, 110, 72, 212);
+      ctx.lineTo(30, 206);
+      ctx.quadraticCurveTo(-26, 108, 0, 0);
       ctx.closePath();
       ctx.fillStyle = "rgba(96, 138, 166, 0.97)"; // moonlit spinnaker
       ctx.fill();
-
+      ctx.strokeStyle = pal.sailEdge;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(72, 212);
+      ctx.quadraticCurveTo(78, 100, 60, 20);
+      ctx.stroke();
       ctx.restore();
     }
 
-    // jib on the forestay (furled when the kite is up)
+    // jib on the forestay (furl 当球帆升起)
     if (spScale < 0.5) {
       ctx.beginPath();
-      ctx.moveTo(11, -123);
-      ctx.lineTo(72, -10);
-      ctx.quadraticCurveTo(40, -15, 22, -13);
+      ctx.moveTo(9, -206);
+      ctx.lineTo(71, -9);
+      ctx.quadraticCurveTo(40, -14, 20, -12);
       ctx.closePath();
       ctx.fillStyle = pal.sailJib;
       ctx.fill();
     }
 
-    ctx.restore();
+    ctx.restore(); // rig 压缩结束
 
     // hull — knuckle bow, near-vertical stem, open transom
     ctx.beginPath();
@@ -557,17 +567,17 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.fillStyle = pal.hull;
     ctx.fill();
 
-    // canting keel + bulb
+    // canting keel + bulb (吃水 4.5m, 球头 3.4m)
     ctx.beginPath();
     ctx.moveTo(1, 15);
-    ctx.lineTo(7, 46);
-    ctx.lineTo(13, 46);
-    ctx.lineTo(5, 15);
+    ctx.lineTo(6, 46);
+    ctx.lineTo(11, 46);
+    ctx.lineTo(4, 15);
     ctx.closePath();
     ctx.fillStyle = pal.hull;
     ctx.fill();
     ctx.beginPath();
-    ctx.ellipse(11, 50, 18, 7, -0.05, 0, Math.PI * 2);
+    ctx.ellipse(9, 49, 12, 4.5, -0.05, 0, Math.PI * 2);
     ctx.fill();
 
     // J-foil amidships + twin rudder
@@ -585,7 +595,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
 
     // masthead light + stern lantern
     ctx.beginPath();
-    ctx.arc(1.5, -160, 1.6, 0, Math.PI * 2);
+    ctx.arc(1, -224, 1.6, 0, Math.PI * 2);
     ctx.fillStyle = pal.headlight;
     ctx.shadowColor = pal.headlight;
     ctx.shadowBlur = 8;
@@ -599,7 +609,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.shadowBlur = 0;
     ctx.restore();
 
-    // lantern reflection: 暖色横向光斑, 越远越淡越宽
+    // lantern reflection: 暖色横向光斑
     for (let i = 0; i < 4; i++) {
       const ly = surf + 12 * u + i * 8 * u;
       const lw = (20 - i * 3.5) * u;
