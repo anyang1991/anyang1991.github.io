@@ -1671,7 +1671,9 @@ body::before,
 .hero-polar {
   position: absolute;
   right: 1.5rem;
-  bottom: 19.5rem;
+  top: 6.75rem;
+  bottom: auto;
+  width: 238px;
   z-index: 2;
   width: 252px;
   padding: 0.75rem 0.85rem 0.7rem;
@@ -1778,7 +1780,7 @@ body::before,
   flex-basis: 100%;
   color: var(--amber);
 }
-@media (max-width: 960px) {
+@media (max-width: 960px), (max-height: 700px) {
   .hero-polar {
     display: none;
   }

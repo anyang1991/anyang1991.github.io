@@ -85,7 +85,7 @@
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
   let seaMult = 1; // eases toward the live Open-Meteo wave height
-  let vppPhase = 0, lastTs = 0, spScale = 0, vppTwa = 90, vppBs = 11;
+  let vppPhase = 0, lastTs = 0, spScale = 0, vppTwa = 90, vppBs = 11, vppHeel = 16, heelTilt = 0;
   const SQUALL_LEN = 9;
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
@@ -433,7 +433,7 @@
 
     ctx.save();
     ctx.translate(bx, surf + 2);
-    ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1) * 0.07 * squall);
+    ctx.rotate(Math.atan(slope) * 0.65 + heelTilt + Math.sin(t * 2.1) * 0.07 * squall);
     ctx.scale(u, u);
 
     // mast + backstay + shrouds
@@ -568,14 +568,18 @@
     ctx.fillRect(sternX - 4 * u, ly, 7, 34);
   };
 
-  // a dolphin leaps near the boat during the squall, then dives away
+  // a dolphin porpoises near the boat: ballistic leap, nose-first re-entry,
+  // then an underwater tail-beat swim-away (Weihs 2002)
   const drawDolphin = (cw, ch, dt, boatX, pal) => {
-    const JUMP_DUR = 1.15, SWIM_DUR = 1.8;
+    const JUMP_T = 2.0, JUMP_DUR = 1.35, DIVE_T = JUMP_T + JUMP_DUR, SWIM_DUR = 2.3;
     const s = Math.min(cw, ch) / 620;
     const seaY = ch * 0.655;
     const jumpX = boatX + 135 * s;
 
-    const dolphinBody = (x, y, ang, alpha) => {
+    function body(x, y, ang, alpha, flexAmp, beat) {
+      const P = [[56, 0], [38, -4], [16, -5], [-8, -4], [-30, -2], [-48, 0]];
+      const hw = [3.2, 8.5, 11.5, 10.5, 6.5, 3.4];
+      const fl = P.map((p, i) => Math.sin(beat - i * 0.9) * flexAmp * (i / (P.length - 1)));
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(ang);
@@ -583,30 +587,34 @@
       ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
       ctx.fillStyle = "rgba(8, 20, 32, 0.95)";
       ctx.beginPath();
-      ctx.moveTo(52, 2);
-      ctx.quadraticCurveTo(40, -9, 24, -9);
-      ctx.quadraticCurveTo(12, -10, 5, -25);
-      ctx.quadraticCurveTo(0, -11, -12, -10);
-      ctx.quadraticCurveTo(-36, -8, -52, -2);
-      ctx.lineTo(-64, -12);
-      ctx.quadraticCurveTo(-57, -1, -65, 9);
-      ctx.quadraticCurveTo(-53, 6, -45, 6);
-      ctx.quadraticCurveTo(-16, 13, 12, 8);
-      ctx.quadraticCurveTo(38, 9, 52, 2);
+      ctx.moveTo(P[0][0] + 15, fl[0] - 2.5);
+      for (let i = 0; i < P.length; i++) ctx.lineTo(P[i][0], P[i][1] + fl[i] - hw[i]);
+      const tx = P[P.length - 1][0], ty = P[P.length - 1][1] + fl[P.length - 1];
+      ctx.lineTo(tx - 11, ty - 10);
+      ctx.quadraticCurveTo(tx - 5, ty, tx - 12, ty + 10);
+      ctx.lineTo(tx, ty + 3);
+      for (let i = P.length - 1; i >= 0; i--) ctx.lineTo(P[i][0], P[i][1] + fl[i] + hw[i]);
+      ctx.quadraticCurveTo(46, 6, P[0][0] + 15, fl[0] + 2.5);
       ctx.closePath();
       ctx.fill();
-      ctx.strokeStyle = "rgba(168, 216, 220, 0.32)";
-      ctx.lineWidth = 1.4;
+      const dx = P[2][0], dy = P[2][1] + fl[2] - hw[2];
       ctx.beginPath();
-      ctx.moveTo(40, 6);
-      ctx.quadraticCurveTo(6, 12, -32, 5);
+      ctx.moveTo(dx - 8, dy + 2);
+      ctx.quadraticCurveTo(dx - 1, dy - 13, dx + 8, dy + 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "rgba(168, 216, 220, 0.3)";
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(34, 5);
+      ctx.quadraticCurveTo(2, 12, -28, 6);
       ctx.stroke();
       ctx.globalAlpha = 1;
       ctx.restore();
-    };
+    }
 
     const splash = (x, k) => {
-      ctx.strokeStyle = `rgba(${pal.foamColor}, ${0.55 * k})`;
+      ctx.strokeStyle = `rgba(${pal.foamColor}, ${0.5 * k})`;
       ctx.lineWidth = 1.4;
       for (let i = -1; i <= 1; i++) {
         ctx.beginPath();
@@ -615,16 +623,21 @@
       }
     };
 
-    if (dt >= 2 && dt < 2 + JUMP_DUR) {
-      const p = (dt - 2) / JUMP_DUR;
-      const x = jumpX + p * 55 * s;
-      const y = seaY - Math.sin(p * Math.PI) * ch * 0.15;
-      const ang = -0.85 + p * 1.85;
-      dolphinBody(x, y, ang, 1);
-      if (p < 0.2 || p > 0.8) splash(x, 1);
-    } else if (dt >= 2 + JUMP_DUR && dt < 2 + JUMP_DUR + SWIM_DUR) {
-      const p = (dt - 2 - JUMP_DUR) / SWIM_DUR;
-      dolphinBody(jumpX + 55 * s + p * 230 * s, seaY + (20 + p * 30) * s, 0.3, 0.5 * (1 - p));
+    // ballistic leap: nose-up exit, glide over the peak, nose-first re-entry
+    if (dt >= JUMP_T && dt < DIVE_T + 0.45) {
+      const p = (dt - JUMP_T) / JUMP_DUR;
+      const x = jumpX + 10 * s + p * 70 * s;
+      const y = seaY - Math.sin(Math.min(p, 1) * Math.PI) * ch * 0.15;
+      const ang = -0.75 + p * 1.95;
+      const gliding = p > 0.3 && p < 0.7 ? 0.12 : 0.4;
+      body(x, y, ang, 1, gliding, dt * 3);
+      if (p < 0.16 || p > 0.84) splash(x, 1);
+    } else if (dt >= DIVE_T + 0.45 && dt < DIVE_T + 0.45 + SWIM_DUR) {
+      // shallow coast + tail-beat propulsion, fading as it swims away
+      const p = (dt - DIVE_T - 0.45) / SWIM_DUR;
+      const x = jumpX + 80 * s + p * 200 * s * (1 - p * 0.35);
+      const y = seaY + (14 + p * 30) * s;
+      body(x, y, 0.22, 0.55 * (1 - p), 1, dt * 3.2);
     }
   };
 
@@ -655,9 +668,11 @@
     const vpp = window.__VPP_STATE__ || { twa: 90, bs: 11 };
     vppTwa = vpp.twa;
     vppBs = vpp.bs;
+    vppHeel = vpp.heel || 16;
+    heelTilt += ((vppHeel / 30) * 0.11 - heelTilt) * 0.04;
     const vppDt = Math.min(Math.max(ts - lastTs, 0), 60) / 1000;
     lastTs = ts;
-    vppPhase += vppDt * (vppBs / 14) * 1.2;
+    vppPhase += vppDt * (vppBs / 14) * 2.6;
     spScale += ((vppTwa > 115 ? 1 : 0) - spScale) * 0.05;
     const vppWind = 1 + (vppBs / 14 - 1) * 0.55;
     const windBoost = (1 + Math.min(1.1, (typeof seaState.wind === "number" ? seaState.wind : 8) / 30)) * vppWind;
@@ -694,11 +709,11 @@
     // surface flow streaks — drift speed and length follow the VPP boat speed
     for (let i = 0; i < 14; i++) {
       const layer = seaLayers[i % 2 ? 2 : 3];
-      const speed = 26 + vppBs * 3.6;
+      const speed = 16 + vppBs * 6.5;
       const sx = ((i * 97.3 + tSea * speed) % (cw + 60)) - 30;
       const sy = crestY(layer, sx, tSea, ch, waveMult) + 7 + (i % 3) * 5;
-      const len = 9 + (i % 4) * 5 + vppBs * 0.9;
-      ctx.strokeStyle = `rgba(${pal.foamColor}, ${0.14 + (vppBs / 26) * 0.22})`;
+      const len = 8 + (i % 4) * 5 + vppBs * 1.5;
+      ctx.strokeStyle = `rgba(${pal.foamColor}, ${0.12 + (vppBs / 26) * 0.32})`;
       ctx.lineWidth = 1.2;
       ctx.beginPath();
       ctx.moveTo(sx, sy);

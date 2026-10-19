@@ -114,7 +114,7 @@
     state.twa = twa;
     state.bs = POLAR[tws][TWAS.indexOf(twa)];
     state.heel = heelFor(twa, tws);
-    window.__VPP_STATE__ = { tws: tws, twa: twa, bs: state.bs };
+    window.__VPP_STATE__ = { tws: tws, twa: twa, bs: state.bs, heel: state.heel };
     apply();
   }
 
