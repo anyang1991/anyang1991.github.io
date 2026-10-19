@@ -1672,7 +1672,7 @@ body::before,
 .hero-polar {
   position: absolute;
   right: 1.25rem;
-  top: 5.6rem;
+  top: 1.25rem;
   bottom: auto;
   width: 196px;
   z-index: 2;
