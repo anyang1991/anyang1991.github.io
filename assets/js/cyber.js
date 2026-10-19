@@ -648,7 +648,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       const p = (dt - JUMP_T) / JUMP_DUR;
       const x = jumpX + 10 * s + p * 70 * s;
       const y = seaY - Math.sin(Math.min(p, 1) * Math.PI) * ch * 0.105;
-      const ang = -0.75 + p * 1.95;
+      const ang = -0.7 + p * 1.45;
       const bend = -Math.sin(p * Math.PI * 0.9) * (6 + p * 10);
       const beat = (p < 0.18 || p > 0.82 ? 1.6 : 0.5) + dt * 2.2;
       body(x, y, ang, 1, bend, beat);

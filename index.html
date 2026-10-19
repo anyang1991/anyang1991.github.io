@@ -75,13 +75,6 @@
         <aside class="hero-polar" aria-label="VPP 极坐标控制">
           <p class="hp-title">VPP · POLAR<span id="hp-tws">15 KT</span></p>
           <div class="vpp-polar" id="vpp-polar"></div>
-          <div class="hp-readout">
-            <span><b id="ro-twa">90°</b> TWA</span>
-            <span><b id="ro-tws">15 KT</b> TWS</span>
-            <span><b id="ro-bs">11.0 KT</b> BS</span>
-            <span><b id="ro-heel">16°</b> HEEL</span>
-            <span class="wide" id="ro-sails">主帆 + 前帆</span>
-          </div>
         </aside>
     </section>
 
@@ -182,6 +175,16 @@
     (function () {
       var PUBS = [["2017",1],["2018",0],["2019",0],["2020",0],["2021",1],["2022",1],["2023",2],["2024",1],["2025",2],["2026",3]];
       var max = 3;
+      function smoothPath(pts) {
+        var d = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
+        for (var i = 0; i < pts.length - 1; i++) {
+          var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
+          var c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
+          var c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
+          d += " C" + c1x.toFixed(1) + " " + c1y.toFixed(1) + ", " + c2x.toFixed(1) + " " + c2y.toFixed(1) + ", " + p2[0].toFixed(1) + " " + p2[1].toFixed(1);
+        }
+        return d;
+      }
       window.__renderChart = function (CITES) {
         var wrap = document.getElementById("pub-chart");
         if (!wrap) return;
@@ -189,43 +192,62 @@
         var years = Object.keys(CITES || {}).sort();
         if (!years.length) return;
         var peak = Math.max.apply(null, years.map(function (y) { return CITES[y]; }).concat([1]));
-        years.forEach(function (y) {
+        var pts = [];
+        years.forEach(function (y, k) {
           var v = CITES[y];
           var col = document.createElement("div");
           col.className = "pc-col";
           var bar = document.createElement("div");
-          bar.className = "pc-bar" + (v ? "" : " zero");
-          bar.style.height = v ? Math.max(8, Math.round((v / peak) * 100)) + "%" : "3px";
+          bar.className = "pc-bar";
+          bar.style.height = Math.max(5, Math.round((v / peak) * 72)) + "%";
           bar.title = y + " · " + v + " 次引用";
-          if (v) {
-            var n = document.createElement("i");
-            n.textContent = v;
-            bar.appendChild(n);
-          }
+          col.appendChild(bar);
           var yy = document.createElement("span");
           yy.textContent = y.slice(2);
-          col.appendChild(bar);
           col.appendChild(yy);
           wrap.appendChild(col);
+          pts.push([(k + 0.5) * (100 / years.length), 92 - 8 - (v / peak) * (72 - 12)]);
         });
-        if (CITES) {
-          var peak = Math.max.apply(null, PUBS.map(function (d) { return CITES[d[0]] || 0; }).concat([1]));
-          var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-          svg.setAttribute("class", "pc-line");
-          svg.setAttribute("viewBox", "0 0 100 40");
-          svg.setAttribute("preserveAspectRatio", "none");
-          var pts = PUBS.map(function (d, k) {
-            var v = CITES[d[0]] || 0;
-            return ((k + 0.5) * (100 / PUBS.length)).toFixed(2) + "," + (38 - (v / peak) * 34).toFixed(2);
-          }).join(" ");
-          var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-          poly.setAttribute("points", pts);
-          poly.setAttribute("fill", "none");
-          poly.setAttribute("stroke", "var(--amber)");
-          poly.setAttribute("stroke-width", "0.8");
-          svg.appendChild(poly);
+        {
+          var W = wrap.clientWidth, H = wrap.clientHeight;
+          if (!W || !H || pts.length < 2) return;
+          var abs = pts.map(function (p) { return [p[0] / 100 * W, H - 4 - p[1] / 92 * H]; });
+          var NS = "http://www.w3.org/2000/svg";
+          var svg = document.createElementNS(NS, "svg");
+          svg.setAttribute("class", "pc-smooth");
+          svg.setAttribute("width", W);
+          svg.setAttribute("height", H);
+          svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+          var defs = document.createElementNS(NS, "defs");
+          var lg = document.createElementNS(NS, "linearGradient");
+          lg.setAttribute("id", "pcg");
+          lg.setAttribute("x1", "0"); lg.setAttribute("y1", "0");
+          lg.setAttribute("x2", "0"); lg.setAttribute("y2", "1");
+          var st1 = document.createElementNS(NS, "stop");
+          st1.setAttribute("offset", "0"); st1.setAttribute("stop-color", "rgba(224,162,72,0.25)");
+          var st2 = document.createElementNS(NS, "stop");
+          st2.setAttribute("offset", "1"); st2.setAttribute("stop-color", "rgba(224,162,72,0)");
+          lg.appendChild(st1); lg.appendChild(st2); defs.appendChild(lg); svg.appendChild(defs);
+          var line = smoothPath(abs);
+          var area = document.createElementNS(NS, "path");
+          area.setAttribute("d", line + " L" + abs[abs.length - 1][0].toFixed(1) + "," + (H - 4) + " L" + abs[0][0].toFixed(1) + "," + (H - 4) + " Z");
+          area.setAttribute("fill", "url(#pcg)");
+          svg.appendChild(area);
+          var ln = document.createElementNS(NS, "path");
+          ln.setAttribute("d", line);
+          ln.setAttribute("fill", "none");
+          ln.setAttribute("stroke", "#e0a248");
+          ln.setAttribute("stroke-width", "2");
+          ln.setAttribute("stroke-linecap", "round");
+          svg.appendChild(ln);
+          abs.forEach(function (p) {
+            var c = document.createElementNS(NS, "circle");
+            c.setAttribute("cx", p[0].toFixed(1)); c.setAttribute("cy", p[1].toFixed(1)); c.setAttribute("r", 2.8);
+            c.setAttribute("fill", "#e0a248");
+            svg.appendChild(c);
+          });
           wrap.appendChild(svg);
-        }
+        });
       };
 
     })();
@@ -236,7 +258,6 @@
         .then(function (d) {
           if (!d) return;
           var set = function (id, v) { var el = document.getElementById(id); if (el && v != null) el.textContent = v; };
-          set("stat-pubs", d.publications);
           set("stat-cites", d.citations);
           set("stat-h", d.h_index);
           set("stat-i10", d.i10_index);
