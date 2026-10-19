@@ -827,7 +827,6 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   window.__dbgDol = (dt) => drawDolphin(cw, ch, dt, cw * 0.56, PALETTES.dark);
   window.__dbgWater = (t) => { drawSeaLayer(seaLayers[3], 3, cw, ch, t + vppPhase, PALETTES.dark, 1); };
   window.__vppSquallCheck = (dt) => { squallStart = 1000; draw(1000 + dt * 1000); };
-  window.__drawFrame = draw;
   resize();
   window.addEventListener("resize", resize);
 

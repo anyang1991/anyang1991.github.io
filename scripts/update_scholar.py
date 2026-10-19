@@ -44,7 +44,7 @@ def parse(html):
     articles = []
     for r in rows:
         tm = re.search(r'class="gsc_a_at"[^>]*>([^<]+)<', r)
-        cm = re.search(r'class="gsc_a_c"[^>]*>[^0-9]*(\d[\d,]*)', r)
+        cm = re.search(r'class="gsc_a_c"[^>]*>.*?([\d,]+)\s*</(?:a|td)', r, re.S)
         ym = re.search(r'class="gsc_a_y"[^>]*>\s*(\d{4})', r)
         if tm and cm:
             articles.append({"title": tm.group(1), "cites": num(cm.group(1)),
