@@ -1858,3 +1858,6 @@ a, button, .btn, .pp, .vpp-tws button {
   font-family: var(--mono);
   font-size: 0.85em;
 }
+.vpp-polar text {
+  font-size: 12.5px;
+}

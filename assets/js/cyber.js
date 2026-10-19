@@ -439,19 +439,34 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     const surf = crestY(layer, bx, t, ch, mult);
     const slope = (crestY(layer, bx + 14, t, ch, mult) - crestY(layer, bx - 14, t, ch, mult)) / 28;
 
-    // racing wake
+    // racing wake: 船首 V 波 + 船尾尾流 + 沿途泡沫
+    const bowX = bx + 50 * u;
     const sternX = bx - 58 * u;
     const sternY = surf + 13 * u;
     ctx.strokeStyle = pal.wake;
-    ctx.lineWidth = 1.4;
+    ctx.lineWidth = 1.3;
     ctx.beginPath();
+    ctx.moveTo(bowX, surf + 1 * u);
+    ctx.lineTo(bowX + 26 * u, surf + 13 * u);
+    ctx.moveTo(bowX, surf + 1 * u);
+    ctx.lineTo(bowX + 16 * u, surf + 15 * u);
     ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 62 * u, sternY + 15 * u);
+    ctx.lineTo(sternX - 66 * u, sternY + 16 * u);
     ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 66 * u, sternY - 6 * u);
-    ctx.moveTo(sternX - 22 * u, sternY + 2 * u);
-    ctx.lineTo(sternX - 36 * u, sternY + 7 * u);
+    ctx.lineTo(sternX - 70 * u, sternY - 6 * u);
     ctx.stroke();
+    ctx.lineWidth = 1;
+    for (let i = 0; i < 5; i++) {
+      const f = i / 5;
+      const fx = sternX - (16 + i * 12) * u;
+      const fy = sternY + (i % 2 ? 7 : -3) * u;
+      ctx.globalAlpha = 0.55 * (1 - f);
+      ctx.beginPath();
+      ctx.moveTo(fx, fy);
+      ctx.lineTo(fx - 9 * u, fy);
+      ctx.stroke();
+    }
+    ctx.globalAlpha = 1;
 
     ctx.save();
     ctx.translate(bx, surf + 2);
@@ -511,12 +526,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       ctx.closePath();
       ctx.fillStyle = "rgba(96, 138, 166, 0.97)"; // moonlit spinnaker
       ctx.fill();
-      ctx.strokeStyle = pal.sailEdge;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(86, -14);
-      ctx.quadraticCurveTo(90, 2, 76, 9);
-      ctx.stroke();
+
       ctx.restore();
     }
 
@@ -589,13 +599,14 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.shadowBlur = 0;
     ctx.restore();
 
-    // lantern streak on the water
-    const ly = surf + 10;
-    const lg = ctx.createLinearGradient(sternX, ly, sternX, ly + 34);
-    lg.addColorStop(0, pal.lanternGlow.replace(/[\d.]+\)$/, "0.3)"));
-    lg.addColorStop(1, pal.lanternGlow.replace(/[\d.]+\)$/, "0)"));
-    ctx.fillStyle = lg;
-    ctx.fillRect(sternX - 4 * u, ly, 7, 34);
+    // lantern reflection: 暖色横向光斑, 越远越淡越宽
+    for (let i = 0; i < 4; i++) {
+      const ly = surf + 12 * u + i * 8 * u;
+      const lw = (20 - i * 3.5) * u;
+      const la = 0.3 - i * 0.07;
+      ctx.fillStyle = `rgba(240, 190, 110, ${Math.max(0.05, la)})`;
+      ctx.fillRect(sternX - lw / 2, ly, lw, 1.8);
+    }
   };
 
   // a dolphin porpoises near the boat: ballistic leap, nose-first re-entry,
@@ -813,10 +824,10 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     raf = requestAnimationFrame(draw);
   };
 
-  window.__drawFrame = draw;
   window.__dbgDol = (dt) => drawDolphin(cw, ch, dt, cw * 0.56, PALETTES.dark);
   window.__dbgWater = (t) => { drawSeaLayer(seaLayers[3], 3, cw, ch, t + vppPhase, PALETTES.dark, 1); };
   window.__vppSquallCheck = (dt) => { squallStart = 1000; draw(1000 + dt * 1000); };
+  window.__drawFrame = draw;
   resize();
   window.addEventListener("resize", resize);
 
