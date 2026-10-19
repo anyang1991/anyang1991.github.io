@@ -69,21 +69,28 @@
     svg.appendChild(markerLine);
     svg.appendChild(markerDot);
 
+    // 悬停预览点: 移入极坐标图才出现, 吸附到最近的可选点
+    const previewDot = el("circle", { class: "pp-preview", cx: -50, cy: -50, r: 6 });
+    svg.appendChild(previewDot);
+
     CURVES.forEach((cv) => {
       TWAS.forEach((twa) => {
         const [x, y] = polarXY(twa, POLAR[cv.tws][TWAS.indexOf(twa)]);
-        // 灰色小圈: 可交互位置的可视标识
-        const dot = el("circle", { class: "pp-dot", cx: x, cy: y, r: 5 });
-        svg.appendChild(dot);
-        // 放大的透明热区: 易点
-        const c = el("circle", { class: "pp", cx: x, cy: y, r: 16 });
+        const c = el("circle", { class: "pp", cx: x, cy: y, r: 17 });
         const t = el("title", {});
         t.textContent = cv.tws + " kn 风 · " + twa + "° · " + POLAR[cv.tws][TWAS.indexOf(twa)].toFixed(1) + " kt";
         c.appendChild(t);
+        c.addEventListener("mouseenter", () => {
+          previewDot.setAttribute("cx", x);
+          previewDot.setAttribute("cy", y);
+          previewDot.setAttribute("r", 6.5);
+        });
         c.addEventListener("click", () => select(cv.tws, twa));
         svg.appendChild(c);
       });
     });
+
+    svg.addEventListener("mouseleave", () => previewDot.setAttribute("r", 0));
 
     host.appendChild(svg);
   }
