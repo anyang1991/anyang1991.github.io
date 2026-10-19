@@ -409,8 +409,10 @@
   };
 
   const drawBoat = (cw, ch, t, pal, squall) => {
-    // IMOCA 60: plumb bow, open transom, canting keel, J-foil, square-top mainsail
-    const u = Math.min(cw, ch) / 470;
+    // IMOCA 60, 2022 foiling generation — geometry after the PRB-class
+    // reference photos: wide plumb-bow knuckle, low sheer, open transom,
+    // mast stepped aft, square-top mainsail, canting keel + J-foil
+    const u = Math.min(cw, ch) / 440;
     const bx = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
     const layer = seaLayers[1];
     const mult = 1 + squall * 0.8;
@@ -418,140 +420,140 @@
     const slope = (crestY(layer, bx + 14, t, ch, mult) - crestY(layer, bx - 14, t, ch, mult)) / 28;
 
     // racing wake
-    const sternX = bx - 54 * u;
-    const sternY = surf + 12 * u;
+    const sternX = bx - 58 * u;
+    const sternY = surf + 13 * u;
     ctx.strokeStyle = pal.wake;
     ctx.lineWidth = 1.4;
     ctx.beginPath();
     ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 60 * u, sternY + 14 * u);
+    ctx.lineTo(sternX - 62 * u, sternY + 15 * u);
     ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 64 * u, sternY - 5 * u);
-    ctx.moveTo(sternX - 20 * u, sternY + 2 * u);
-    ctx.lineTo(sternX - 34 * u, sternY + 6 * u);
+    ctx.lineTo(sternX - 66 * u, sternY - 6 * u);
+    ctx.moveTo(sternX - 22 * u, sternY + 2 * u);
+    ctx.lineTo(sternX - 36 * u, sternY + 7 * u);
     ctx.stroke();
 
     ctx.save();
     ctx.translate(bx, surf + 2);
-    ctx.rotate(Math.atan(slope) * 0.65 + heelTilt + Math.sin(t * 2.1) * 0.07 * squall);
+    ctx.rotate(Math.atan(slope) * 0.65 - heelTilt + Math.sin(t * 2.1) * 0.07 * squall);
     ctx.scale(u, u);
 
-    // mast + backstay + shrouds
+    // mast (stepped aft) + backstay + shrouds
     ctx.strokeStyle = pal.mast || pal.hull;
     ctx.lineWidth = 2.4;
     ctx.beginPath();
-    ctx.moveTo(8, -12);
-    ctx.lineTo(2, -152);
+    ctx.moveTo(14, -12);
+    ctx.lineTo(2, -158);
     ctx.stroke();
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(2, -152);
-    ctx.lineTo(-48, -6);
-    ctx.moveTo(5, -96);
-    ctx.lineTo(18, -14);
+    ctx.moveTo(2, -158);
+    ctx.lineTo(-52, -5);
+    ctx.moveTo(6, -102);
+    ctx.lineTo(56, -10);
+    ctx.moveTo(4, -76);
+    ctx.lineTo(60, -10);
     ctx.stroke();
 
-    // mainsail with square-top head and heavy roach
+    // mainsail — square-top head, deep roach
     ctx.beginPath();
-    ctx.moveTo(7, -150);
-    ctx.lineTo(42, -144);
-    ctx.quadraticCurveTo(80, -94, 54, -16);
-    ctx.lineTo(6, -15);
+    ctx.moveTo(13, -14);
+    ctx.lineTo(5, -153);
+    ctx.lineTo(50, -141);
+    ctx.quadraticCurveTo(97, -76, 69, -13);
     ctx.closePath();
     ctx.fillStyle = pal.sailMain;
     ctx.fill();
     ctx.strokeStyle = pal.sailEdge;
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(42, -144);
-    ctx.quadraticCurveTo(80, -94, 54, -16);
+    ctx.moveTo(50, -141);
+    ctx.quadraticCurveTo(97, -76, 69, -13);
     ctx.stroke();
 
-    // jib on the forestay (furled when the spinnaker is up)
-    if (spScale < 0.5) {
-      ctx.beginPath();
-      ctx.moveTo(8, -128);
-      ctx.lineTo(60, -11);
-      ctx.quadraticCurveTo(32, -16, 14, -13);
-      ctx.closePath();
-      ctx.fillStyle = pal.sailJib;
-      ctx.fill();
-    }
-
-    // spinnaker (球帆) — opens downwind
+    // spinnaker (球帆) — masthead kite, flying beyond the bow
     if (spScale > 0.02) {
       ctx.save();
       ctx.globalAlpha = Math.min(1, spScale);
-      ctx.translate(14, -132);
+      ctx.translate(3, -151);
       ctx.scale(spScale, spScale);
       ctx.beginPath();
       ctx.moveTo(0, 0);
-      ctx.quadraticCurveTo(-6, 62, 36, 116);
-      ctx.lineTo(60, 120);
-      ctx.quadraticCurveTo(76, 56, 48, -8);
-      ctx.quadraticCurveTo(26, -10, 0, 0);
+      ctx.quadraticCurveTo(48, 58, 71, 139);
+      ctx.lineTo(26, 146);
+      ctx.quadraticCurveTo(-28, 76, 0, 0);
       ctx.closePath();
       ctx.fillStyle = "rgba(96, 138, 166, 0.97)"; // moonlit spinnaker
       ctx.fill();
       ctx.strokeStyle = pal.sailEdge;
       ctx.lineWidth = 1;
       ctx.beginPath();
-      ctx.moveTo(28, 118);
-      ctx.quadraticCurveTo(50, 66, 42, -6);
+      ctx.moveTo(86, -14);
+      ctx.quadraticCurveTo(90, 2, 76, 9);
       ctx.stroke();
       ctx.restore();
     }
 
-    // hull: plumb bow, wide open transom
+    // jib on the forestay (furled when the kite is up)
+    if (spScale < 0.5) {
+      ctx.beginPath();
+      ctx.moveTo(11, -123);
+      ctx.lineTo(72, -10);
+      ctx.quadraticCurveTo(40, -15, 22, -13);
+      ctx.closePath();
+      ctx.fillStyle = pal.sailJib;
+      ctx.fill();
+    }
+
+    // hull — knuckle bow, near-vertical stem, open transom
     ctx.beginPath();
-    ctx.moveTo(62, -12);
-    ctx.lineTo(65, 2);
-    ctx.quadraticCurveTo(60, 12, 38, 15);
-    ctx.quadraticCurveTo(4, 19, -30, 14);
-    ctx.lineTo(-46, 12);
-    ctx.lineTo(-51, -4);
-    ctx.lineTo(-42, -8);
-    ctx.quadraticCurveTo(-10, -13, 24, -12);
-    ctx.lineTo(62, -12);
+    ctx.moveTo(74, -10);
+    ctx.lineTo(71, 6);
+    ctx.quadraticCurveTo(66, 12, 48, 15);
+    ctx.quadraticCurveTo(8, 19, -28, 13);
+    ctx.lineTo(-50, 11);
+    ctx.lineTo(-57, -3);
+    ctx.lineTo(-49, -7);
+    ctx.quadraticCurveTo(-6, -14, 34, -12);
     ctx.closePath();
     ctx.fillStyle = pal.hull;
     ctx.fill();
 
-    // canting keel with bulb
+    // canting keel + bulb
     ctx.beginPath();
-    ctx.moveTo(-6, 14);
-    ctx.lineTo(4, 44);
-    ctx.lineTo(10, 44);
-    ctx.lineTo(6, 14);
+    ctx.moveTo(1, 15);
+    ctx.lineTo(7, 46);
+    ctx.lineTo(13, 46);
+    ctx.lineTo(5, 15);
     ctx.closePath();
     ctx.fillStyle = pal.hull;
     ctx.fill();
     ctx.beginPath();
-    ctx.ellipse(8, 48, 17, 7, -0.06, 0, Math.PI * 2);
+    ctx.ellipse(11, 50, 18, 7, -0.05, 0, Math.PI * 2);
     ctx.fill();
 
-    // J-foil amidships + rudder aft
+    // J-foil amidships + twin rudder
     ctx.lineWidth = 2;
     ctx.strokeStyle = pal.hull;
     ctx.beginPath();
-    ctx.moveTo(28, -6);
-    ctx.lineTo(33, 16);
-    ctx.quadraticCurveTo(36, 26, 50, 32);
+    ctx.moveTo(26, -4);
+    ctx.lineTo(31, 18);
+    ctx.quadraticCurveTo(35, 30, 52, 37);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(-40, 12);
-    ctx.lineTo(-46, 32);
+    ctx.moveTo(-43, 11);
+    ctx.lineTo(-49, 34);
     ctx.stroke();
 
     // masthead light + stern lantern
     ctx.beginPath();
-    ctx.arc(3, -154, 1.6, 0, Math.PI * 2);
+    ctx.arc(1.5, -160, 1.6, 0, Math.PI * 2);
     ctx.fillStyle = pal.headlight;
     ctx.shadowColor = pal.headlight;
     ctx.shadowBlur = 8;
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(-50, -5, 2, 0, Math.PI * 2);
+    ctx.arc(-54, -6, 2, 0, Math.PI * 2);
     ctx.fillStyle = pal.lantern;
     ctx.shadowColor = pal.lanternGlow;
     ctx.shadowBlur = 12;
