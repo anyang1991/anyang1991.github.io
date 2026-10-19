@@ -146,16 +146,22 @@
         .then(function (r) { return r.json(); })
         .then(function (d) {
           var c = d.current, el = document.getElementById("live-wind");
-          if (el && c && c.wind_speed_10m != null)
+          if (el && c && c.wind_speed_10m != null) {
             el.textContent = "WIND · " + compass(c.wind_direction_10m) + " " + Math.round(c.wind_speed_10m) + " KT";
+            window.__SEA_STATE__ = window.__SEA_STATE__ || {};
+            window.__SEA_STATE__.wind = c.wind_speed_10m;
+          }
         })
         .catch(function () {});
       fetch("https://marine-api.open-meteo.com/v1/marine?latitude=18.3&longitude=109.5&current=wave_height&timezone=auto")
         .then(function (r) { return r.json(); })
         .then(function (d) {
           var c = d.current, el = document.getElementById("live-sea");
-          if (el && c && c.wave_height != null)
+          if (el && c && c.wave_height != null) {
             el.textContent = "SEA · " + c.wave_height.toFixed(1) + " M";
+            window.__SEA_STATE__ = window.__SEA_STATE__ || {};
+            window.__SEA_STATE__.h = c.wave_height;
+          }
         })
         .catch(function () {});
     })();

@@ -84,6 +84,7 @@
 
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
+  let seaMult = 1; // eases toward the live Open-Meteo wave height
   const SQUALL_LEN = 9;
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
@@ -194,7 +195,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
 
-  const drawSky = (cw, ch, t, pal, squall) => {
+  const drawSky = (cw, ch, t, pal, squall, windBoost) => {
     const sky = ctx.createLinearGradient(0, 0, 0, ch * 0.62);
     sky.addColorStop(0, pal.sky[0]);
     sky.addColorStop(0.7, pal.sky[1]);
@@ -213,12 +214,12 @@
     }
 
     gusts.forEach((g) => {
-      g.x += (g.sp / 100) * (1 + squall * 2.2);
+      g.x += (g.sp / 100) * (1 + squall * 2.2) * windBoost;
       if (g.x > 1.2) g.x = -0.2;
       const y = g.y * ch;
       const grad = ctx.createLinearGradient(g.x * cw, y, g.x * cw + g.len, y);
       grad.addColorStop(0, `rgba(${pal.gust}, 0)`);
-      grad.addColorStop(0.5, `rgba(${pal.gust}, ${pal.gustA * g.a * (1 + squall)})`);
+      grad.addColorStop(0.5, `rgba(${pal.gust}, ${pal.gustA * g.a * (1 + squall) * windBoost})`);
       grad.addColorStop(1, `rgba(${pal.gust}, 0)`);
       ctx.strokeStyle = grad;
       ctx.lineWidth = 1;
@@ -407,88 +408,123 @@
   };
 
   const drawBoat = (cw, ch, t, pal, squall) => {
-    const u = Math.min(cw, ch) / 500;
+    // IMOCA 60: plumb bow, open transom, canting keel, J-foil, square-top mainsail
+    const u = Math.min(cw, ch) / 470;
     const bx = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
     const layer = seaLayers[1];
     const mult = 1 + squall * 0.8;
     const surf = crestY(layer, bx, t, ch, mult);
     const slope = (crestY(layer, bx + 14, t, ch, mult) - crestY(layer, bx - 14, t, ch, mult)) / 28;
 
-    // wake trailing from the stern
-    const sternX = bx - 48 * u;
-    const sternY = surf + 10 * u;
+    // racing wake
+    const sternX = bx - 54 * u;
+    const sternY = surf + 12 * u;
     ctx.strokeStyle = pal.wake;
-    ctx.lineWidth = 1.2;
+    ctx.lineWidth = 1.4;
     ctx.beginPath();
     ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 52 * u, sternY + 12 * u);
+    ctx.lineTo(sternX - 60 * u, sternY + 14 * u);
     ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 56 * u, sternY - 4 * u);
-    ctx.moveTo(sternX - 18 * u, sternY + 1 * u);
-    ctx.lineTo(sternX - 30 * u, sternY + 4 * u);
+    ctx.lineTo(sternX - 64 * u, sternY - 5 * u);
+    ctx.moveTo(sternX - 20 * u, sternY + 2 * u);
+    ctx.lineTo(sternX - 34 * u, sternY + 6 * u);
     ctx.stroke();
 
     ctx.save();
-    ctx.translate(bx, surf + 1.5);
+    ctx.translate(bx, surf + 2);
     ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1) * 0.07 * squall);
     ctx.scale(u, u);
 
-    // hull silhouette
-    ctx.beginPath();
-    ctx.moveTo(-46, -3);
-    ctx.quadraticCurveTo(-20, 11, 6, 12);
-    ctx.quadraticCurveTo(32, 11, 48, -4);
-    ctx.closePath();
-    ctx.fillStyle = pal.hull;
-    ctx.fill();
-
-    // mast
+    // mast + backstay + shrouds
     ctx.strokeStyle = pal.mast || pal.hull;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 2.4;
     ctx.beginPath();
-    ctx.moveTo(2, -2);
-    ctx.lineTo(2, -88);
+    ctx.moveTo(8, -12);
+    ctx.lineTo(2, -152);
+    ctx.stroke();
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(2, -152);
+    ctx.lineTo(-48, -6);
+    ctx.moveTo(5, -96);
+    ctx.lineTo(18, -14);
     ctx.stroke();
 
-    // mainsail, aft of the mast
+    // mainsail with square-top head and heavy roach
     ctx.beginPath();
-    ctx.moveTo(-1, -84);
-    ctx.quadraticCurveTo(-34, -46, -40, -4);
-    ctx.lineTo(-1, -4);
+    ctx.moveTo(7, -150);
+    ctx.lineTo(42, -144);
+    ctx.quadraticCurveTo(80, -94, 54, -16);
+    ctx.lineTo(6, -15);
     ctx.closePath();
     ctx.fillStyle = pal.sailMain;
     ctx.fill();
-
-    // jib, forward
+    ctx.strokeStyle = pal.sailEdge;
+    ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.moveTo(4, -82);
-    ctx.quadraticCurveTo(34, -42, 45, -6);
-    ctx.lineTo(4, -6);
+    ctx.moveTo(42, -144);
+    ctx.quadraticCurveTo(80, -94, 54, -16);
+    ctx.stroke();
+
+    // jib on the forestay
+    ctx.beginPath();
+    ctx.moveTo(8, -128);
+    ctx.lineTo(60, -11);
+    ctx.quadraticCurveTo(32, -16, 14, -13);
     ctx.closePath();
     ctx.fillStyle = pal.sailJib;
     ctx.fill();
 
-    // moonlit edges
-    ctx.strokeStyle = pal.sailEdge;
-    ctx.lineWidth = 1;
+    // hull: plumb bow, wide open transom
     ctx.beginPath();
-    ctx.moveTo(4, -82);
-    ctx.quadraticCurveTo(34, -42, 45, -6);
-    ctx.moveTo(2, -88);
-    ctx.lineTo(2, -2);
+    ctx.moveTo(62, -12);
+    ctx.lineTo(65, 2);
+    ctx.quadraticCurveTo(60, 12, 38, 15);
+    ctx.quadraticCurveTo(4, 19, -30, 14);
+    ctx.lineTo(-46, 12);
+    ctx.lineTo(-51, -4);
+    ctx.lineTo(-42, -8);
+    ctx.quadraticCurveTo(-10, -13, 24, -12);
+    ctx.lineTo(62, -12);
+    ctx.closePath();
+    ctx.fillStyle = pal.hull;
+    ctx.fill();
+
+    // canting keel with bulb
+    ctx.beginPath();
+    ctx.moveTo(-6, 14);
+    ctx.lineTo(4, 44);
+    ctx.lineTo(10, 44);
+    ctx.lineTo(6, 14);
+    ctx.closePath();
+    ctx.fillStyle = pal.hull;
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(8, 48, 17, 7, -0.06, 0, Math.PI * 2);
+    ctx.fill();
+
+    // J-foil amidships + rudder aft
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = pal.hull;
+    ctx.beginPath();
+    ctx.moveTo(28, -6);
+    ctx.lineTo(33, 16);
+    ctx.quadraticCurveTo(36, 26, 50, 32);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(-40, 12);
+    ctx.lineTo(-46, 32);
     ctx.stroke();
 
-    // masthead light
+    // masthead light + stern lantern
     ctx.beginPath();
-    ctx.arc(2, -90, 1.6, 0, Math.PI * 2);
+    ctx.arc(3, -154, 1.6, 0, Math.PI * 2);
     ctx.fillStyle = pal.headlight;
     ctx.shadowColor = pal.headlight;
     ctx.shadowBlur = 8;
     ctx.fill();
-
-    // stern lantern
     ctx.beginPath();
-    ctx.arc(-44, -8, 2, 0, Math.PI * 2);
+    ctx.arc(-50, -5, 2, 0, Math.PI * 2);
     ctx.fillStyle = pal.lantern;
     ctx.shadowColor = pal.lanternGlow;
     ctx.shadowBlur = 12;
@@ -497,7 +533,7 @@
     ctx.restore();
 
     // lantern streak on the water
-    const ly = surf + 8;
+    const ly = surf + 10;
     const lg = ctx.createLinearGradient(sternX, ly, sternX, ly + 34);
     lg.addColorStop(0, pal.lanternGlow.replace(/[\d.]+\)$/, "0.3)"));
     lg.addColorStop(1, pal.lanternGlow.replace(/[\d.]+\)$/, "0)"));
@@ -562,6 +598,12 @@
     const cw = canvas.width / dpr;
     const ch = canvas.height / dpr;
     const pal = PALETTES.dark;
+    const seaState = window.__SEA_STATE__ || {};
+    const seaTarget = typeof seaState.h === "number"
+      ? Math.max(0.6, Math.min(2.3, 0.55 + seaState.h * 0.55))
+      : 1;
+    seaMult += (seaTarget - seaMult) * 0.03;
+    const windBoost = 1 + Math.min(1.1, (typeof seaState.wind === "number" ? seaState.wind : 8) / 30);
     ctx.clearRect(0, 0, cw, ch);
 
     let squall = 0;
@@ -573,9 +615,9 @@
         squallStart = -1;
       }
     }
-    const waveMult = 1 + squall * 1.7;
+    const waveMult = (1 + squall * 1.7) * seaMult;
 
-    drawSky(cw, ch, t, pal, squall);
+    drawSky(cw, ch, t, pal, squall, windBoost);
     const orb = drawOrb(cw, ch, pal);
     drawCompass(cw, ch, t, pal);
     drawLighthouse(cw, ch, t, pal);
