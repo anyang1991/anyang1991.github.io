@@ -23,7 +23,7 @@
   --grad-b: #081c2e;
   --grad-c: #030b14;
   --mono: "IBM Plex Mono", ui-monospace, monospace;
-  --display: "Marcellus", "Segoe UI", serif;
+  --display: "Sora", "Segoe UI", sans-serif;
   --body: "Sora", "Segoe UI", sans-serif;
   --max: 1120px;
   --nav-h: 4.25rem;
@@ -1732,7 +1732,7 @@ body::before,
 }
 .vpp-polar text {
   font-family: var(--mono);
-  font-size: 8.5px;
+  font-size: 12px;
   fill: var(--fog-dim);
   letter-spacing: 0.05em;
 }
@@ -1857,7 +1857,4 @@ a, button, .btn, .pp, .vpp-tws button {
   color: var(--amber);
   font-family: var(--mono);
   font-size: 0.85em;
-}
-.vpp-polar text {
-  font-size: 12.5px;
 }

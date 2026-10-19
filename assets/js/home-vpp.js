@@ -38,8 +38,9 @@
     const svg = el("svg", { viewBox: "0 0 320 320" });
 
     for (const v of [5, 10, 15, 20, 25]) {
-      svg.appendChild(el("circle", { class: "ring", cx: CX, cy: CY, r: (RMAX * v) / VMAX }));
-      const t = el("text", { x: CX + 4, y: CY - (RMAX * v) / VMAX + 11 });
+      const r = (RMAX * v) / VMAX;
+      svg.appendChild(el("circle", { class: "ring", cx: CX, cy: CY, r: r }));
+      const t = el("text", { x: CX + 7, y: CY - r + 13, "text-anchor": "start" });
       t.textContent = v + " kn";
       svg.appendChild(t);
     }
@@ -48,12 +49,20 @@
       const [x2, y2] = polarXY(-a, VMAX);
       svg.appendChild(el("line", { class: "spoke", x1: CX, y1: CY, x2: x1, y2: y1 }));
       svg.appendChild(el("line", { class: "spoke", x1: CX, y1: CY, x2: x2, y2: y2 }));
-      const t1 = el("text", { x: x1 + 4, y: y1 + 3 });
-      const t2 = el("text", { x: x2 + 4, y: y2 + 3 });
-      t1.textContent = a + "°";
-      t2.textContent = a + "°";
-      svg.appendChild(t1);
-      svg.appendChild(t2);
+      // 角度标注放圆外, 按所在侧对齐
+      const lr = RMAX + 13;
+      const dirs = [
+        [Math.sin((a * Math.PI) / 180), a],
+        [-Math.sin((a * Math.PI) / 180), a],
+      ];
+      dirs.forEach(([sx, aa]) => {
+        const lx = CX + sx * lr;
+        const ly = CY - Math.cos((aa * Math.PI) / 180) * lr + 4;
+        const anchor = sx > 0.3 ? "end" : sx < -0.3 ? "start" : "middle";
+        const t = el("text", { x: lx.toFixed(1), y: ly.toFixed(1), "text-anchor": anchor });
+        t.textContent = aa + "°";
+        svg.appendChild(t);
+      });
     }
 
     CURVES.forEach((cv) => {
