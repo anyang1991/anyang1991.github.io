@@ -182,8 +182,12 @@
         var years = Object.keys(CITES || {}).sort();
         if (!years.length) return;
         var peak = Math.max.apply(null, years.map(function (y) { return CITES[y]; }).concat([1]));
-        years.forEach(function (y) {
+        var H = wrap.clientHeight || 92;
+        var innerH = H - 30;
+        var pts = [];
+        years.forEach(function (y, k) {
           var v = CITES[y];
+          var bh = Math.max(4, Math.round((v / peak) * (innerH - 24)));
           var col = document.createElement("div");
           col.className = "pc-col";
           var n = document.createElement("i");
@@ -191,14 +195,36 @@
           col.appendChild(n);
           var bar = document.createElement("div");
           bar.className = "pc-bar";
-          bar.style.height = Math.max(4, Math.round((v / peak) * 64)) + "%";
+          bar.style.height = bh + "px";
           bar.title = y + " · 被引用 " + v + " 次";
           col.appendChild(bar);
           var yy = document.createElement("span");
           yy.textContent = y.slice(2);
           col.appendChild(yy);
           wrap.appendChild(col);
+          pts.push([col.offsetLeft + col.offsetWidth / 2, (H - 14) - bh - 15]);
         });
+        var NS = "http://www.w3.org/2000/svg";
+        var svg = document.createElementNS(NS, "svg");
+        svg.setAttribute("class", "pc-smooth");
+        svg.setAttribute("width", H > 0 ? pts[pts.length - 1][0] + 30 : 100);
+        svg.setAttribute("height", H);
+        svg.setAttribute("viewBox", "0 0 " + (pts[pts.length - 1][0] + 30) + " " + H);
+        var line = smoothPath(pts);
+        var ln = document.createElementNS(NS, "path");
+        ln.setAttribute("d", line);
+        ln.setAttribute("fill", "none");
+        ln.setAttribute("stroke", "#e0a248");
+        ln.setAttribute("stroke-width", "2");
+        ln.setAttribute("stroke-linecap", "round");
+        svg.appendChild(ln);
+        pts.forEach(function (p) {
+          var c = document.createElementNS(NS, "circle");
+          c.setAttribute("cx", p[0].toFixed(1)); c.setAttribute("cy", p[1].toFixed(1)); c.setAttribute("r", 2.6);
+          c.setAttribute("fill", "#e0a248");
+          svg.appendChild(c);
+        });
+        wrap.appendChild(svg);
       };
 
     })();
