@@ -174,8 +174,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       gull: "rgba(200, 224, 230, 0.55)",
       gust: "150, 200, 210",
       gustA: 0.05,
-      compass: "rgba(150, 200, 210, 0.07)",
-      compassText: "rgba(150, 200, 210, 0.3)",
+      compass: "rgba(150, 200, 210, 0.2)",
+      compassText: "rgba(150, 200, 210, 0.45)",
       hull: "rgba(5, 13, 22, 0.96)",
       sailEdge: "rgba(180, 216, 224, 0.4)",
       headlight: "rgba(226, 240, 244, 0.95)",
@@ -288,9 +288,9 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
 
   // large compass rose watermark, slowly turning
   const drawCompass = (cw, ch, t, pal) => {
-    const cx = cw * 0.16;
-    const cy = ch * 0.27;
-    const R = Math.min(cw, ch) * 0.125;
+    const cx = cw * 0.10;
+    const cy = ch * 0.80;
+    const R = Math.min(cw, ch) * 0.11;
     ctx.save();
     ctx.translate(cx, cy);
     ctx.rotate(t * 0.02);
@@ -646,7 +646,6 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
 
     drawSky(cw, ch, t, pal, squall, windBoost);
     const orb = drawOrb(cw, ch, pal);
-    drawCompass(cw, ch, t, pal);
     drawLighthouse(cw, ch, t, pal, squall);
     drawSeaLayer(seaLayers[0], 0, cw, ch, tSea, pal, waveMult);
     drawGlitter(cw, ch, t, orb, pal);
@@ -657,6 +656,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     drawSeaLayer(seaLayers[2], 2, cw, ch, tSea, pal, waveMult);
     drawSeaLayer(seaLayers[3], 3, cw, ch, tSea, pal, waveMult);
     drawFoam(cw, ch, tSea, pal, waveMult, squall);
+    drawCompass(cw, ch, t, pal);
 
     // surface flow streaks — drift speed and length follow the VPP boat speed
     for (let i = 0; i < 14; i++) {
