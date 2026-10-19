@@ -14,8 +14,24 @@
   for (const state of Object.values(states)) state.heel = heelTargets[state.tws][state.twa / 10];
   const projectionFor = (heel) => {
     const degrees = Math.max(0, Math.min(30, Number(heel) || 0));
-    return {heel: degrees, verticalScale: Math.cos(degrees * Math.PI / 180)};
+    const radians = degrees * Math.PI / 180;
+    return {heel: degrees, verticalScale: Math.cos(radians), sinHeel: Math.sin(radians), depthScale: Math.tan(radians)};
   };
+  // Side-on orthographic roll: longitudinal x is invariant; height and beam mix.
+  const projectPoint = (x, y, z, heel) => {
+    const p = projectionFor(heel);
+    return {x, y: y * p.verticalScale + z * p.sinHeel};
+  };
+  const halfBeamAt = (x) => x <= 190 ? 34 + 6 * Math.max(0, (x - 65) / 125)
+    : 40 * Math.max(0, (315 - x) / 125);
+  function hullProjection(projection) {
+    // The outer canvas transform supplies cos(heel); tan offsets supply z*sin.
+    const p = (x, y, side = 1) => `${x},${y + side * halfBeamAt(x) * projection.depthScale}`;
+    const hull = new Path2D(`M ${p(65,399)} L ${p(111,398)} L ${p(123,389)} Q ${p(145,379)} ${p(164,386)} L ${p(189,395)} L ${p(292,395)} Q ${p(307,394)} ${p(315,386)} L ${p(314,407)} Q ${p(280,420)} ${p(190,423)} Q ${p(108,424)} ${p(65,414)} Z`);
+    const stations = [[65,399],[111,398],[189,395],[250,395],[292,395],[315,386]];
+    const deck = new Path2D('M ' + stations.map(([x,y])=>p(x,y,-1)).join(' L ') + ' L ' + [...stations].reverse().map(([x,y])=>p(x,y,1)).join(' L ') + ' Z');
+    return {hull, deck};
+  }
   const paths = new Map();
   const getState = (tws, twa) => {
     const wind = Number(tws) === 28 ? 28 : 8;
@@ -23,6 +39,7 @@
     return states[wind + ":" + angle];
   };
   function draw(ctx, state, style = {}) {
+    const projection = projectionFor(style.heel || 0);
     for (const group of state.groups) {
       let color;
       switch (group.id) {
@@ -37,25 +54,37 @@
       ctx.strokeStyle = color;
       ctx.lineJoin = "round";
       ctx.lineCap = "round";
+      const hullGeometry = group.id === "hull-mast-boom" ? hullProjection(projection) : null;
       if (group.id === "hull-mast-boom") {
-        // The visible deck width grows as the hull rolls away from the viewer.
-        const deckRise = Math.sin(projectionFor(style.heel || 0).heel * Math.PI / 180) * 32;
-        if (deckRise > 0.01) {
+        if (projection.heel > 0.01) {
           ctx.fillStyle = "#243a46";
-          ctx.beginPath();
-          ctx.moveTo(189, 395);
-          ctx.lineTo(292, 395);
-          ctx.quadraticCurveTo(307, 394, 315, 386);
-          ctx.quadraticCurveTo(280, 386 - deckRise * 0.6, 190, 395 - deckRise);
-          ctx.closePath();
-          ctx.fill();
+          ctx.fill(hullGeometry.deck);
+          ctx.strokeStyle = "rgba(137, 162, 177, 0.4)";
+          ctx.lineWidth = 0.7;
+          ctx.stroke(hullGeometry.deck);
+          // Far rudder, on the opposite side of the boat's beam.
+          const rudder = group.shapes[3];
+          if (!paths.has(rudder.d)) paths.set(rudder.d, new Path2D(rudder.d));
+          ctx.save();
+          ctx.translate(0, -30 * projection.depthScale);
+          ctx.fillStyle = "#213844";
+          ctx.fill(paths.get(rudder.d));
+          ctx.restore();
         }
       }
-      for (const [index, shape] of group.shapes.entries()) {
+      const indices = group.id === "hull-mast-boom" ? [1, 2, 0, 3, 4, 5, 6, 7] : group.shapes.map((_, i) => i);
+      for (const index of indices) {
+        const shape = group.shapes[index];
+        ctx.save();
+        ctx.strokeStyle = color;
+        if (group.id === "hull-mast-boom" && (index === 3 || index === 4)) {
+          ctx.translate(0, (index === 3 ? 30 : 35) * projection.depthScale);
+        }
         if (group.id === "hull-mast-boom" && index === 4) ctx.fillStyle = "#1b303e";
         else ctx.fillStyle = color;
         let p = paths.get(shape.d);
         if (!p) { p = new Path2D(shape.d); paths.set(shape.d, p); }
+        if (group.id === "hull-mast-boom" && index === 0) p = hullGeometry.hull;
         if (shape.fill) {
           ctx.fill(p);
           // A fine contrasting edge keeps overlapping colored sails readable.
@@ -65,15 +94,19 @@
           ctx.strokeStyle = color;
         }
         if (shape.width) { ctx.lineWidth = shape.width; ctx.stroke(p); }
+        ctx.restore();
       }
       if (group.id === "hull-mast-boom") {
         const edge = "M 229,412 L 227,394 Q 226,382 223,376";
         if (!paths.has(edge)) paths.set(edge, new Path2D(edge));
+        ctx.save();
+        ctx.translate(0, 35 * projection.depthScale);
         ctx.strokeStyle = "rgba(137, 162, 177, 0.48)";
         ctx.lineWidth = 1.25;
         ctx.stroke(paths.get(edge));
+        ctx.restore();
       }
     }
   }
-  window.ImocaSails = Object.freeze({palette, getState, projectionFor, draw});
+  window.ImocaSails = Object.freeze({palette, getState, projectionFor, projectPoint, draw});
 })();

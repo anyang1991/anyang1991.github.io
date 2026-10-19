@@ -446,7 +446,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
 
     ctx.save();
     ctx.translate(bx, surf + 2);
-    ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1) * 0.07 * squall);
+    const wavePitch = Math.max(-0.03, Math.min(0.03, Math.atan(slope) * 0.12 + Math.sin(t * 2.1) * 0.018 * squall));
+    ctx.rotate(wavePitch);
     ctx.scale(u, u);
 
     const wakeTime = lastTs * 0.001;
@@ -475,7 +476,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.shadowBlur = 8;
     ctx.fill();
     ctx.beginPath();
-    ctx.arc(-54, -6, 2, 0, Math.PI * 2);
+    ctx.arc(-54, -6 + 18 * projection.depthScale, 2, 0, Math.PI * 2);
     ctx.fillStyle = pal.lantern;
     ctx.shadowColor = pal.lanternGlow;
     ctx.shadowBlur = 12;
