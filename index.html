@@ -32,6 +32,7 @@
       <a href="/publications/">Publications</a>
       <a href="/cv/">CV</a>
       <a href="/projects/">Projects</a>
+      <a href="/vpp/">VPP Lab</a>
     </nav>
   </header>
 
@@ -63,6 +64,7 @@
         </div>
         <div class="cta-row">
           <a class="btn" href="/publications/">Publications</a>
+          <a class="btn btn-ghost" href="/vpp/">VPP Lab</a>
           <a class="btn btn-ghost" href="mailto:anyang@idsse.ac.cn">Contact</a>
         </div>
         <aside class="status-panel" aria-hidden="true">
@@ -98,14 +100,14 @@
         </div>
 
         <div class="stat-strip reveal">
-          <div class="stat"><strong>11</strong><span>Publications</span></div>
-          <div class="stat"><strong>113</strong><span>Citations</span></div>
-          <div class="stat"><strong>4</strong><span>H-index</span></div>
-          <div class="stat"><strong>3</strong><span>i10-index</span></div>
+          <div class="stat"><strong id="stat-pubs">11</strong><span>Publications</span></div>
+          <div class="stat"><strong id="stat-cites">113</strong><span>Citations</span></div>
+          <div class="stat"><strong id="stat-h">4</strong><span>H-index</span></div>
+          <div class="stat"><strong id="stat-i10">3</strong><span>i10-index</span></div>
         </div>
-        <p class="stats-note">Scholar metrics updated · 2026-08</p>
+        <p class="stats-note" id="stats-note">Scholar metrics updated · 2026-08</p>
         <div class="timeline-chart">
-          <p class="chart-title"><span>论文轨迹 · Publication Timeline</span><span>2017–2026 · 11 篇</span></p>
+          <p class="chart-title"><span>论文轨迹 · Publication Timeline</span><span>2017–2026 · 站内收录 11 篇</span></p>
           <div class="chart-bars" id="pub-chart"></div>
         </div>
       </div>
@@ -165,49 +167,69 @@
         })
         .catch(function () {});
     })();
-    // 论文轨迹图: 数据来自本站 publications; CITES 填入 Scholar 每年引用数后自动叠加折线
+    // 论文轨迹图: 柱 = 逐年产出(站内精选), 折线 = Scholar 逐年引用(assets/data/scholar.json 每日自动更新)
     (function () {
       var PUBS = [["2017",1],["2018",0],["2019",0],["2020",0],["2021",1],["2022",1],["2023",2],["2024",1],["2025",2],["2026",3]];
-      var CITES = null;
-      var wrap = document.getElementById("pub-chart");
-      if (!wrap) return;
       var max = 3;
-      PUBS.forEach(function (d) {
-        var col = document.createElement("div");
-        col.className = "pc-col";
-        var bar = document.createElement("div");
-        bar.className = "pc-bar" + (d[1] ? "" : " zero");
-        bar.style.height = d[1] ? Math.round((d[1] / max) * 100) + "%" : "3px";
-        bar.title = d[0] + " · " + d[1] + " 篇";
-        if (d[1]) {
-          var n = document.createElement("i");
-          n.textContent = d[1];
-          bar.appendChild(n);
+      window.__renderChart = function (CITES) {
+        var wrap = document.getElementById("pub-chart");
+        if (!wrap) return;
+        wrap.innerHTML = "";
+        PUBS.forEach(function (d) {
+          var col = document.createElement("div");
+          col.className = "pc-col";
+          var bar = document.createElement("div");
+          bar.className = "pc-bar" + (d[1] ? "" : " zero");
+          bar.style.height = d[1] ? Math.round((d[1] / max) * 100) + "%" : "3px";
+          bar.title = d[0] + " · " + d[1] + " 篇";
+          if (d[1]) {
+            var n = document.createElement("i");
+            n.textContent = d[1];
+            bar.appendChild(n);
+          }
+          var y = document.createElement("span");
+          y.textContent = d[0].slice(2);
+          col.appendChild(bar);
+          col.appendChild(y);
+          wrap.appendChild(col);
+        });
+        if (CITES) {
+          var peak = Math.max.apply(null, PUBS.map(function (d) { return CITES[d[0]] || 0; }).concat([1]));
+          var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+          svg.setAttribute("class", "pc-line");
+          svg.setAttribute("viewBox", "0 0 100 40");
+          svg.setAttribute("preserveAspectRatio", "none");
+          var pts = PUBS.map(function (d, k) {
+            var v = CITES[d[0]] || 0;
+            return ((k + 0.5) * (100 / PUBS.length)).toFixed(2) + "," + (38 - (v / peak) * 34).toFixed(2);
+          }).join(" ");
+          var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+          poly.setAttribute("points", pts);
+          poly.setAttribute("fill", "none");
+          poly.setAttribute("stroke", "var(--amber)");
+          poly.setAttribute("stroke-width", "0.8");
+          svg.appendChild(poly);
+          wrap.appendChild(svg);
         }
-        var y = document.createElement("span");
-        y.textContent = d[0].slice(2);
-        col.appendChild(bar);
-        col.appendChild(y);
-        wrap.appendChild(col);
-      });
-      if (CITES) {
-        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttribute("class", "pc-line");
-        svg.setAttribute("viewBox", "0 0 100 40");
-        svg.setAttribute("preserveAspectRatio", "none");
-        var peak = Math.max.apply(null, Object.values(CITES).concat([1]));
-        var pts = PUBS.map(function (d, k) {
-          var v = CITES[d[0]] || 0;
-          return ((k + 0.5) * (100 / PUBS.length)).toFixed(2) + "," + (38 - (v / peak) * 34).toFixed(2);
-        }).join(" ");
-        var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
-        poly.setAttribute("points", pts);
-        poly.setAttribute("fill", "none");
-        poly.setAttribute("stroke", "var(--amber)");
-        poly.setAttribute("stroke-width", "0.8");
-        svg.appendChild(poly);
-        wrap.appendChild(svg);
-      }
+      };
+      window.__renderChart(null);
+    })();
+    // Scholar 指标: assets/data/scholar.json 由 GitHub Actions 每日拉取更新
+    (function () {
+      fetch("/assets/data/scholar.json", { cache: "no-cache" })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d) return;
+          var set = function (id, v) { var el = document.getElementById(id); if (el && v != null) el.textContent = v; };
+          set("stat-pubs", d.publications);
+          set("stat-cites", d.citations);
+          set("stat-h", d.h_index);
+          set("stat-i10", d.i10_index);
+          var note = document.getElementById("stats-note");
+          if (note && d.updated) note.textContent = "Scholar metrics updated · " + d.updated + " (auto)";
+          if (d.cites_per_year && window.__renderChart) window.__renderChart(d.cites_per_year);
+        })
+        .catch(function () {});
     })();
   </script>
 </body>

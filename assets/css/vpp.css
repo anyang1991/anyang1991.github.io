@@ -1,0 +1,220 @@
+/* ---- vpp lab page ---- */
+.vpp-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+  gap: 1.4rem;
+  align-items: stretch;
+}
+
+.vpp-scene {
+  position: relative;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  background: linear-gradient(180deg, #071523, #030b12);
+  min-height: 420px;
+  overflow: hidden;
+}
+
+.vpp-scene canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.vpp-badge,
+.vpp-windind {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  color: var(--fog-dim);
+  background: rgba(var(--bg-rgb), 0.55);
+  border: 1px solid rgba(var(--accent-rgb), 0.25);
+  padding: 0.35rem 0.6rem;
+  pointer-events: none;
+}
+
+.vpp-badge {
+  left: 0.8rem;
+  top: 0.8rem;
+}
+
+.vpp-windind {
+  right: 0.8rem;
+  top: 0.8rem;
+  color: var(--cyan);
+}
+
+.vpp-panel {
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  background: rgba(var(--tint-rgb), 0.35);
+  padding: 1.1rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.vpp-panel-title,
+.vpp-panel .vpp-tws,
+.vpp-panel .vpp-polar,
+.vpp-panel .vpp-readout,
+.vpp-panel .vpp-hint {
+  font-family: var(--mono);
+}
+
+.vpp-panel-title {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.vpp-tws {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.vpp-tws button {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  padding: 0.45rem 0;
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  color: var(--fog-dim);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.vpp-tws button:hover {
+  color: var(--paper);
+}
+
+.vpp-tws button.active {
+  background: var(--cyan);
+  border-color: var(--cyan);
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.vpp-polar {
+  line-height: 0;
+}
+
+.vpp-polar svg {
+  width: 100%;
+  height: auto;
+}
+
+.vpp-polar .ring {
+  fill: none;
+  stroke: rgba(var(--accent-rgb), 0.22);
+}
+
+.vpp-polar .spoke {
+  stroke: rgba(var(--accent-rgb), 0.16);
+}
+
+.vpp-polar text {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  fill: var(--fog-dim);
+  letter-spacing: 0.05em;
+}
+
+.vpp-polar .curve {
+  fill: none;
+  stroke-width: 1.4;
+  opacity: 0.45;
+}
+
+.vpp-polar .curve.active {
+  stroke: var(--amber);
+  stroke-width: 2;
+  opacity: 1;
+}
+
+.vpp-polar .pp {
+  fill: transparent;
+  stroke: transparent;
+  cursor: pointer;
+}
+
+.vpp-polar .pp:hover {
+  stroke: rgba(var(--accent-rgb), 0.8);
+}
+
+.vpp-polar .marker-dot {
+  fill: var(--hot);
+  stroke: #fff;
+  stroke-width: 0.8;
+}
+
+.vpp-polar .marker-line {
+  stroke: rgba(var(--hot-rgb), 0.55);
+  stroke-dasharray: 3 3;
+}
+
+.vpp-readout {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 0.9rem;
+}
+
+.vpp-readout div {
+  border-left: 2px solid rgba(var(--accent-rgb), 0.35);
+  padding-left: 0.6rem;
+}
+
+.vpp-readout div.wide {
+  grid-column: 1 / -1;
+  border-left-color: rgba(var(--amber-rgb), 0.6);
+}
+
+.vpp-readout dt {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fog-dim);
+}
+
+.vpp-readout dd {
+  margin: 0.1rem 0 0;
+  font-size: 1.05rem;
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.vpp-readout div.wide dd {
+  color: var(--amber);
+  font-size: 0.92rem;
+}
+
+.vpp-hint {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--fog-dim);
+  opacity: 0.8;
+}
+
+.vpp-note p {
+  max-width: 46rem;
+  color: var(--text-2);
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+@media (max-width: 960px) {
+  .vpp-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .vpp-scene {
+    min-height: 320px;
+  }
+}
