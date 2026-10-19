@@ -306,7 +306,9 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.fillText("E", cx + R + R * 0.22, cy + R * 0.06);
   };
 
-  const drawLighthouse = (cw, ch, t, pal) => {
+  const drawLighthouse = (cw, ch, t, pal, squall) => {
+    // 风暴时灯频闪
+    const strobe = squall > 0.1 ? (Math.sin(t * 34) > -0.3 ? 1 : 0.12) : 1;
     const s = Math.min(cw, ch) / 640;
     const x = cw * 0.79;
     const base = ch * 0.585;
@@ -321,7 +323,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       ctx.rotate(angle + k * Math.PI);
       const L = ch * 0.5;
       const g = ctx.createLinearGradient(0, 0, L, 0);
-      g.addColorStop(0, `rgba(${pal.beam}, ${pal.beamA})`);
+      g.addColorStop(0, `rgba(${pal.beam}, ${pal.beamA * (0.35 + 0.65 * strobe)})`);
       g.addColorStop(1, `rgba(${pal.beam}, 0)`);
       ctx.fillStyle = g;
       ctx.beginPath();
@@ -359,13 +361,15 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.fillStyle = pal.lhTrim;
     ctx.fill();
 
+    ctx.globalAlpha = strobe;
     ctx.beginPath();
     ctx.arc(lampX, lampY, 2.2 * s, 0, Math.PI * 2);
     ctx.fillStyle = pal.lhLamp;
     ctx.shadowColor = `rgba(${pal.beam}, 0.9)`;
-    ctx.shadowBlur = 10;
+    ctx.shadowBlur = 8 + 14 * strobe;
     ctx.fill();
     ctx.shadowBlur = 0;
+    ctx.globalAlpha = 1;
   };
 
   const drawSeaLayer = (layer, idx, cw, ch, t, pal, mult) => {
@@ -583,7 +587,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   // a dolphin porpoises near the boat: ballistic leap, nose-first re-entry,
   // then an underwater tail-beat swim-away (Weihs 2002)
   const drawDolphin = (cw, ch, dt, boatX, pal) => {
-    const JUMP_T = 2.0, JUMP_DUR = 1.35, DIVE_T = JUMP_T + JUMP_DUR, AIR_T = DIVE_T + 0.45, SWIM_DUR = 2.3;
+    const JUMP_T = 3.4, JUMP_DUR = 1.35, DIVE_T = JUMP_T + JUMP_DUR, AIR_T = DIVE_T + 0.45, SWIM_DUR = 2.3;
     const s = Math.min(cw, ch) / 620;
     const seaY = ch * 0.655;
     const jumpX = boatX + 135 * s;
@@ -600,7 +604,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       ctx.rotate(ang);
       ctx.scale(s, s);
       ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
-      ctx.fillStyle = "rgba(8, 20, 32, 0.95)";
+      ctx.fillStyle = "rgba(88, 128, 156, 0.97)"; // moonlit dolphin
       ctx.beginPath();
       ctx.moveTo(P[0][0] + 15, fl[0] - 2.5);
       for (let i = 0; i < P.length; i++) ctx.lineTo(P[i][0], P[i][1] + fl[i] - hw[i]);
@@ -643,7 +647,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       // 跃水弧线: 上升段弓背蓄力, 顶点舒展滑翔, 下降段收腹, 出入水瞬间尾鳍发力
       const p = (dt - JUMP_T) / JUMP_DUR;
       const x = jumpX + 10 * s + p * 70 * s;
-      const y = seaY - Math.sin(Math.min(p, 1) * Math.PI) * ch * 0.15;
+      const y = seaY - Math.sin(Math.min(p, 1) * Math.PI) * ch * 0.105;
       const ang = -0.75 + p * 1.95;
       const bend = -Math.sin(p * Math.PI * 0.9) * (6 + p * 10);
       const beat = (p < 0.18 || p > 0.82 ? 1.6 : 0.5) + dt * 2.2;
@@ -710,7 +714,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     drawSky(cw, ch, t, pal, squall, windBoost);
     const orb = drawOrb(cw, ch, pal);
     drawCompass(cw, ch, t, pal);
-    drawLighthouse(cw, ch, t, pal);
+    drawLighthouse(cw, ch, t, pal, squall);
     drawSeaLayer(seaLayers[0], 0, cw, ch, tSea, pal, waveMult);
     drawGlitter(cw, ch, t, orb, pal);
     drawSeaLayer(seaLayers[1], 1, cw, ch, tSea, pal, waveMult);
@@ -752,6 +756,45 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       }
     }
 
+    // lightning — two jagged strikes during the squall
+    let flash = 0, boltPts = null;
+    if (squall > 0.1) {
+      const sdt = (ts - squallStart) / 1000;
+      for (const bt of [1.1, 2.5]) {
+        if (sdt >= bt && sdt < bt + 0.13) {
+          flash = 1 - (sdt - bt) / 0.13;
+          let seed = Math.floor(squallStart) + Math.round(bt * 100);
+          const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+          const topY = ch * 0.05, endY = ch * 0.6;
+          let bx0 = cw * (0.22 + rnd() * 0.5);
+          boltPts = [[bx0, topY]];
+          for (let k = 1; k <= 9; k++) {
+            bx0 += (rnd() - 0.5) * cw * 0.05;
+            boltPts.push([bx0, topY + ((endY - topY) * k) / 9]);
+          }
+          break;
+        }
+      }
+    }
+    if (boltPts) {
+      ctx.strokeStyle = `rgba(228, 240, 255, ${0.9 * flash})`;
+      ctx.lineWidth = 2.2;
+      ctx.shadowColor = "rgba(205, 228, 255, 0.95)";
+      ctx.shadowBlur = 16;
+      ctx.beginPath();
+      boltPts.forEach((p, i) => (i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])));
+      ctx.stroke();
+      const mid = boltPts[4];
+      ctx.beginPath();
+      ctx.moveTo(mid[0], mid[1]);
+      ctx.lineTo(mid[0] - 26, mid[1] + 46);
+      ctx.lineTo(mid[0] - 44, mid[1] + 78);
+      ctx.stroke();
+      ctx.shadowBlur = 0;
+      ctx.fillStyle = `rgba(208, 228, 252, ${0.15 * flash})`;
+      ctx.fillRect(0, 0, cw, ch);
+    }
+
     window.__drawOK = (window.__drawOK || 0) + 1;
     raf = requestAnimationFrame(draw);
   };
@@ -759,6 +802,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   window.__drawFrame = draw;
   window.__dbgDol = (dt) => drawDolphin(cw, ch, dt, cw * 0.56, PALETTES.dark);
   window.__dbgWater = (t) => { drawSeaLayer(seaLayers[3], 3, cw, ch, t + vppPhase, PALETTES.dark, 1); };
+  window.__vppSquallCheck = (dt) => { squallStart = 1000; draw(1000 + dt * 1000); };
   resize();
   window.addEventListener("resize", resize);
 
