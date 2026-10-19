@@ -189,8 +189,9 @@ img {
 
 .status-panel {
   position: absolute;
-  right: 0;
-  bottom: 4.5rem;
+  right: 2rem;
+  bottom: 5.5rem;
+  width: 196px;
   display: grid;
   gap: 0.45rem;
   font-family: var(--mono);

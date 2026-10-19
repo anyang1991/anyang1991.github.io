@@ -10,6 +10,20 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     });
   }
 
+  // VPP 极坐标面板顶边与 eyebrow 行顶边对齐
+  const heroEl = document.querySelector(".hero");
+  const polarEl = document.querySelector(".hero-polar");
+  const eyebrowEl = document.querySelector(".hero .eyebrow");
+  if (heroEl && polarEl && eyebrowEl) {
+    const alignPolar = () => {
+      var top = eyebrowEl.getBoundingClientRect().top - heroEl.getBoundingClientRect().top;
+      polarEl.style.top = Math.max(24, Math.round(top)) + "px";
+    };
+    alignPolar();
+    window.addEventListener("resize", alignPolar);
+    setTimeout(alignPolar, 350);
+  }
+
   const reveals = document.querySelectorAll(".reveal");
   if (reveals.length && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(
