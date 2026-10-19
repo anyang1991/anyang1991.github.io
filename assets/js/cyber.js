@@ -83,6 +83,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   let raf = 0;
   let dpr = 1;
   let panelLeft = Infinity;
+  let panelTop = Infinity;
+  let dolphinLeft = 0, dolphinRight = 0;
 
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
@@ -197,6 +199,11 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     const panels = document.querySelector(".hero-instruments");
     panelLeft = panels && window.innerWidth > 900
       ? panels.getBoundingClientRect().left - rect.left : Infinity;
+    panelTop = panels && window.innerWidth <= 900
+      ? panels.getBoundingClientRect().top - rect.top : Infinity;
+    const introduction = document.querySelector(".hero-line")?.getBoundingClientRect();
+    dolphinLeft = introduction ? introduction.left - rect.left : rect.width * 0.12;
+    dolphinRight = introduction ? introduction.right - rect.left : rect.width * 0.4;
   };
 
   const boatXFor = (cw, ch) => Math.min(
@@ -488,13 +495,15 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     }
   };
 
-  // a dolphin porpoises near the boat: ballistic leap, nose-first re-entry,
-  // then an underwater tail-beat swim-away (Weihs 2002)
-  const drawDolphin = (cw, ch, dt, boatX, pal) => {
-    const JUMP_T = 3.4, JUMP_DUR = 1.35, DIVE_T = JUMP_T + JUMP_DUR, AIR_T = DIVE_T + 0.45, SWIM_DUR = 2.3;
-    const s = Math.min(cw, ch) / 620;
-    const seaY = ch * 0.655;
-    const jumpX = boatX + 135 * s;
+  // A porpoising dolphin occupies the left introduction's sea lane.
+  const drawDolphin = (cw, ch, dt, pal) => {
+    const JUMP_T = 3.4, JUMP_DUR = 1.6, AIR_T = JUMP_T + JUMP_DUR, SWIM_DUR = 2.3;
+    const s = Math.min(cw, ch) / 740;
+    const seaY = Math.min(ch * 0.655, panelTop - 95 * s);
+    const jumpX = dolphinLeft + 65 * s;
+    const landingX = Math.max(jumpX + 35 * s, Math.min(dolphinRight - 70 * s,
+      window.innerWidth > 900 ? boatXFor(cw, ch) - 130 * s : dolphinRight - 70 * s));
+    const travel = landingX - jumpX;
 
     function body(x, y, ang, alpha, bend, beat) {
       const P = [[56, 0], [38, -4], [16, -5], [-8, -4], [-30, -2], [-48, 0]];
@@ -508,25 +517,42 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       ctx.rotate(ang);
       ctx.scale(s, s);
       ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
-      ctx.fillStyle = "rgba(88, 128, 156, 0.97)"; // moonlit dolphin
+      ctx.fillStyle = "rgba(116, 155, 171, 0.97)";
       ctx.beginPath();
-      ctx.moveTo(P[0][0] + 15, fl[0] - 2.5);
-      for (let i = 0; i < P.length; i++) ctx.lineTo(P[i][0], P[i][1] + fl[i] - hw[i]);
+      ctx.moveTo(70, fl[0] - 1.5);
+      ctx.quadraticCurveTo(63, fl[0] - 4, 57, fl[0] - 3);
+      ctx.quadraticCurveTo(52, fl[0] - 12, 38, -12 + fl[1]);
+      for (let i = 2; i < P.length; i++) {
+        const previous = P[i - 1], current = P[i];
+        ctx.quadraticCurveTo(previous[0], previous[1] + fl[i - 1] - hw[i - 1],
+          (previous[0] + current[0]) / 2,
+          (previous[1] + fl[i - 1] - hw[i - 1] + current[1] + fl[i] - hw[i]) / 2);
+      }
       const tx = P[P.length - 1][0], ty = P[P.length - 1][1] + fl[P.length - 1];
       ctx.lineTo(tx - 11, ty - 10);
       ctx.quadraticCurveTo(tx - 5, ty, tx - 12, ty + 10);
       ctx.lineTo(tx, ty + 3);
       for (let i = P.length - 1; i >= 0; i--) ctx.lineTo(P[i][0], P[i][1] + fl[i] + hw[i]);
-      ctx.quadraticCurveTo(46, 6, P[0][0] + 15, fl[0] + 2.5);
+      ctx.quadraticCurveTo(48, 11 + fl[0], 57, 3 + fl[0]);
+      ctx.lineTo(69, 2 + fl[0]);
       ctx.closePath();
       ctx.fill();
       const dx = P[2][0], dy = P[2][1] + fl[2] - hw[2];
       ctx.beginPath();
       ctx.moveTo(dx - 8, dy + 2);
-      ctx.quadraticCurveTo(dx - 1, dy - 13, dx + 8, dy + 2);
+      ctx.quadraticCurveTo(dx - 7, dy - 11, dx - 2, dy - 18);
+      ctx.quadraticCurveTo(dx + 8, dy - 15, dx + 10, dy + 2);
       ctx.closePath();
       ctx.fill();
-      ctx.strokeStyle = "rgba(168, 216, 220, 0.3)";
+      ctx.fillStyle = "rgba(69, 105, 124, 0.9)";
+      ctx.beginPath();
+      ctx.moveTo(28, 6 + fl[2]);
+      ctx.quadraticCurveTo(17, 12 + fl[2], 5, 25 + fl[2]);
+      ctx.quadraticCurveTo(20, 23 + fl[2], 35, 8 + fl[2]);
+      ctx.fill();
+      ctx.fillStyle = "#152e3b";
+      ctx.beginPath();ctx.arc(48, -3 + fl[0], 1.25, 0, Math.PI * 2);ctx.fill();
+      ctx.strokeStyle = "rgba(184, 215, 222, 0.48)";
       ctx.lineWidth = 1.3;
       ctx.beginPath();
       ctx.moveTo(34, 5);
@@ -550,19 +576,22 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     if (dt >= JUMP_T && dt < AIR_T) {
       // 跃水弧线: 上升段弓背蓄力, 顶点舒展滑翔, 下降段收腹, 出入水瞬间尾鳍发力
       const p = (dt - JUMP_T) / JUMP_DUR;
-      const x = jumpX + 10 * s + p * 70 * s;
-      const y = seaY - Math.sin(Math.min(p, 1) * Math.PI) * ch * 0.105;
-      const ang = -0.7 + p * 1.45;
+      const height = ch * 0.085;
+      const x = jumpX + p * travel;
+      const y = seaY - 4 * height * p * (1 - p);
+      const ang = Math.atan2(-4 * height * (1 - 2 * p), travel) * 0.65;
       const bend = -Math.sin(p * Math.PI * 0.9) * (6 + p * 10);
       const beat = (p < 0.18 || p > 0.82 ? 1.6 : 0.5) + dt * 2.2;
       body(x, y, ang, 1, bend, beat);
       if (p < 0.15 || p > 0.85) splash(x, 1);
-    } else if (dt >= DIVE_T + 0.45 - 0.12 && dt < DIVE_T + 0.45 - 0.12 + SWIM_DUR) {
+    } else if (dt >= AIR_T && dt < AIR_T + SWIM_DUR) {
       // 入水后: 明显的尾鳍上下拍击推进, 渐隐游远
-      const p = (dt - (AIR_T - 0.12)) / SWIM_DUR;
-      const x = jumpX + 80 * s + p * 200 * s * (1 - p * 0.3);
-      const y = seaY + (12 + p * 32) * s;
-      body(x, y, 0.2, 0.72 * (1 - p * 0.85), 1.4, dt * 4.2);
+      const p = (dt - AIR_T) / SWIM_DUR;
+      const x = landingX + p * 65 * s;
+      const y = seaY + (8 * p + 32 * p * p) * s;
+      const entryAngle = Math.atan2(4 * ch * 0.085, travel) * 0.65;
+      body(x, y, entryAngle * (1 - p) + 0.15 * p, 1 - p * 0.9, 1.4, dt * 4.2);
+      if (p < 0.2) splash(landingX, 1 - p * 5);
     }
   };
 
@@ -622,10 +651,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     drawGlitter(cw, ch, t, orb, pal);
     drawSeaLayer(seaLayers[1], 1, cw, ch, tSea, pal, waveMult);
     drawBoat(cw, ch, tSea, pal, squall);
-    if (squall > 0.02) {
-      const boatX = boatXFor(cw, ch);
-      drawDolphin(cw, ch, (ts - squallStart) / 1000, boatX, pal);
-    }
+    const dolphinTime = squall > 0.02 ? (ts - squallStart) / 1000 : (t + 2) % 24;
+    drawDolphin(cw, ch, dolphinTime, pal);
     drawSeaLayer(seaLayers[2], 2, cw, ch, tSea, pal, waveMult);
     drawSeaLayer(seaLayers[3], 3, cw, ch, tSea, pal, waveMult);
     drawFoam(cw, ch, tSea, pal, waveMult, squall);
@@ -702,7 +729,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     raf = requestAnimationFrame(draw);
   };
 
-  window.__dbgDol = (dt) => drawDolphin(cw, ch, dt, cw * 0.56, PALETTES.dark);
+  window.__dbgDol = (dt) => drawDolphin(canvas.width / dpr, canvas.height / dpr, dt, PALETTES.dark);
   window.__dbgWater = (t) => { drawSeaLayer(seaLayers[3], 3, cw, ch, t + vppPhase, PALETTES.dark, 1); };
   window.__vppSquallCheck = (dt) => { squallStart = 1000; draw(1000 + dt * 1000); };
   window.__drawFrame = draw;

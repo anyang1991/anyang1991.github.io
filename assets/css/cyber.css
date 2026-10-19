@@ -461,6 +461,7 @@ img {
 }
 
 .hero-line {
+  width: min(100%, 28rem);
   max-width: 28rem;
   font-size: clamp(1rem, 2vw, 1.2rem);
   color: var(--fog);
@@ -566,7 +567,7 @@ img {
   aspect-ratio: 1;
   object-fit: cover;
   object-position: center 32%;
-  filter: contrast(1.05) saturate(0.85);
+  filter: brightness(0.92) contrast(1.08) saturate(1.12) sepia(0.06);
   border: 1px solid rgba(var(--accent-rgb), 0.35);
 }
 
