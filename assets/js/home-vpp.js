@@ -13,7 +13,7 @@
   const VMAX = 26, CX = 160, CY = 160, RMAX = 140;
 
   const heelFor = (twa, tws) =>
-    Math.round(Math.min(30, (tws / 30) * (18 + 8 * Math.pow(Math.cos((twa * Math.PI) / 180), 2))));
+    Math.round(Math.max(4, Math.min(28, (tws / 30) * (26 - 14 * ((twa - 30) / 150)))));
   const sailsFor = (twa) => (twa > 115 ? "主帆 + 球帆" : "主帆 + 前帆");
 
   const state = { tws: 15, twa: 90, bs: 11.0 };
@@ -104,9 +104,6 @@
     document.querySelectorAll(".curve").forEach((p) => {
       p.classList.toggle("active", Number(p.dataset.tws) === state.tws);
     });
-    document.querySelectorAll("#vpp-tws button").forEach((b) => {
-      b.classList.toggle("active", Number(b.dataset.tws) === state.tws);
-    });
   }
 
   function select(tws, twa) {
@@ -117,16 +114,6 @@
     window.__VPP_STATE__ = { tws: tws, twa: twa, bs: state.bs, heel: state.heel };
     apply();
   }
-
-  const twsHost = document.getElementById("vpp-tws");
-  CURVES.forEach((cv) => {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = cv.tws + " kn";
-    b.dataset.tws = cv.tws;
-    b.addEventListener("click", () => select(cv.tws, state.twa));
-    twsHost.appendChild(b);
-  });
 
   buildPolar();
   select(15, 90);

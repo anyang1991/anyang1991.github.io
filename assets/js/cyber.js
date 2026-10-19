@@ -416,6 +416,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     const u = Math.min(cw, ch) / 440;
     const bx = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
     const layer = seaLayers[1];
+    const rigScaleY = 1 - (vppHeel / 30) * 0.3;  // 横倾: 帆装侧视压缩
     const mult = 1 + squall * 0.8;
     const surf = crestY(layer, bx, t, ch, mult);
     const slope = (crestY(layer, bx + 14, t, ch, mult) - crestY(layer, bx - 14, t, ch, mult)) / 28;
@@ -436,8 +437,14 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
 
     ctx.save();
     ctx.translate(bx, surf + 2);
-    ctx.rotate(Math.atan(slope) * 0.65 - heelTilt + Math.sin(t * 2.1) * 0.07 * squall);
+    ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1 + vppTwa * 0.05) * 0.045);
     ctx.scale(u, u);
+
+    // rig — 横倾压缩: 桅与帆在侧视中变矮 (船朝观察者倾倒)
+    ctx.save();
+    ctx.translate(0, -10);
+    ctx.scale(1, rigScaleY);
+    ctx.translate(0, 10);
 
     // mast (stepped aft) + backstay + shrouds
     ctx.strokeStyle = pal.mast || pal.hull;
@@ -505,6 +512,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       ctx.fillStyle = pal.sailJib;
       ctx.fill();
     }
+
+    ctx.restore();
 
     // hull — knuckle bow, near-vertical stem, open transom
     ctx.beginPath();
@@ -706,9 +715,9 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     drawGlitter(cw, ch, t, orb, pal);
     drawSeaLayer(seaLayers[1], 1, cw, ch, tSea, pal, waveMult);
     drawBoat(cw, ch, tSea, pal, squall);
-    {
+    if (squall > 0.02) {
       const boatX = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
-      drawDolphin(cw, ch, 2.6, boatX, pal);
+      drawDolphin(cw, ch, (ts - squallStart) / 1000, boatX, pal);
     }
     drawSeaLayer(seaLayers[2], 2, cw, ch, tSea, pal, waveMult);
     drawSeaLayer(seaLayers[3], 3, cw, ch, tSea, pal, waveMult);
