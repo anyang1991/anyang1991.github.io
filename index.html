@@ -67,8 +67,8 @@
         </div>
         <aside class="status-panel" aria-hidden="true">
           <div><i></i> UNDERWAY · SANYA</div>
-          <div><i class="amber"></i> WIND · NE 12 KT</div>
-          <div><i class="hot"></i> SEA · STATE 3</div>
+          <div><i class="amber"></i> <span id="live-wind">WIND · -- KT</span></div>
+          <div><i class="hot"></i> <span id="live-sea">SEA · -- M</span></div>
         </aside>
       </div>
     </section>
@@ -104,6 +104,10 @@
           <div class="stat"><strong>3</strong><span>i10-index</span></div>
         </div>
         <p class="stats-note">Scholar metrics updated · 2026-08</p>
+        <div class="timeline-chart">
+          <p class="chart-title"><span>论文轨迹 · Publication Timeline</span><span>2017–2026 · 11 篇</span></p>
+          <div class="chart-bars" id="pub-chart"></div>
+        </div>
       </div>
     </section>
 
@@ -131,5 +135,74 @@
   </footer>
 
   <script src="/assets/js/cyber.js"></script>
+  <script>
+    // 实时海况: Open-Meteo(免费无密钥, 支持跨域), 三亚近海; 失败时保留占位符
+    (function () {
+      function compass(deg) {
+        var names = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+        return names[Math.round(deg / 22.5) % 16];
+      }
+      fetch("https://api.open-meteo.com/v1/forecast?latitude=18.2&longitude=109.7&current=wind_speed_10m,wind_direction_10m&wind_speed_unit=kn")
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var c = d.current, el = document.getElementById("live-wind");
+          if (el && c && c.wind_speed_10m != null)
+            el.textContent = "WIND · " + compass(c.wind_direction_10m) + " " + Math.round(c.wind_speed_10m) + " KT";
+        })
+        .catch(function () {});
+      fetch("https://marine-api.open-meteo.com/v1/marine?latitude=18.3&longitude=109.5&current=wave_height&timezone=auto")
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var c = d.current, el = document.getElementById("live-sea");
+          if (el && c && c.wave_height != null)
+            el.textContent = "SEA · " + c.wave_height.toFixed(1) + " M";
+        })
+        .catch(function () {});
+    })();
+    // 论文轨迹图: 数据来自本站 publications; CITES 填入 Scholar 每年引用数后自动叠加折线
+    (function () {
+      var PUBS = [["2017",1],["2018",0],["2019",0],["2020",0],["2021",1],["2022",1],["2023",2],["2024",1],["2025",2],["2026",3]];
+      var CITES = null;
+      var wrap = document.getElementById("pub-chart");
+      if (!wrap) return;
+      var max = 3;
+      PUBS.forEach(function (d) {
+        var col = document.createElement("div");
+        col.className = "pc-col";
+        var bar = document.createElement("div");
+        bar.className = "pc-bar" + (d[1] ? "" : " zero");
+        bar.style.height = d[1] ? Math.round((d[1] / max) * 100) + "%" : "3px";
+        bar.title = d[0] + " · " + d[1] + " 篇";
+        if (d[1]) {
+          var n = document.createElement("i");
+          n.textContent = d[1];
+          bar.appendChild(n);
+        }
+        var y = document.createElement("span");
+        y.textContent = d[0].slice(2);
+        col.appendChild(bar);
+        col.appendChild(y);
+        wrap.appendChild(col);
+      });
+      if (CITES) {
+        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("class", "pc-line");
+        svg.setAttribute("viewBox", "0 0 100 40");
+        svg.setAttribute("preserveAspectRatio", "none");
+        var peak = Math.max.apply(null, Object.values(CITES).concat([1]));
+        var pts = PUBS.map(function (d, k) {
+          var v = CITES[d[0]] || 0;
+          return ((k + 0.5) * (100 / PUBS.length)).toFixed(2) + "," + (38 - (v / peak) * 34).toFixed(2);
+        }).join(" ");
+        var poly = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
+        poly.setAttribute("points", pts);
+        poly.setAttribute("fill", "none");
+        poly.setAttribute("stroke", "var(--amber)");
+        poly.setAttribute("stroke-width", "0.8");
+        svg.appendChild(poly);
+        wrap.appendChild(svg);
+      }
+    })();
+  </script>
 </body>
 </html>

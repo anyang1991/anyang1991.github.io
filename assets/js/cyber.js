@@ -74,13 +74,76 @@
     setTimeout(step, 450);
   }
 
-  // Hero canvas — a sailing passage, day and night watches
+  // Hero canvas — a night passage: stars, moon, sea, a sailboat underway
   const canvas = document.getElementById("hero-canvas");
   if (!canvas) return;
 
   const ctx = canvas.getContext("2d");
   let raf = 0;
   let dpr = 1;
+
+  // squall easter egg: Konami code, or triple-click the status panel
+  let squallStart = -1;
+  const SQUALL_LEN = 9;
+  const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
+  let kIdx = 0;
+  window.addEventListener("keydown", (e) => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    kIdx = k === KONAMI[kIdx] ? kIdx + 1 : k === KONAMI[0] ? 1 : 0;
+    if (kIdx === KONAMI.length) {
+      kIdx = 0;
+      squallStart = performance.now();
+      console.log("%c⚓ Fair winds, sailor!", "color:#66cfc4;font-size:14px");
+    }
+  });
+  const statusPanel = document.querySelector(".status-panel");
+  let taps = 0;
+  let lastTapAt = 0;
+  if (statusPanel) {
+    statusPanel.addEventListener("click", () => {
+      const now = Date.now();
+      if (now - lastTapAt > 1200) taps = 0;
+      lastTapAt = now;
+      if (++taps >= 3) {
+        taps = 0;
+        squallStart = performance.now();
+      }
+    });
+  }
+
+  const stars = Array.from({ length: 110 }, () => ({
+    x: Math.random(),
+    y: Math.random() * 0.52,
+    r: 0.4 + Math.random() * 1.1,
+    sp: 0.5 + Math.random() * 1.6,
+    ph: Math.random() * Math.PI * 2,
+  }));
+
+  const gusts = Array.from({ length: 6 }, () => ({
+    x: Math.random(),
+    y: 0.1 + Math.random() * 0.4,
+    len: 70 + Math.random() * 150,
+    sp: 0.012 + Math.random() * 0.022,
+    a: 0.6 + Math.random() * 0.5,
+  }));
+
+  const gulls = Array.from({ length: 4 }, (_, i) => ({
+    sp: 0.01 + i * 0.004,
+    y0: 0.1 + i * 0.06,
+    ph: i * 1.9,
+    w: 7 + i * 1.6,
+  }));
+
+  // layered sea, back to front; crest height as a fraction of canvas height
+  const seaLayers = [
+    { y: 0.585, amp: 4.5, len: 190, sp: 0.45 },
+    { y: 0.645, amp: 6.5, len: 155, sp: 0.65 },
+    { y: 0.72, amp: 8.5, len: 128, sp: 0.85 },
+    { y: 0.82, amp: 10.5, len: 105, sp: 1.1 },
+  ];
+
+  const crestY = (layer, x, t, ch, mult) =>
+    ch * layer.y + (Math.sin(x / layer.len + t * layer.sp) * layer.amp + Math.sin(x / 47 - t * 0.55) * 1.8) * mult;
 
   const PALETTES = {
     dark: {
@@ -123,40 +186,6 @@
     },
   };
 
-  const stars = Array.from({ length: 110 }, () => ({
-    x: Math.random(),
-    y: Math.random() * 0.52,
-    r: 0.4 + Math.random() * 1.1,
-    sp: 0.5 + Math.random() * 1.6,
-    ph: Math.random() * Math.PI * 2,
-  }));
-
-  const gusts = Array.from({ length: 6 }, () => ({
-    x: Math.random(),
-    y: 0.1 + Math.random() * 0.4,
-    len: 70 + Math.random() * 150,
-    sp: 0.012 + Math.random() * 0.022,
-    a: 0.6 + Math.random() * 0.5,
-  }));
-
-  const gulls = Array.from({ length: 4 }, (_, i) => ({
-    sp: 0.01 + i * 0.004,
-    y0: 0.1 + i * 0.06,
-    ph: i * 1.9,
-    w: 7 + i * 1.6,
-  }));
-
-  // layered sea, back to front; crest height as a fraction of canvas height
-  const seaLayers = [
-    { y: 0.585, amp: 4.5, len: 190, sp: 0.45 },
-    { y: 0.645, amp: 6.5, len: 155, sp: 0.65 },
-    { y: 0.72, amp: 8.5, len: 128, sp: 0.85 },
-    { y: 0.82, amp: 10.5, len: 105, sp: 1.1 },
-  ];
-
-  const crestY = (layer, x, t, ch) =>
-    ch * layer.y + Math.sin(x / layer.len + t * layer.sp) * layer.amp + Math.sin(x / 47 - t * 0.55) * 1.8;
-
   const resize = () => {
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     const rect = canvas.parentElement.getBoundingClientRect();
@@ -165,7 +194,7 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   };
 
-  const drawSky = (cw, ch, t, pal) => {
+  const drawSky = (cw, ch, t, pal, squall) => {
     const sky = ctx.createLinearGradient(0, 0, 0, ch * 0.62);
     sky.addColorStop(0, pal.sky[0]);
     sky.addColorStop(0.7, pal.sky[1]);
@@ -175,7 +204,7 @@
 
     if (pal.stars) {
       stars.forEach((s) => {
-        const a = 0.25 + 0.6 * (0.5 + 0.5 * Math.sin(t * s.sp + s.ph));
+        const a = (0.25 + 0.6 * (0.5 + 0.5 * Math.sin(t * s.sp + s.ph))) * (1 - squall * 0.75);
         ctx.beginPath();
         ctx.arc(s.x * cw, s.y * ch, s.r, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(214, 235, 240, ${a * 0.8})`;
@@ -184,12 +213,12 @@
     }
 
     gusts.forEach((g) => {
-      g.x += g.sp / 100;
+      g.x += (g.sp / 100) * (1 + squall * 2.2);
       if (g.x > 1.2) g.x = -0.2;
       const y = g.y * ch;
       const grad = ctx.createLinearGradient(g.x * cw, y, g.x * cw + g.len, y);
       grad.addColorStop(0, `rgba(${pal.gust}, 0)`);
-      grad.addColorStop(0.5, `rgba(${pal.gust}, ${pal.gustA * g.a})`);
+      grad.addColorStop(0.5, `rgba(${pal.gust}, ${pal.gustA * g.a * (1 + squall)})`);
       grad.addColorStop(1, `rgba(${pal.gust}, 0)`);
       ctx.strokeStyle = grad;
       ctx.lineWidth = 1;
@@ -211,6 +240,11 @@
       ctx.quadraticCurveTo(x + g.w / 2, y - flap, x + g.w, y);
       ctx.stroke();
     });
+
+    if (squall > 0.02) {
+      ctx.fillStyle = `rgba(3, 8, 16, ${0.3 * squall})`;
+      ctx.fillRect(0, 0, cw, ch * 0.62);
+    }
   };
 
   const drawOrb = (cw, ch, pal) => {
@@ -275,7 +309,6 @@
     const base = ch * 0.585;
     const h = 52 * s;
 
-    // rotating light beams first, tower drawn over them
     const lampY = base - h * 0.82;
     const lampX = x;
     const angle = t * 0.45;
@@ -297,13 +330,11 @@
       ctx.restore();
     }
 
-    // rock base
     ctx.beginPath();
     ctx.ellipse(x, base + 2, 30 * s, 7 * s, 0, 0, Math.PI * 2);
     ctx.fillStyle = pal.lhTower;
     ctx.fill();
 
-    // tapered tower
     ctx.beginPath();
     ctx.moveTo(x - 11 * s, base);
     ctx.lineTo(x - 6.5 * s, base - h * 0.78);
@@ -313,12 +344,10 @@
     ctx.fillStyle = pal.lhTower;
     ctx.fill();
 
-    // gallery + lamp room
     ctx.fillStyle = pal.lhTower;
     ctx.fillRect(x - 8.5 * s, base - h * 0.86, 17 * s, 3.2 * s);
     ctx.fillRect(x - 5 * s, base - h * 0.98, 10 * s, 8 * s);
 
-    // roof
     ctx.beginPath();
     ctx.moveTo(x - 6 * s, base - h * 0.98);
     ctx.lineTo(x, base - h * 1.12);
@@ -327,7 +356,6 @@
     ctx.fillStyle = pal.lhTrim;
     ctx.fill();
 
-    // the lamp itself
     ctx.beginPath();
     ctx.arc(lampX, lampY, 2.2 * s, 0, Math.PI * 2);
     ctx.fillStyle = pal.lhLamp;
@@ -337,11 +365,11 @@
     ctx.shadowBlur = 0;
   };
 
-  const drawSeaLayer = (layer, idx, cw, ch, t, pal) => {
+  const drawSeaLayer = (layer, idx, cw, ch, t, pal, mult) => {
     ctx.beginPath();
     ctx.moveTo(0, ch);
     for (let x = 0; x <= cw; x += 6) {
-      ctx.lineTo(x, crestY(layer, x, t, ch));
+      ctx.lineTo(x, crestY(layer, x, t, ch, mult));
     }
     ctx.lineTo(cw, ch);
     ctx.closePath();
@@ -350,7 +378,7 @@
 
     ctx.beginPath();
     for (let x = 0; x <= cw; x += 6) {
-      const y = crestY(layer, x, t, ch);
+      const y = crestY(layer, x, t, ch, mult);
       if (x === 0) ctx.moveTo(x, y);
       else ctx.lineTo(x, y);
     }
@@ -378,13 +406,13 @@
     }
   };
 
-  const drawBoat = (cw, ch, t, pal) => {
+  const drawBoat = (cw, ch, t, pal, squall) => {
     const u = Math.min(cw, ch) / 500;
     const bx = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
     const layer = seaLayers[1];
-    const surf = crestY(layer, bx, t, ch);
-    const slope =
-      (crestY(layer, bx + 14, t, ch) - crestY(layer, bx - 14, t, ch)) / 28;
+    const mult = 1 + squall * 0.8;
+    const surf = crestY(layer, bx, t, ch, mult);
+    const slope = (crestY(layer, bx + 14, t, ch, mult) - crestY(layer, bx - 14, t, ch, mult)) / 28;
 
     // wake trailing from the stern
     const sternX = bx - 48 * u;
@@ -402,7 +430,7 @@
 
     ctx.save();
     ctx.translate(bx, surf + 1.5);
-    ctx.rotate(Math.atan(slope) * 0.65);
+    ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1) * 0.07 * squall);
     ctx.scale(u, u);
 
     // hull silhouette
@@ -477,17 +505,54 @@
     ctx.fillRect(sternX - 4 * u, ly, 7, 34);
   };
 
-  // foam dabs on the front waves
-  const drawFoam = (cw, ch, t, pal) => {
+  // a whale breaches and crosses during the squall (dt = seconds since squall began)
+  const drawWhale = (cw, ch, dt) => {
+    const p = (dt - 1.8) / 3.6;
+    if (p < 0 || p > 1) return;
+    const x = cw * (-0.06 + p * 1.12);
+    const baseY = ch * 0.72;
+    const hop = Math.sin(p * Math.PI);
+    const y = baseY - hop * ch * 0.085;
+    const s = Math.min(cw, ch) / 560;
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate((0.55 - p * 1.1) * 0.9);
+    ctx.scale(s, s);
+    ctx.fillStyle = "rgba(6, 16, 26, 0.93)";
+    ctx.beginPath();
+    ctx.moveTo(-70, 0);
+    ctx.quadraticCurveTo(-30, -26, 30, -18);
+    ctx.quadraticCurveTo(66, -12, 78, 2);
+    ctx.quadraticCurveTo(40, 14, -10, 12);
+    ctx.quadraticCurveTo(-45, 12, -70, 0);
+    ctx.closePath();
+    ctx.fill();
+    ctx.beginPath();
+    ctx.moveTo(-66, -2);
+    ctx.quadraticCurveTo(-94, -24, -108, -14);
+    ctx.quadraticCurveTo(-92, -4, -98, 12);
+    ctx.quadraticCurveTo(-84, 8, -66, 4);
+    ctx.closePath();
+    ctx.fill();
+    ctx.strokeStyle = "rgba(168, 216, 220, 0.3)";
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(-28, 6);
+    ctx.quadraticCurveTo(12, 12, 52, 3);
+    ctx.stroke();
+    ctx.restore();
+  };
+
+  const drawFoam = (cw, ch, t, pal, mult, squall) => {
     for (let i = 0; i < 18; i++) {
       const x = (((i * 61.8) % 100) / 100) * cw;
       const layer = seaLayers[i % 2 ? 2 : 3];
-      const y = crestY(layer, x, t, ch) - 2;
-      const r = 1 + (i % 3) * 0.7;
-      const a = 0.14 + 0.1 * Math.sin(t * 2 + i);
+      const y = crestY(layer, x, t, ch, mult) - 2;
+      const r = (1 + (i % 3) * 0.7) * (1 + squall * 0.6);
+      const a = (0.14 + 0.1 * Math.sin(t * 2 + i)) * (1 + squall);
       ctx.beginPath();
       ctx.arc(x, y, r, 0, Math.PI * 2);
-      ctx.fillStyle = pal.foamDab + " " + (a < 0 ? 0 : a).toFixed(2) + ")";
+      ctx.fillStyle = pal.foamDab + " " + Math.max(0, Math.min(a, 0.5)).toFixed(2) + ")";
       ctx.fill();
     }
   };
@@ -499,17 +564,43 @@
     const pal = PALETTES.dark;
     ctx.clearRect(0, 0, cw, ch);
 
-    drawSky(cw, ch, t, pal);
+    let squall = 0;
+    if (squallStart >= 0) {
+      const dt = (ts - squallStart) / 1000;
+      if (dt < SQUALL_LEN) {
+        squall = Math.min(1, dt / 1.2) * Math.min(1, Math.max(0, (SQUALL_LEN - dt) / 1.5));
+      } else {
+        squallStart = -1;
+      }
+    }
+    const waveMult = 1 + squall * 1.7;
+
+    drawSky(cw, ch, t, pal, squall);
     const orb = drawOrb(cw, ch, pal);
     drawCompass(cw, ch, t, pal);
     drawLighthouse(cw, ch, t, pal);
-    drawSeaLayer(seaLayers[0], 0, cw, ch, t, pal);
+    drawSeaLayer(seaLayers[0], 0, cw, ch, t, pal, waveMult);
     drawGlitter(cw, ch, t, orb, pal);
-    drawSeaLayer(seaLayers[1], 1, cw, ch, t, pal);
-    drawBoat(cw, ch, t, pal);
-    drawSeaLayer(seaLayers[2], 2, cw, ch, t, pal);
-    drawSeaLayer(seaLayers[3], 3, cw, ch, t, pal);
-    drawFoam(cw, ch, t, pal);
+    drawSeaLayer(seaLayers[1], 1, cw, ch, t, pal, waveMult);
+    drawBoat(cw, ch, t, pal, squall);
+    if (squall > 0.02) drawWhale(cw, ch, (ts - squallStart) / 1000);
+    drawSeaLayer(seaLayers[2], 2, cw, ch, t, pal, waveMult);
+    drawSeaLayer(seaLayers[3], 3, cw, ch, t, pal, waveMult);
+    drawFoam(cw, ch, t, pal, waveMult, squall);
+
+    // squall rain
+    if (squall > 0.05) {
+      ctx.strokeStyle = `rgba(168, 216, 220, ${0.22 * squall})`;
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 55; i++) {
+        const rx = ((i * 137.5 + t * 240) % (cw + 80)) - 40;
+        const ry = (i * 89.3 + t * 430) % (ch * 0.72);
+        ctx.beginPath();
+        ctx.moveTo(rx, ry);
+        ctx.lineTo(rx - 5, ry + 13);
+        ctx.stroke();
+      }
+    }
 
     raf = requestAnimationFrame(draw);
   };
