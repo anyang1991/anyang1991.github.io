@@ -94,7 +94,9 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
   window.addEventListener("keydown", (e) => {
-    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    // e.code is the physical key: immune to IME composition and layouts,
+    // so the B/A steps still land while a Chinese IME is active
+    const k = e.code === "KeyB" ? "b" : e.code === "KeyA" ? "a" : e.key.length === 1 ? e.key.toLowerCase() : e.key;
     kIdx = k === KONAMI[kIdx] ? kIdx + 1 : k === KONAMI[0] ? 1 : 0;
     if (kIdx === KONAMI.length) {
       kIdx = 0;
