@@ -1,3 +1,4 @@
+window.__err = []; window.addEventListener("error", (e) => window.__err.push(String(e.message) + " @" + (e.lineno||0)));
 (() => {
   const root = document.documentElement;
   const nav = document.querySelector(".nav");
@@ -573,15 +574,18 @@
   // a dolphin porpoises near the boat: ballistic leap, nose-first re-entry,
   // then an underwater tail-beat swim-away (Weihs 2002)
   const drawDolphin = (cw, ch, dt, boatX, pal) => {
-    const JUMP_T = 2.0, JUMP_DUR = 1.35, DIVE_T = JUMP_T + JUMP_DUR, SWIM_DUR = 2.3;
+    const JUMP_T = 2.0, JUMP_DUR = 1.35, DIVE_T = JUMP_T + JUMP_DUR, AIR_T = DIVE_T + 0.45, SWIM_DUR = 2.3;
     const s = Math.min(cw, ch) / 620;
     const seaY = ch * 0.655;
     const jumpX = boatX + 135 * s;
 
-    function body(x, y, ang, alpha, flexAmp, beat) {
+    function body(x, y, ang, alpha, bend, beat) {
       const P = [[56, 0], [38, -4], [16, -5], [-8, -4], [-30, -2], [-48, 0]];
       const hw = [3.2, 8.5, 11.5, 10.5, 6.5, 3.4];
-      const fl = P.map((p, i) => Math.sin(beat - i * 0.9) * flexAmp * (i / (P.length - 1)));
+      const fl = P.map((p, i) => {
+        const k = i / (P.length - 1);
+        return Math.sin(beat - k * 2.4) * 8 * k + Math.sin(k * Math.PI) * bend * k;
+      });
       ctx.save();
       ctx.translate(x, y);
       ctx.rotate(ang);
@@ -626,20 +630,22 @@
     };
 
     // ballistic leap: nose-up exit, glide over the peak, nose-first re-entry
-    if (dt >= JUMP_T && dt < DIVE_T + 0.45) {
+    if (dt >= JUMP_T && dt < AIR_T) {
+      // 跃水弧线: 上升段弓背蓄力, 顶点舒展滑翔, 下降段收腹, 出入水瞬间尾鳍发力
       const p = (dt - JUMP_T) / JUMP_DUR;
       const x = jumpX + 10 * s + p * 70 * s;
       const y = seaY - Math.sin(Math.min(p, 1) * Math.PI) * ch * 0.15;
       const ang = -0.75 + p * 1.95;
-      const gliding = p > 0.3 && p < 0.7 ? 0.12 : 0.4;
-      body(x, y, ang, 1, gliding, dt * 3);
-      if (p < 0.16 || p > 0.84) splash(x, 1);
-    } else if (dt >= DIVE_T + 0.45 && dt < DIVE_T + 0.45 + SWIM_DUR) {
-      // shallow coast + tail-beat propulsion, fading as it swims away
-      const p = (dt - DIVE_T - 0.45) / SWIM_DUR;
-      const x = jumpX + 80 * s + p * 200 * s * (1 - p * 0.35);
-      const y = seaY + (14 + p * 30) * s;
-      body(x, y, 0.22, 0.55 * (1 - p), 1, dt * 3.2);
+      const bend = -Math.sin(p * Math.PI * 0.9) * (6 + p * 10);
+      const beat = (p < 0.18 || p > 0.82 ? 1.6 : 0.5) + dt * 2.2;
+      body(x, y, ang, 1, bend, beat);
+      if (p < 0.15 || p > 0.85) splash(x, 1);
+    } else if (dt >= DIVE_T + 0.45 - 0.12 && dt < DIVE_T + 0.45 - 0.12 + SWIM_DUR) {
+      // 入水后: 明显的尾鳍上下拍击推进, 渐隐游远
+      const p = (dt - (AIR_T - 0.12)) / SWIM_DUR;
+      const x = jumpX + 80 * s + p * 200 * s * (1 - p * 0.3);
+      const y = seaY + (12 + p * 32) * s;
+      body(x, y, 0.2, 0.72 * (1 - p * 0.85), 1.4, dt * 4.2);
     }
   };
 
@@ -700,9 +706,9 @@
     drawGlitter(cw, ch, t, orb, pal);
     drawSeaLayer(seaLayers[1], 1, cw, ch, tSea, pal, waveMult);
     drawBoat(cw, ch, tSea, pal, squall);
-    if (squall > 0.02) {
+    {
       const boatX = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
-      drawDolphin(cw, ch, (ts - squallStart) / 1000, boatX, pal);
+      drawDolphin(cw, ch, 2.6, boatX, pal);
     }
     drawSeaLayer(seaLayers[2], 2, cw, ch, tSea, pal, waveMult);
     drawSeaLayer(seaLayers[3], 3, cw, ch, tSea, pal, waveMult);
@@ -737,9 +743,13 @@
       }
     }
 
+    window.__drawOK = (window.__drawOK || 0) + 1;
     raf = requestAnimationFrame(draw);
   };
 
+  window.__drawFrame = draw;
+  window.__dbgDol = (dt) => drawDolphin(cw, ch, dt, cw * 0.56, PALETTES.dark);
+  window.__dbgWater = (t) => { drawSeaLayer(seaLayers[3], 3, cw, ch, t + vppPhase, PALETTES.dark, 1); };
   resize();
   window.addEventListener("resize", resize);
 
