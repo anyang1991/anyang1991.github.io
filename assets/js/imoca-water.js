@@ -4,7 +4,7 @@
   const sources = Object.freeze([
     {name: "bow", x: 84, y: 1, weight: 0.9, reach: 1, spread: 0.92},
     {name: "stern", x: -49, y: 7, weight: 1, reach: 1.18, spread: 1.08},
-    {name: "foil", x: 59, y: 12, weight: 0.76, reach: 0.84, spread: 0.64},
+    {name: "foil", x: 39.3, y: -4.3, weight: 0.76, reach: 0.84, spread: 0.64},
     {name: "keel", x: 1, y: 22, weight: 0.34, reach: 0.75, spread: 0.48},
   ]);
   function parameters(boatSpeed) {
@@ -19,13 +19,14 @@
       phaseSpeed: speed * 0.065,
     };
   }
-  function draw(ctx, boatSpeed, time, foreground = false) {
+  function draw(ctx, boatSpeed, time, foreground = false, projection = {verticalScale: 1}) {
     const p = parameters(boatSpeed);
     if (p.strength < 0.001) return;
     ctx.save();
     ctx.lineCap = "round";
     for (let index = 0; index < sources.length; index++) {
-      const source = sources[index];
+      // Roll moves the attachment point; the water itself stays in the sea plane.
+      const source = {...sources[index], y: sources[index].y * projection.verticalScale};
       const length = p.length * source.reach;
       const alpha = p.strength * source.weight;
       const phase = (time * p.phaseSpeed + index * 0.27) % 1;

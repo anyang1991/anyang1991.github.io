@@ -34,8 +34,16 @@ Reference material (consulted 2026-10-19):
 
 The 8 kn curve occupies the left half and the 28 kn curve the right half, sharing one radial boat-speed scale. Radial monotone cubic interpolation smooths the sampled speeds without overshoot. Broad-reaching speed peaks near 110–120° and decreases toward dead downwind. The profiles are hand-shaped illustrations informed by [IMOCA's performance overview](https://www.imoca.org/en/news/news/the-explosive-increase-in-imoca-performance-the-numbers-tell-a-spectacular-story-of-innovation), not data extracted from that article. Slider, curve snapping, wind buttons and sail readout remain linked. Explanatory captions are kept out of the homepage panel.
 
-The foil is a tapered curved appendage with a swept lifting tip and a subdued leading-edge highlight. Four local disturbance sources (bow, stern, foil and keel) share the boat's transform. Their aft-going wave trains, foam, extent, wavelength and amplitude vary continuously with selected boat speed, fading to zero at rest. Keel disturbance is weaker to represent its depth; this is a 2D visual treatment, not a hydrodynamic solver.
+The foil is a narrow, tapered side projection with a subdued leading-edge highlight, revised against the [official IMOCA side and top/front drawings](https://www.imoca.org/en/imoca/imoca-rules). Its transverse span is not drawn as a long fore-and-aft hook. The reference images remain external and are not redistributed with the site.
+
+Each of the 38 configurations includes an illustrative heel target: 0° in the no-go states, 2–14° in 8 kn wind and 5–26° in 28 kn wind. The readout selects the target immediately; the hull and rig ease toward it. An orthographic side projection scales vertical heights by cos(heel), while a small deck face conveys roll. Pitch from the waves is separate. These are visual trim targets, not measured equilibrium heel angles.
+
+Four local disturbance sources (bow, stern, foil and keel) share the boat's position and pitch; their attachment points follow heel while the wake fans stay in the sea plane. Their aft-going wave trains, foam, extent, wavelength and amplitude vary continuously with selected boat speed, fading to zero at rest. Keel disturbance is weaker to represent its depth; this is a 2D visual treatment, not a hydrodynamic solver.
 
 ## Project origin and third-party notices
 
 Originally forked from [Academic Pages](https://github.com/academicpages/academicpages.github.io). The current default branch is a redesigned static site; the historical Jekyll version remains on `backup/academic-pages-original`. Original upstream copyright and MIT permission text are preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). That notice does not change the licensing of original content or newly authored code.
+
+## Original work and reuse
+
+See [COPYRIGHT.md](COPYRIGHT.md) for the reservation of rights in Yang An's original code and content. Third-party permissions and notices remain in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md). Public availability does not grant a general license to reuse the original work.

@@ -110,11 +110,12 @@
     state.tws = sails.tws;
     state.twa = sails.twa;
     state.bs = POLAR[state.tws][state.twa / 10];
-    state.heel = sails.luffing ? 0 : Math.round(Math.max(3, Math.min(28, state.tws / 30 * (26 - 14 * (state.twa - 30) / 150))));
+    state.heel = sails.heel;
     window.__VPP_STATE__ = {...state, sails};
     set("hp-tws", state.tws + " KT");
     set("ro-twa", state.twa + "°");
     set("ro-bs", state.bs.toFixed(1) + " kn");
+    set("ro-heel", state.heel + "°");
     set("ro-sails", sails.description);
     const slider = document.getElementById("vpp-twa");
     slider.value = state.twa;

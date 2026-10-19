@@ -86,7 +86,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
   let seaMult = 1; // eases toward the live Open-Meteo wave height
-  let vppPhase = 0, lastTs = 0, vppTwa = 90, vppTws = 8, vppBs = 10.7;
+  let vppPhase = 0, lastTs = 0, vppTwa = 90, vppTws = 8, vppBs = 10.7, boatHeel = 12;
   const SQUALL_LEN = 9;
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
@@ -429,19 +429,22 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.scale(u, u);
 
     const wakeTime = lastTs * 0.001;
-    window.ImocaWater.draw(ctx, vppBs, wakeTime, false);
+    const projection = window.ImocaSails.projectionFor(boatHeel);
+    window.ImocaWater.draw(ctx, vppBs, wakeTime, false, projection);
 
     // Fixed port-side profile: main aft of the mast, bow to the right.
     // The exact same 38 configurations drive both the VPP readout and this scene.
     const sailState = window.ImocaSails.getState(vppTws, vppTwa);
     ctx.save();
+    // Longitudinal roll in an orthographic side view shortens vertical heights.
+    // Wave-induced pitch remains the separate rotation above.
+    ctx.scale(1, projection.verticalScale);
+    ctx.save();
     ctx.translate(14, -12);
     ctx.scale(0.55, 0.55);
     ctx.translate(-181, -400);
-    window.ImocaSails.draw(ctx, sailState, {hull: pal.hull, edge: pal.sailEdge});
+    window.ImocaSails.draw(ctx, sailState, {hull: pal.hull, edge: pal.sailEdge, heel: boatHeel});
     ctx.restore();
-
-    window.ImocaWater.draw(ctx, vppBs, wakeTime, true);
 
     // masthead light + stern lantern
     ctx.beginPath();
@@ -457,6 +460,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.shadowBlur = 12;
     ctx.fill();
     ctx.shadowBlur = 0;
+    ctx.restore();
+    window.ImocaWater.draw(ctx, vppBs, wakeTime, true, projection);
     ctx.restore();
 
     // lantern reflection: 暖色横向光斑
@@ -577,6 +582,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     vppBs = vpp.bs;
     const vppDt = Math.min(Math.max(ts - lastTs, 0), 60) / 1000;
     lastTs = ts;
+    boatHeel += ((vpp.heel || 0) - boatHeel) * (1 - Math.exp(-vppDt * 5));
     vppPhase += vppDt * (vppBs / 14) * 2.6;
     const vppWind = 1 + (vppBs / 14 - 1) * 0.55;
     const windBoost = (1 + Math.min(1.1, (typeof seaState.wind === "number" ? seaState.wind : 8) / 30)) * vppWind;
