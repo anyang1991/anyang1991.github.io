@@ -72,7 +72,11 @@
     CURVES.forEach((cv) => {
       TWAS.forEach((twa) => {
         const [x, y] = polarXY(twa, POLAR[cv.tws][TWAS.indexOf(twa)]);
-        const c = el("circle", { class: "pp", cx: x, cy: y, r: 10 });
+        // 灰色小圈: 可交互位置的可视标识
+        const dot = el("circle", { class: "pp-dot", cx: x, cy: y, r: 5 });
+        svg.appendChild(dot);
+        // 放大的透明热区: 易点
+        const c = el("circle", { class: "pp", cx: x, cy: y, r: 16 });
         const t = el("title", {});
         t.textContent = cv.tws + " kn 风 · " + twa + "° · " + POLAR[cv.tws][TWAS.indexOf(twa)].toFixed(1) + " kt";
         c.appendChild(t);

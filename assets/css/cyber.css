@@ -1834,3 +1834,21 @@ body,
 a, button, .btn, .pp, .vpp-tws button {
   cursor: url("/images/anchor-cursor.png") 16 6, auto;
 }
+.pp-dot {
+  fill: rgba(148, 163, 178, 0.9);
+  stroke: rgba(6, 16, 28, 0.5);
+  stroke-width: 0.8;
+  transition: fill 0.15s ease;
+}
+.pp:hover + .pp-dot {
+  fill: var(--amber);
+}
+.vpp-polar .pp-dot {
+  fill: rgba(148, 163, 178, 0.9);
+  stroke: rgba(6, 16, 28, 0.5);
+  stroke-width: 0.8;
+  transition: fill 0.15s ease;
+}
+.vpp-polar .pp:hover + .pp-dot {
+  fill: var(--amber);
+}
