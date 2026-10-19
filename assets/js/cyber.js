@@ -86,7 +86,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
   let seaMult = 1; // eases toward the live Open-Meteo wave height
-  let vppPhase = 0, lastTs = 0, vppTwa = 90, vppTws = 8, vppBs = 7.8;
+  let vppPhase = 0, lastTs = 0, vppTwa = 90, vppTws = 8, vppBs = 10.7;
   const SQUALL_LEN = 9;
   const KONAMI = ["ArrowUp", "ArrowUp", "ArrowDown", "ArrowDown", "ArrowLeft", "ArrowRight", "ArrowLeft", "ArrowRight", "b", "a"];
   let kIdx = 0;
@@ -421,42 +421,15 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     const surf = crestY(layer, bx, t, ch, mult);
     const slope = (crestY(layer, bx + 14, t, ch, mult) - crestY(layer, bx - 14, t, ch, mult)) / 28;
 
-    // racing wake: 船首 V 波 + 船尾尾流 + 泡沫
-    const bowX = bx + 74 * u;
-    const sternX = bx - 58 * u;
-    const sternY = surf + 13 * u;
-    const wakeAlpha = Math.min(1, vppBs / 8);
-    ctx.save();
-    ctx.globalAlpha = wakeAlpha;
-    ctx.strokeStyle = pal.wake;
-    ctx.lineWidth = 1.3;
-    ctx.beginPath();
-    ctx.moveTo(bowX, surf + 1 * u);
-    ctx.lineTo(bowX + 26 * u, surf + 13 * u);
-    ctx.moveTo(bowX, surf + 1 * u);
-    ctx.lineTo(bowX + 16 * u, surf + 15 * u);
-    ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 66 * u, sternY + 16 * u);
-    ctx.moveTo(sternX, sternY);
-    ctx.lineTo(sternX - 70 * u, sternY - 6 * u);
-    ctx.stroke();
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 5; i++) {
-      const f = i / 5;
-      const fx = sternX - (16 + i * 12) * u;
-      const fy = sternY + (i % 2 ? 7 : -3) * u;
-      ctx.globalAlpha = 0.55 * (1 - f) * wakeAlpha;
-      ctx.beginPath();
-      ctx.moveTo(fx, fy);
-      ctx.lineTo(fx - 9 * u, fy);
-      ctx.stroke();
-    }
-    ctx.restore();
+    const sternX = bx - 49 * u;
 
     ctx.save();
     ctx.translate(bx, surf + 2);
     ctx.rotate(Math.atan(slope) * 0.65 + Math.sin(t * 2.1) * 0.07 * squall);
     ctx.scale(u, u);
+
+    const wakeTime = lastTs * 0.001;
+    window.ImocaWater.draw(ctx, vppBs, wakeTime, false);
 
     // Fixed port-side profile: main aft of the mast, bow to the right.
     // The exact same 38 configurations drive both the VPP readout and this scene.
@@ -467,6 +440,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.translate(-181, -400);
     window.ImocaSails.draw(ctx, sailState, {hull: pal.hull, edge: pal.sailEdge});
     ctx.restore();
+
+    window.ImocaWater.draw(ctx, vppBs, wakeTime, true);
 
     // masthead light + stern lantern
     ctx.beginPath();
@@ -596,7 +571,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
       ? Math.max(0.6, Math.min(2.3, 0.55 + seaState.h * 0.55))
       : 1;
     seaMult += (seaTarget - seaMult) * 0.03;
-    const vpp = window.__VPP_STATE__ || { tws: 8, twa: 90, bs: 7.8 };
+    const vpp = window.__VPP_STATE__ || { tws: 8, twa: 90, bs: 10.7 };
     vppTwa = vpp.twa;
     vppTws = vpp.tws;
     vppBs = vpp.bs;

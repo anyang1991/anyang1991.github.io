@@ -1692,7 +1692,7 @@ body::before,
   text-transform: uppercase;
 }
 .hp-title span {
-  color: var(--amber);
+  color: #b3c1cb;
 }
 .vpp-tws {
   display: flex;
@@ -1714,29 +1714,28 @@ body::before,
   color: var(--paper);
 }
 .vpp-tws button.active {
-  background: var(--cyan);
-  color: var(--ink);
-  border-color: var(--cyan);
+  background: rgba(127, 170, 169, 0.16);
+  color: #c0d3d6;
+  border-color: #7faaa9;
 }
 .vpp-polar svg {
   width: 100%;
   height: auto;
   display: block;
 }
-.vpp-tws button[data-tws="28"].active { background: var(--amber); border-color: var(--amber); }
+.vpp-tws button[data-tws="28"].active { background: rgba(179, 193, 203, 0.16); border-color: #b3c1cb; }
 .vpp-polar .no-go { fill: rgba(var(--accent-rgb), 0.035); }
 .vpp-angle-label { display: flex; justify-content: space-between; margin-top: 0.45rem; color: var(--fog-dim); font-size: 0.64rem; font-family: var(--mono); }
 .vpp-angle-label b { color: var(--paper); }
-#vpp-twa { display: block; width: 100%; margin: 0.65rem 0; accent-color: var(--cyan); }
+#vpp-twa { display: block; width: 100%; margin: 0.65rem 0; accent-color: #829fa6; }
 .vpp-tws button:focus-visible, #vpp-twa:focus-visible { outline: 2px solid var(--paper); outline-offset: 3px; }
 .vpp-sail-state { margin: 0.6rem 0; min-height: 2.5em; color: var(--paper); font-size: 0.69rem; line-height: 1.5; }
 .sail-legend { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem 0.35rem; font-size: 0.58rem; color: var(--fog-dim); }
 .sail-legend span { display: flex; align-items: center; gap: 0.28rem; white-space: nowrap; }
 .sail-legend i { width: 7px; height: 7px; background: var(--sail-color); flex-shrink: 0; }
-.vpp-caption { margin: 0.65rem 0 0; color: var(--fog-dim); font-size: 0.57rem; line-height: 1.5; }
 .vpp-polar .ring {
   fill: none;
-  stroke: rgba(var(--accent-rgb), 0.22);
+  stroke: rgba(143, 168, 183, 0.18);
 }
 .vpp-polar .spoke {
   stroke: rgba(var(--accent-rgb), 0.16);
@@ -1749,12 +1748,12 @@ body::before,
 }
 .vpp-polar .curve {
   fill: none;
-  stroke-width: 1.4;
-  opacity: 0.45;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  opacity: 0.68;
 }
 .vpp-polar .curve.active {
-  stroke: var(--amber);
-  stroke-width: 2;
+  stroke-width: 2.4;
   opacity: 1;
 }
 .vpp-polar .pp {
@@ -1766,12 +1765,12 @@ body::before,
   stroke: rgba(var(--accent-rgb), 0.8);
 }
 .vpp-polar .marker-dot {
-  fill: var(--hot);
+  fill: #c0d3d6;
   stroke: #fff;
   stroke-width: 0.8;
 }
 .vpp-polar .marker-line {
-  stroke: rgba(var(--hot-rgb), 0.55);
+  stroke: rgba(174, 200, 209, 0.35);
   stroke-dasharray: 3 3;
 }
 .hp-readout {
@@ -1864,7 +1863,7 @@ a, button, .btn, .pp, .vpp-tws button {
 }
 /* 悬停预览点 */
 .vpp-polar .pp-preview {
-  fill: var(--amber);
+  fill: #a4bfc6;
   stroke: rgba(8, 20, 32, 0.65);
   stroke-width: 1;
   transition: r 0.12s ease;
