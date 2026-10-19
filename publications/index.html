@@ -50,7 +50,7 @@
 
     <section class="pub-group reveal">
       <h2>期刊论文 / Journal Articles</h2>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="sailing forward: a review of contrasts"
         <a class="pub-link" href="/publication/2026-sailing-forward-review/">
           <div class="pub-venue">Journal of Ocean Engineering and Science · 2026</div>
           <h3>Sailing forward: A review of contrasts and synergies between racing and robotic sailing</h3>
@@ -62,7 +62,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="coverage path planning for autonomous "
         <a class="pub-link" href="/publication/2026-coverage-path-planning/">
           <div class="pub-venue">arXiv · 2026</div>
           <h3>Coverage Path Planning for Autonomous Sailboats in Inhomogeneous and Time-Varying Oceans: A Spatiotemporal Optimization Approach</h3>
@@ -74,7 +74,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="estimating semi-stationary sea states "
         <a class="pub-link" href="/publication/2025-sea-state-estimation/">
           <div class="pub-venue">Ocean Engineering · 2026</div>
           <h3>Estimating semi-stationary sea states through wavelet-based adaptive segmentation of ship motions</h3>
@@ -86,7 +86,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="optimising general configuration of wi"
         <a class="pub-link" href="/publication/2023-bayesian-optimization-sailing/">
           <div class="pub-venue">Journal of Marine Science and Engineering · 2023</div>
           <h3>Optimising General Configuration of Wing-Sailed Autonomous Sailing Monohulls Using Bayesian Optimisation and Knowledge Transfer</h3>
@@ -98,7 +98,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="towards a general design evaluation to"
         <a class="pub-link" href="/publication/2022-vpp-development/">
           <div class="pub-venue">Applied Ocean Research · 2022</div>
           <h3>Towards a general design evaluation tool: The development and validation of a VPP for autonomous sailing monohulls</h3>
@@ -110,7 +110,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="autonomous sailboat design: a review f"
         <a class="pub-link" href="/publication/2021-sailboat-design-review/">
           <div class="pub-venue">Ocean Engineering · 2021</div>
           <h3>Autonomous sailboat design: A review from the performance perspective</h3>
@@ -125,7 +125,7 @@
     </section>
     <section class="pub-group reveal">
       <h2>会议论文 / Conference Papers</h2>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="high-fidelity process plant modeling o"
         <a class="pub-link" href="/publication/2025-high-fidelity-modeling/">
           <div class="pub-venue">IFAC Conference on Control Applications in Marine Systems, Robotics, and Vehicles · 2025</div>
           <h3>High-fidelity process plant modeling of an unmanned sailboat with a wing sail based on multi-body dynamics</h3>
@@ -137,7 +137,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="a coordinate coverage water area monit"
         <a class="pub-link" href="/publication/2025-multi-usv-monitoring/">
           <div class="pub-venue">IEEE International Conference on Unmanned Systems (ICUS) · 2025</div>
           <h3>A coordinate coverage water area monitoring scheme for multiple unmanned surface vehicles in dynamic environments</h3>
@@ -149,7 +149,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="relative motion prediction for integra"
         <a class="pub-link" href="/publication/2024-wind-turbine-prediction/">
           <div class="pub-venue">International Conference on Ocean, Offshore and Arctic Engineering (OMAE) · 2024</div>
           <h3>Relative Motion Prediction for Integrated Floating Offshore Wind Turbine Installation Scheme Based on Data-Driven</h3>
@@ -161,7 +161,7 @@
           <span class="pub-more">查看长摘要 / Read more →</span>
         </a>
       </article>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="path planning for multipoint seabed su"
         <a class="pub-link" href="/publication/2017-auv-path-planning/">
           <div class="pub-venue">OCEANS 2017 - Anchorage · 2017</div>
           <h3>Path Planning for Multipoint Seabed Survey Mission Using Autonomous Underwater Vehicle</h3>
@@ -176,7 +176,7 @@
     </section>
     <section class="pub-group reveal">
       <h2>学位论文 / Dissertations</h2>
-      <article class="pub holo-card">
+      <article class="pub holo-card"> data-scholar="research on design and optimization me"
         <a class="pub-link" href="/publication/2023-phd-thesis/">
           <div class="pub-venue">Chinese Doctoral Dissertations Full-text Database · 2023</div>
           <h3>Research on Design and Optimization Methods for the Speed Performance of Autonomous Sailboats (面向航速最优的无人帆船设计与优化方法研究)</h3>
@@ -209,6 +209,15 @@
           set("stat-cites", d.citations);
           set("stat-h", d.h_index);
           set("stat-i10", d.i10_index);
+          if (d.articles && d.articles.length) {
+            document.querySelectorAll("article.pub[data-scholar]").forEach(function (a) {
+              var key = a.getAttribute("data-scholar");
+              var hit = d.articles.find(function (x) { return x.title.toLowerCase().indexOf(key) !== -1; });
+              var venue = a.querySelector(".pub-venue");
+              if (hit && hit.cites > 0 && venue && !venue.querySelector(".pub-cited"))
+                venue.insertAdjacentHTML("beforeend", ' · <span class="pub-cited">被引 ' + hit.cites + "</span>");
+            });
+          }
           var note = document.getElementById("stats-note");
           if (note && d.updated) note.innerHTML = 'Updated: <strong>' + d.updated + '</strong> (auto)';
         })

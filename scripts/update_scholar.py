@@ -40,12 +40,23 @@ def parse(html):
         raise ValueError("citation histogram incomplete")
     cites_per_year = {y: num(c) for y, c in zip(years, counts)}
 
+    rows = re.findall(r'<tr class="gsc_a_tr">(.*?)</tr>', html, re.S)
+    articles = []
+    for r in rows:
+        tm = re.search(r'class="gsc_a_at"[^>]*>([^<]+)<', r)
+        cm = re.search(r'class="gsc_a_c"[^>]*>[^0-9]*(\d[\d,]*)', r)
+        ym = re.search(r'class="gsc_a_y"[^>]*>\s*(\d{4})', r)
+        if tm and cm:
+            articles.append({"title": tm.group(1), "cites": num(cm.group(1)),
+                             "year": ym.group(1) if ym else ""})
+
     return {
         "updated": datetime.date.today().isoformat(),
         "citations": citations,
         "h_index": h_index,
         "i10_index": i10_index,
         "cites_per_year": cites_per_year,
+        "articles": articles,
     }
 
 

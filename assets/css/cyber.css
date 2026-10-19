@@ -1853,3 +1853,8 @@ a, button, .btn, .pp, .vpp-tws button {
 .vpp-polar {
   cursor: pointer;
 }
+.pub-cited {
+  color: var(--amber);
+  font-family: var(--mono);
+  font-size: 0.85em;
+}
