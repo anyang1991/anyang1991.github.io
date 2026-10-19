@@ -24,6 +24,11 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     setTimeout(alignPolar, 350);
   }
 
+  // 版权保护: 禁右键/复制/剪切/选择 (防君子层面的门槛)
+  document.addEventListener("contextmenu", (e) => e.preventDefault());
+  document.addEventListener("copy", (e) => e.preventDefault());
+  document.addEventListener("cut", (e) => e.preventDefault());
+
   const reveals = document.querySelectorAll(".reveal");
   if (reveals.length && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(

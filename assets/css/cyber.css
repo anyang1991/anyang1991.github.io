@@ -1858,3 +1858,13 @@ a, button, .btn, .pp, .vpp-tws button {
   font-family: var(--mono);
   font-size: 0.85em;
 }
+/* ---- 版权保护: 禁文本选择 (输入框除外) ---- */
+body,
+.hp-readout, .stu-affil, .pub-venue {
+  -webkit-user-select: none;
+  user-select: none;
+}
+input, textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
