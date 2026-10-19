@@ -32,14 +32,13 @@
       <a href="/publications/">Publications</a>
       <a href="/cv/">CV</a>
       <a href="/projects/">Projects</a>
-      <a href="/vpp/">VPP Lab</a>
     </nav>
   </header>
 
   <main id="main">
     <section class="hero" aria-label="Hero">
       <div class="hero-visual">
-        <canvas id="hero-canvas"></canvas>
+        <canvas id="hero3d-canvas"></canvas>
         <div class="hero-wash"></div>
         <div class="hud-frame" aria-hidden="true"></div>
         <div class="hud-corners" aria-hidden="true"><span></span><span></span></div>
@@ -64,13 +63,25 @@
         </div>
         <div class="cta-row">
           <a class="btn" href="/publications/">Publications</a>
-          <a class="btn btn-ghost" href="/vpp/">VPP Lab</a>
           <a class="btn btn-ghost" href="mailto:anyang@idsse.ac.cn">Contact</a>
         </div>
         <aside class="status-panel" aria-hidden="true">
           <div><i></i> UNDERWAY · SANYA</div>
           <div><i class="amber"></i> <span id="live-wind">WIND · -- KT</span></div>
           <div><i class="hot"></i> <span id="live-sea">SEA · -- M</span></div>
+        </aside>
+
+        <aside class="hero-polar" aria-label="VPP 极坐标控制">
+          <p class="hp-title">VPP · POLAR<span id="hp-tws">15 KT</span></p>
+          <div class="vpp-tws" id="vpp-tws"></div>
+          <div class="vpp-polar" id="vpp-polar"></div>
+          <div class="hp-readout">
+            <span><b id="ro-twa">90°</b> TWA</span>
+            <span><b id="ro-tws">15 KT</b> TWS</span>
+            <span><b id="ro-bs">11.0 KT</b> BS</span>
+            <span><b id="ro-heel">16°</b> HEEL</span>
+            <span class="wide" id="ro-sails">主帆 + 前帆</span>
+          </div>
         </aside>
       </div>
     </section>
@@ -136,6 +147,8 @@
     </div>
   </footer>
 
+  <script src="/assets/js/vendor/three.min.js"></script>
+  <script src="/assets/js/hero3d.js"></script>
   <script src="/assets/js/cyber.js"></script>
   <script>
     // 实时海况: Open-Meteo(免费无密钥, 支持跨域), 三亚近海; 失败时保留占位符

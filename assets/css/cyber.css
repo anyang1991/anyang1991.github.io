@@ -408,8 +408,8 @@ img {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(90deg, rgba(var(--bg-rgb), 0.92) 0%, rgba(var(--bg-rgb), 0.55) 48%, rgba(var(--bg-rgb), 0.2) 100%),
-    linear-gradient(180deg, transparent 40%, rgba(var(--bg-rgb), 0.95) 100%);
+    linear-gradient(90deg, rgba(var(--bg-rgb), 0.78) 0%, rgba(var(--bg-rgb), 0.32) 48%, rgba(var(--bg-rgb), 0.05) 100%),
+    linear-gradient(180deg, transparent 52%, rgba(var(--bg-rgb), 0.45) 100%);
   z-index: 1;
 }
 
@@ -1260,7 +1260,7 @@ img {
 
   .hero-wash {
     background:
-      linear-gradient(180deg, rgba(var(--bg-rgb), 0.35) 0%, rgba(var(--bg-rgb), 0.82) 55%, rgba(var(--bg-rgb), 0.98) 100%);
+      linear-gradient(180deg, rgba(var(--bg-rgb), 0.2) 0%, rgba(var(--bg-rgb), 0.5) 55%, rgba(var(--bg-rgb), 0.72) 100%);
   }
 
   .cursor-glow {
@@ -1665,4 +1665,121 @@ body::before,
   width: 100%;
   height: 100%;
   pointer-events: none;
+}
+
+/* ---- homepage vpp polar panel ---- */
+.hero-polar {
+  position: absolute;
+  right: 0;
+  bottom: 12rem;
+  z-index: 2;
+  width: 252px;
+  padding: 0.75rem 0.85rem 0.7rem;
+  background: rgba(var(--bg-rgb), 0.55);
+  border: 1px solid rgba(var(--accent-rgb), 0.22);
+  backdrop-filter: blur(8px);
+}
+.hp-title {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.14em;
+  color: var(--cyan);
+  text-transform: uppercase;
+}
+.hp-title span {
+  color: var(--amber);
+}
+.vpp-tws {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+.vpp-tws button {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  padding: 0.28rem 0;
+  background: rgba(var(--accent-rgb), 0.08);
+  border: 1px solid rgba(var(--accent-rgb), 0.3);
+  color: var(--fog-dim);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+.vpp-tws button:hover {
+  color: var(--paper);
+}
+.vpp-tws button.active {
+  background: var(--cyan);
+  color: var(--ink);
+  border-color: var(--cyan);
+}
+.vpp-polar svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.vpp-polar .ring {
+  fill: none;
+  stroke: rgba(var(--accent-rgb), 0.22);
+}
+.vpp-polar .spoke {
+  stroke: rgba(var(--accent-rgb), 0.16);
+}
+.vpp-polar text {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  fill: var(--fog-dim);
+  letter-spacing: 0.05em;
+}
+.vpp-polar .curve {
+  fill: none;
+  stroke-width: 1.4;
+  opacity: 0.45;
+}
+.vpp-polar .curve.active {
+  stroke: var(--amber);
+  stroke-width: 2;
+  opacity: 1;
+}
+.vpp-polar .pp {
+  fill: transparent;
+  stroke: transparent;
+  cursor: pointer;
+}
+.vpp-polar .pp:hover {
+  stroke: rgba(var(--accent-rgb), 0.8);
+}
+.vpp-polar .marker-dot {
+  fill: var(--hot);
+  stroke: #fff;
+  stroke-width: 0.8;
+}
+.vpp-polar .marker-line {
+  stroke: rgba(var(--hot-rgb), 0.55);
+  stroke-dasharray: 3 3;
+}
+.hp-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem 0.7rem;
+  margin-top: 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--fog-dim);
+}
+.hp-readout b {
+  color: var(--paper);
+  font-weight: 500;
+}
+.hp-readout .wide {
+  flex-basis: 100%;
+  color: var(--amber);
+}
+@media (max-width: 960px) {
+  .hero-polar {
+    display: none;
+  }
 }

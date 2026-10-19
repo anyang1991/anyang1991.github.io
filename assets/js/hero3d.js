@@ -1,6 +1,7 @@
 /* VPP Lab — interactive IMOCA 60 velocity prediction demo
    Night silhouette scene: procedural low-poly boat, water, lighthouse, dolphin.
    Polar chart: synthetic IMOCA-class data (see page note). */
+window.addEventListener("error", (e) => { window.__errLog = (window.__errLog || []).concat(e.message + " @ " + (e.filename||"") + ":" + (e.lineno||0)); });
 (() => {
   // ===== polar data (indicative, IMOCA-class) =====
   const TWAS = [30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180];
@@ -19,6 +20,28 @@
   const sailsFor = (twa) => (twa > 115 ? "主帆 + 球帆 · SPINNAKER" : "主帆 + 前帆");
 
   const state = { tws: 15, twa: 90, bs: 11.0, heel: 16 };
+
+  // squall easter egg: Konami code, or triple-click the status panel
+  let squallStart = -1;
+  const KONAMI = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
+  let kIdx = 0;
+  window.addEventListener("keydown", (e) => {
+    const k = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    kIdx = k === KONAMI[kIdx] ? kIdx + 1 : k === KONAMI[0] ? 1 : 0;
+    if (kIdx === KONAMI.length) {
+      kIdx = 0;
+      squallStart = performance.now();
+      console.log("%c⚓ Fair winds, sailor!", "color:#66cfc4;font-size:14px");
+    }
+  });
+  const statusPanel = document.querySelector(".status-panel");
+  let taps = 0, lastTapAt = 0;
+  if (statusPanel) statusPanel.addEventListener("click", () => {
+    const now = Date.now();
+    if (now - lastTapAt > 1200) taps = 0;
+    lastTapAt = now;
+    if (++taps >= 3) { taps = 0; squallStart = performance.now(); }
+  });
 
   // ===== polar chart (SVG) =====
   const CX = 160, CY = 160, RMAX = 140;
@@ -122,11 +145,13 @@
     state.bs = POLAR[tws][idx];
     state.heel = heelFor(twa, tws);
 
-    document.getElementById("ro-twa").textContent = twa + "°";
-    document.getElementById("ro-tws").textContent = tws + " KT";
-    document.getElementById("ro-bs").textContent = state.bs.toFixed(1) + " KT";
-    document.getElementById("ro-heel").textContent = state.heel + "°";
-    document.getElementById("ro-sails").textContent = sailsFor(twa);
+    var set = function (id, v) { var el = document.getElementById(id); if (el) el.textContent = v; };
+    set("ro-twa", twa + "°");
+    set("ro-tws", tws + " KT");
+    set("hp-tws", tws + " KT");
+    set("ro-bs", state.bs.toFixed(1) + " KT");
+    set("ro-heel", state.heel + "°");
+    set("ro-sails", sailsFor(twa));
 
     updateTwsButtons();
     updateMarker();
@@ -139,13 +164,15 @@
   }
 
   // ===== three.js scene =====
-  const canvas = document.getElementById("vpp-canvas");
+  const canvas = document.getElementById("hero3d-canvas");
   if (!canvas || !window.THREE) return;
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
   const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x050d16);
+  const bgBase = new THREE.Color(0x050d16);
+  const bgDark = new THREE.Color(0x02060c);
+  scene.background = bgBase.clone();
   scene.fog = new THREE.Fog(0x050d16, 34, 115);
 
   const camera = new THREE.PerspectiveCamera(42, 16 / 9, 0.1, 300);
@@ -207,16 +234,17 @@
 
   let scroll = 0;
 
-  function animateWater(t, bs) {
+  function animateWater(t, bs, amp) {
     const pos = waterGeo.attributes.position;
     for (let i = 0; i < pos.count; i++) {
       const x = waterBase[i * 3];
       const y = waterBase[i * 3 + 1];
       const wx = x + scroll;
-      const hgt =
+      const hgt = (
         Math.sin(wx * 0.14 + t * 1.1) * 0.34 +
         Math.sin(wx * 0.31 + y * 0.22 + t * 1.6) * 0.2 +
-        Math.sin(y * 0.42 - t * 0.9) * 0.16;
+        Math.sin(y * 0.42 - t * 0.9) * 0.16
+      ) * amp;
       pos.setZ(i, hgt);
     }
     pos.needsUpdate = true;
@@ -429,6 +457,7 @@
 
   // ===== render loop =====
   let heading = sceneTargets.heading;
+  let liveWave = 1;
   let heelCur = 0;
   let spScale = 0;
   let mainTrim = sceneTargets.mainTrim;
@@ -447,8 +476,27 @@
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   function tick() {
+    try { tickBody(); window.__f = (window.__f || 0) + 1; } catch (e) { window.__tickErr = String(e); }
+  }
+  function tickBody() {
     const dt = Math.min(clock.getDelta(), 0.05);
     const t = clock.elapsedTime;
+
+    // live sea state from Open-Meteo (status panel fetch) drives the swell
+    const seaState = window.__SEA_STATE__ || {};
+    const seaTarget = typeof seaState.h === "number"
+      ? Math.max(0.55, Math.min(2.3, 0.5 + seaState.h * 0.6))
+      : 1;
+    liveWave += (seaTarget - liveWave) * 0.02;
+    let squall = 0;
+    if (squallStart >= 0) {
+      const sdt = (performance.now() - squallStart) / 1000;
+      if (sdt < 9) squall = Math.min(1, sdt / 1.2) * Math.min(1, Math.max(0, (9 - sdt) / 1.5));
+      else squallStart = -1;
+    }
+    const waveAmp = liveWave * (1 + squall * 1.6);
+    const windBoost = (1 + Math.min(1.2, (typeof seaState.wind === "number" ? seaState.wind : 8) / 30)) * (1 + squall * 0.8);
+    scene.background.copy(bgBase).lerp(bgDark, squall * 0.55);
 
     heading += (sceneTargets.heading - heading) * 0.045;
     boat.rotation.y = heading;
@@ -470,7 +518,7 @@
 
     // water scrolls past at boat speed
     scroll += sceneTargets.bs * dt * 1.35;
-    animateWater(t, sceneTargets.bs);
+    animateWater(t, sceneTargets.bs, waveAmp);
 
     // spray at the bow scales with speed
     const sprayRate = sceneTargets.bs / 26;
@@ -493,7 +541,7 @@
     // wind streaks
     for (let i = 0; i < WN; i++) {
       const w = windSeed[i];
-      w.x += w.sp * dt * (1 + sceneTargets.bs / 22);
+      w.x += w.sp * dt * (1 + sceneTargets.bs / 22) * windBoost;
       if (w.x > 45) w.x = -45;
       windArr[i * 6] = w.x;
       windArr[i * 6 + 1] = w.y;
