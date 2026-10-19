@@ -110,14 +110,14 @@
         </div>
 
         <div class="stat-strip reveal">
-          <div class="stat"><strong id="stat-pubs">11</strong><span>Publications</span></div>
+          <div class="stat"><strong>11</strong><span>Publications</span></div>
           <div class="stat"><strong id="stat-cites">113</strong><span>Citations</span></div>
           <div class="stat"><strong id="stat-h">4</strong><span>H-index</span></div>
           <div class="stat"><strong id="stat-i10">3</strong><span>i10-index</span></div>
         </div>
         <p class="stats-note" id="stats-note">Scholar metrics updated · 2026-08</p>
         <div class="timeline-chart">
-          <p class="chart-title"><span>论文轨迹 · Publication Timeline</span><span>2017–2026 · 站内收录 11 篇</span></p>
+          <p class="chart-title"><span>论文引用 · Citations per Year</span><span>GOOGLE SCHOLAR · 每日更新</span></p>
           <div class="chart-bars" id="pub-chart"></div>
         </div>
       </div>
@@ -186,22 +186,26 @@
         var wrap = document.getElementById("pub-chart");
         if (!wrap) return;
         wrap.innerHTML = "";
-        PUBS.forEach(function (d) {
+        var years = Object.keys(CITES || {}).sort();
+        if (!years.length) return;
+        var peak = Math.max.apply(null, years.map(function (y) { return CITES[y]; }).concat([1]));
+        years.forEach(function (y) {
+          var v = CITES[y];
           var col = document.createElement("div");
           col.className = "pc-col";
           var bar = document.createElement("div");
-          bar.className = "pc-bar" + (d[1] ? "" : " zero");
-          bar.style.height = d[1] ? Math.round((d[1] / max) * 100) + "%" : "3px";
-          bar.title = d[0] + " · " + d[1] + " 篇";
-          if (d[1]) {
+          bar.className = "pc-bar" + (v ? "" : " zero");
+          bar.style.height = v ? Math.max(8, Math.round((v / peak) * 100)) + "%" : "3px";
+          bar.title = y + " · " + v + " 次引用";
+          if (v) {
             var n = document.createElement("i");
-            n.textContent = d[1];
+            n.textContent = v;
             bar.appendChild(n);
           }
-          var y = document.createElement("span");
-          y.textContent = d[0].slice(2);
+          var yy = document.createElement("span");
+          yy.textContent = y.slice(2);
           col.appendChild(bar);
-          col.appendChild(y);
+          col.appendChild(yy);
           wrap.appendChild(col);
         });
         if (CITES) {
@@ -223,7 +227,7 @@
           wrap.appendChild(svg);
         }
       };
-      window.__renderChart(null);
+
     })();
     // Scholar 指标: assets/data/scholar.json 由 GitHub Actions 每日拉取更新
     (function () {

@@ -483,7 +483,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     if (spScale > 0.02) {
       ctx.save();
       ctx.globalAlpha = Math.min(1, spScale);
-      ctx.translate(3, -151);
+      ctx.translate(2, -152);
       ctx.scale(spScale, spScale);
       ctx.beginPath();
       ctx.moveTo(0, 0);

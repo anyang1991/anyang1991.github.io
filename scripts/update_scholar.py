@@ -40,16 +40,11 @@ def parse(html):
         raise ValueError("citation histogram incomplete")
     cites_per_year = {y: num(c) for y, c in zip(years, counts)}
 
-    publications = len(re.findall(r'class="gsc_a_t"', html))
-    if publications == 0:
-        raise ValueError("article list empty")
-
     return {
         "updated": datetime.date.today().isoformat(),
         "citations": citations,
         "h_index": h_index,
         "i10_index": i10_index,
-        "publications": publications,
         "cites_per_year": cites_per_year,
     }
 
