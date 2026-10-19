@@ -435,7 +435,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   const drawBoat = (cw, ch, t, pal, squall) => {
     // IMOCA 60, 2022 foiling generation — proportions per published specs:
     // LOA 18.28m · mast ~29.5m (1.6×LOA) · main ~120m² · draft 4.5m · bulb ~3.4m
-    const u = Math.min(cw, ch) / 400;
+    const u = Math.min(cw, ch) / 540;
     const bx = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
     const layer = seaLayers[1];
     const mult = 1 + squall * 0.8;
@@ -478,8 +478,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
 
     // 帆装: 横倾压缩 + 主帆帆形随航角变化 (迎风平直 → 顺风鼓满)
     const rigScaleY = 1 - (vppHeel / 30) * 0.3;
-    mainRot += (-(0.06 + trimF * 0.38) - mainRot) * 0.05;
     const trimF = vppTwa < 60 ? 0 : vppTwa < 115 ? 0.5 : 1;
+    mainRot += (-(0.06 + trimF * 0.38) - mainRot) * 0.05;
 
     ctx.save();
     ctx.translate(0, -12);
@@ -504,6 +504,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.stroke();
 
     // mainsail ~120m²: 绕挂点旋转 — 迎风绷紧, 顺风松帆后倒; luff 沿桅, square-top head
+    var lcx = 88 + trimF * 18;
+    var hx = 34 + trimF * 15;
     ctx.save();
     ctx.translate(13, -13);
     ctx.rotate(mainRot);
@@ -842,6 +844,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   window.__dbgDol = (dt) => drawDolphin(cw, ch, dt, cw * 0.56, PALETTES.dark);
   window.__dbgWater = (t) => { drawSeaLayer(seaLayers[3], 3, cw, ch, t + vppPhase, PALETTES.dark, 1); };
   window.__vppSquallCheck = (dt) => { squallStart = 1000; draw(1000 + dt * 1000); };
+  window.__drawFrame = draw;
   resize();
   window.addEventListener("resize", resize);
 
