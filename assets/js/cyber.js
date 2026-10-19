@@ -541,42 +541,64 @@
     ctx.fillRect(sternX - 4 * u, ly, 7, 34);
   };
 
-  // a whale breaches and crosses during the squall (dt = seconds since squall began)
-  const drawWhale = (cw, ch, dt) => {
-    const p = (dt - 1.8) / 3.6;
-    if (p < 0 || p > 1) return;
-    const x = cw * (-0.06 + p * 1.12);
-    const baseY = ch * 0.72;
-    const hop = Math.sin(p * Math.PI);
-    const y = baseY - hop * ch * 0.085;
-    const s = Math.min(cw, ch) / 560;
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.rotate((0.55 - p * 1.1) * 0.9);
-    ctx.scale(s, s);
-    ctx.fillStyle = "rgba(6, 16, 26, 0.93)";
-    ctx.beginPath();
-    ctx.moveTo(-70, 0);
-    ctx.quadraticCurveTo(-30, -26, 30, -18);
-    ctx.quadraticCurveTo(66, -12, 78, 2);
-    ctx.quadraticCurveTo(40, 14, -10, 12);
-    ctx.quadraticCurveTo(-45, 12, -70, 0);
-    ctx.closePath();
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(-66, -2);
-    ctx.quadraticCurveTo(-94, -24, -108, -14);
-    ctx.quadraticCurveTo(-92, -4, -98, 12);
-    ctx.quadraticCurveTo(-84, 8, -66, 4);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = "rgba(168, 216, 220, 0.3)";
-    ctx.lineWidth = 1.2;
-    ctx.beginPath();
-    ctx.moveTo(-28, 6);
-    ctx.quadraticCurveTo(12, 12, 52, 3);
-    ctx.stroke();
-    ctx.restore();
+  // a dolphin leaps near the boat during the squall, then dives away
+  const drawDolphin = (cw, ch, dt, boatX, pal) => {
+    const JUMP_DUR = 1.15, SWIM_DUR = 1.8;
+    const s = Math.min(cw, ch) / 620;
+    const seaY = ch * 0.655;
+    const jumpX = boatX + 135 * s;
+
+    const dolphinBody = (x, y, ang, alpha) => {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(ang);
+      ctx.scale(s, s);
+      ctx.globalAlpha = Math.max(0, Math.min(1, alpha));
+      ctx.fillStyle = "rgba(8, 20, 32, 0.95)";
+      ctx.beginPath();
+      ctx.moveTo(52, 2);
+      ctx.quadraticCurveTo(40, -9, 24, -9);
+      ctx.quadraticCurveTo(12, -10, 5, -25);
+      ctx.quadraticCurveTo(0, -11, -12, -10);
+      ctx.quadraticCurveTo(-36, -8, -52, -2);
+      ctx.lineTo(-64, -12);
+      ctx.quadraticCurveTo(-57, -1, -65, 9);
+      ctx.quadraticCurveTo(-53, 6, -45, 6);
+      ctx.quadraticCurveTo(-16, 13, 12, 8);
+      ctx.quadraticCurveTo(38, 9, 52, 2);
+      ctx.closePath();
+      ctx.fill();
+      ctx.strokeStyle = "rgba(168, 216, 220, 0.32)";
+      ctx.lineWidth = 1.4;
+      ctx.beginPath();
+      ctx.moveTo(40, 6);
+      ctx.quadraticCurveTo(6, 12, -32, 5);
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      ctx.restore();
+    };
+
+    const splash = (x, k) => {
+      ctx.strokeStyle = `rgba(${pal.foamColor}, ${0.55 * k})`;
+      ctx.lineWidth = 1.4;
+      for (let i = -1; i <= 1; i++) {
+        ctx.beginPath();
+        ctx.arc(x + i * 12 * s, seaY, (5 + Math.abs(i) * 4) * s, Math.PI * 1.15, Math.PI * 1.85);
+        ctx.stroke();
+      }
+    };
+
+    if (dt >= 2 && dt < 2 + JUMP_DUR) {
+      const p = (dt - 2) / JUMP_DUR;
+      const x = jumpX + p * 55 * s;
+      const y = seaY - Math.sin(p * Math.PI) * ch * 0.15;
+      const ang = -0.85 + p * 1.85;
+      dolphinBody(x, y, ang, 1);
+      if (p < 0.2 || p > 0.8) splash(x, 1);
+    } else if (dt >= 2 + JUMP_DUR && dt < 2 + JUMP_DUR + SWIM_DUR) {
+      const p = (dt - 2 - JUMP_DUR) / SWIM_DUR;
+      dolphinBody(jumpX + 55 * s + p * 230 * s, seaY + (20 + p * 30) * s, 0.3, 0.5 * (1 - p));
+    }
   };
 
   const drawFoam = (cw, ch, t, pal, mult, squall) => {
@@ -625,7 +647,10 @@
     drawGlitter(cw, ch, t, orb, pal);
     drawSeaLayer(seaLayers[1], 1, cw, ch, t, pal, waveMult);
     drawBoat(cw, ch, t, pal, squall);
-    if (squall > 0.02) drawWhale(cw, ch, (ts - squallStart) / 1000);
+    if (squall > 0.02) {
+      const boatX = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
+      drawDolphin(cw, ch, (ts - squallStart) / 1000, boatX, pal);
+    }
     drawSeaLayer(seaLayers[2], 2, cw, ch, t, pal, waveMult);
     drawSeaLayer(seaLayers[3], 3, cw, ch, t, pal, waveMult);
     drawFoam(cw, ch, t, pal, waveMult, squall);
