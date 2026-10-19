@@ -1670,8 +1670,8 @@ body::before,
 /* ---- homepage vpp polar panel ---- */
 .hero-polar {
   position: absolute;
-  right: 0;
-  bottom: 12rem;
+  right: 1.5rem;
+  bottom: 19.5rem;
   z-index: 2;
   width: 252px;
   padding: 0.75rem 0.85rem 0.7rem;

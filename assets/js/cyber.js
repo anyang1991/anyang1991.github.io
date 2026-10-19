@@ -250,7 +250,7 @@
   };
 
   const drawOrb = (cw, ch, pal) => {
-    const ox = cw * (0.67 + (mx / window.innerWidth - 0.5) * 0.02);
+    const ox = cw * (0.72 + (mx / window.innerWidth - 0.5) * 0.02);
     const oy = ch * 0.2;
     const r = Math.min(cw, ch) * 0.042;
 
@@ -307,7 +307,7 @@
 
   const drawLighthouse = (cw, ch, t, pal) => {
     const s = Math.min(cw, ch) / 640;
-    const x = cw * 0.865;
+    const x = cw * 0.79;
     const base = ch * 0.585;
     const h = 52 * s;
 
@@ -690,6 +690,21 @@
     drawSeaLayer(seaLayers[2], 2, cw, ch, tSea, pal, waveMult);
     drawSeaLayer(seaLayers[3], 3, cw, ch, tSea, pal, waveMult);
     drawFoam(cw, ch, tSea, pal, waveMult, squall);
+
+    // surface flow streaks — drift speed and length follow the VPP boat speed
+    for (let i = 0; i < 14; i++) {
+      const layer = seaLayers[i % 2 ? 2 : 3];
+      const speed = 26 + vppBs * 3.6;
+      const sx = ((i * 97.3 + tSea * speed) % (cw + 60)) - 30;
+      const sy = crestY(layer, sx, tSea, ch, waveMult) + 7 + (i % 3) * 5;
+      const len = 9 + (i % 4) * 5 + vppBs * 0.9;
+      ctx.strokeStyle = `rgba(${pal.foamColor}, ${0.14 + (vppBs / 26) * 0.22})`;
+      ctx.lineWidth = 1.2;
+      ctx.beginPath();
+      ctx.moveTo(sx, sy);
+      ctx.lineTo(sx + len, sy);
+      ctx.stroke();
+    }
 
     // squall rain
     if (squall > 0.05) {
