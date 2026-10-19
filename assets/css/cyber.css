@@ -1633,8 +1633,7 @@ body::before,
   position: relative;
   width: 100%;
   max-width: 36px;
-  opacity: 0.45;
-  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.9), rgba(var(--accent-rgb), 0.22));
+  background: linear-gradient(180deg, rgba(var(--accent-rgb), 0.95), rgba(var(--accent-rgb), 0.5));
   transition: filter 0.2s ease;
 }
 .pc-bar:hover {
@@ -1671,8 +1670,8 @@ body::before,
 /* ---- homepage vpp polar panel ---- */
 .hero-polar {
   position: absolute;
-  right: 1.25rem;
-  top: 1.25rem;
+  right: 2rem;
+  top: 2rem;
   bottom: auto;
   width: 196px;
   z-index: 2;
@@ -1798,4 +1797,11 @@ body::before,
   left: 0;
   top: 0;
   pointer-events: none;
+}
+.pc-col i {
+  font-style: normal;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  color: var(--paper);
+  margin-bottom: 4px;
 }

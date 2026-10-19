@@ -175,16 +175,6 @@
     (function () {
       var PUBS = [["2017",1],["2018",0],["2019",0],["2020",0],["2021",1],["2022",1],["2023",2],["2024",1],["2025",2],["2026",3]];
       var max = 3;
-      function smoothPath(pts) {
-        var d = "M" + pts[0][0].toFixed(1) + " " + pts[0][1].toFixed(1);
-        for (var i = 0; i < pts.length - 1; i++) {
-          var p0 = pts[Math.max(0, i - 1)], p1 = pts[i], p2 = pts[i + 1], p3 = pts[Math.min(pts.length - 1, i + 2)];
-          var c1x = p1[0] + (p2[0] - p0[0]) / 6, c1y = p1[1] + (p2[1] - p0[1]) / 6;
-          var c2x = p2[0] - (p3[0] - p1[0]) / 6, c2y = p2[1] - (p3[1] - p1[1]) / 6;
-          d += " C" + c1x.toFixed(1) + " " + c1y.toFixed(1) + ", " + c2x.toFixed(1) + " " + c2y.toFixed(1) + ", " + p2[0].toFixed(1) + " " + p2[1].toFixed(1);
-        }
-        return d;
-      }
       window.__renderChart = function (CITES) {
         var wrap = document.getElementById("pub-chart");
         if (!wrap) return;
@@ -192,62 +182,23 @@
         var years = Object.keys(CITES || {}).sort();
         if (!years.length) return;
         var peak = Math.max.apply(null, years.map(function (y) { return CITES[y]; }).concat([1]));
-        var pts = [];
-        years.forEach(function (y, k) {
+        years.forEach(function (y) {
           var v = CITES[y];
           var col = document.createElement("div");
           col.className = "pc-col";
+          var n = document.createElement("i");
+          n.textContent = v;
+          col.appendChild(n);
           var bar = document.createElement("div");
           bar.className = "pc-bar";
-          bar.style.height = Math.max(5, Math.round((v / peak) * 72)) + "%";
-          bar.title = y + " · " + v + " 次引用";
+          bar.style.height = Math.max(4, Math.round((v / peak) * 64)) + "%";
+          bar.title = y + " · 被引用 " + v + " 次";
           col.appendChild(bar);
           var yy = document.createElement("span");
           yy.textContent = y.slice(2);
           col.appendChild(yy);
           wrap.appendChild(col);
-          pts.push([(k + 0.5) * (100 / years.length), 92 - 8 - (v / peak) * (72 - 12)]);
         });
-        {
-          var W = wrap.clientWidth, H = wrap.clientHeight;
-          if (!W || !H || pts.length < 2) return;
-          var abs = pts.map(function (p) { return [p[0] / 100 * W, H - 4 - p[1] / 92 * H]; });
-          var NS = "http://www.w3.org/2000/svg";
-          var svg = document.createElementNS(NS, "svg");
-          svg.setAttribute("class", "pc-smooth");
-          svg.setAttribute("width", W);
-          svg.setAttribute("height", H);
-          svg.setAttribute("viewBox", "0 0 " + W + " " + H);
-          var defs = document.createElementNS(NS, "defs");
-          var lg = document.createElementNS(NS, "linearGradient");
-          lg.setAttribute("id", "pcg");
-          lg.setAttribute("x1", "0"); lg.setAttribute("y1", "0");
-          lg.setAttribute("x2", "0"); lg.setAttribute("y2", "1");
-          var st1 = document.createElementNS(NS, "stop");
-          st1.setAttribute("offset", "0"); st1.setAttribute("stop-color", "rgba(224,162,72,0.25)");
-          var st2 = document.createElementNS(NS, "stop");
-          st2.setAttribute("offset", "1"); st2.setAttribute("stop-color", "rgba(224,162,72,0)");
-          lg.appendChild(st1); lg.appendChild(st2); defs.appendChild(lg); svg.appendChild(defs);
-          var line = smoothPath(abs);
-          var area = document.createElementNS(NS, "path");
-          area.setAttribute("d", line + " L" + abs[abs.length - 1][0].toFixed(1) + "," + (H - 4) + " L" + abs[0][0].toFixed(1) + "," + (H - 4) + " Z");
-          area.setAttribute("fill", "url(#pcg)");
-          svg.appendChild(area);
-          var ln = document.createElementNS(NS, "path");
-          ln.setAttribute("d", line);
-          ln.setAttribute("fill", "none");
-          ln.setAttribute("stroke", "#e0a248");
-          ln.setAttribute("stroke-width", "2");
-          ln.setAttribute("stroke-linecap", "round");
-          svg.appendChild(ln);
-          abs.forEach(function (p) {
-            var c = document.createElementNS(NS, "circle");
-            c.setAttribute("cx", p[0].toFixed(1)); c.setAttribute("cy", p[1].toFixed(1)); c.setAttribute("r", 2.8);
-            c.setAttribute("fill", "#e0a248");
-            svg.appendChild(c);
-          });
-          wrap.appendChild(svg);
-        }
       };
 
     })();
