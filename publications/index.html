@@ -31,8 +31,7 @@
       <a class="active" href="/publications/">Publications</a>
       <a href="/cv/">CV</a>
       <a href="/projects/">Projects</a>
-      <a href="/vpp/">VPP Lab</a>
-    </nav>
+          </nav>
   </header>
 
   <main class="wrap" style="padding-bottom:4rem">
@@ -42,10 +41,10 @@
       <p class="section-lead" style="margin-bottom:1rem">点击条目查看长摘要与 PDF。也可在 <a href="https://scholar.google.com/citations?user=1vLLs6wAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a> 查看完整资料。</p>
       <div class="pub-stats">
         <span>Publications: <strong>11</strong></span>
-        <span>Citations: <strong>113</strong></span>
-        <span>H-index: <strong>4</strong></span>
-        <span>i10-index: <strong>3</strong></span>
-        <span>Updated: <strong>2026-08</strong></span>
+        <span>Citations: <strong id="stat-cites">133</strong></span>
+        <span>H-index: <strong id="stat-h">4</strong></span>
+        <span>i10-index: <strong id="stat-i10">4</strong></span>
+        <span id="stats-note">Updated: <strong>2026-10-19</strong> (auto)</span>
       </div>
     </header>
 
@@ -199,5 +198,22 @@
     </div>
   </footer>
   <script src="/assets/js/cyber.js"></script>
+  <script>
+    // Scholar 指标: 与主页共用 assets/data/scholar.json (GitHub Actions 每日更新)
+    (function () {
+      fetch("/assets/data/scholar.json", { cache: "no-cache" })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d) return;
+          var set = function (id, v) { var el = document.getElementById(id); if (el && v != null) el.textContent = v; };
+          set("stat-cites", d.citations);
+          set("stat-h", d.h_index);
+          set("stat-i10", d.i10_index);
+          var note = document.getElementById("stats-note");
+          if (note && d.updated) note.innerHTML = 'Updated: <strong>' + d.updated + '</strong> (auto)';
+        })
+        .catch(function () {});
+    })();
+  </script>
 </body>
 </html>
