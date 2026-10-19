@@ -82,6 +82,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   const ctx = canvas.getContext("2d");
   let raf = 0;
   let dpr = 1;
+  let panelLeft = Infinity;
 
   // squall easter egg: Konami code, or triple-click the status panel
   let squallStart = -1;
@@ -193,7 +194,15 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     canvas.width = Math.floor(rect.width * dpr);
     canvas.height = Math.floor(rect.height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const panels = document.querySelector(".hero-instruments");
+    panelLeft = panels && window.innerWidth > 900
+      ? panels.getBoundingClientRect().left - rect.left : Infinity;
   };
+
+  const boatXFor = (cw, ch) => Math.min(
+    cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015),
+    panelLeft - Math.min(cw, ch) / 540 * 125 - 24
+  );
 
   const drawSky = (cw, ch, t, pal, squall, windBoost) => {
     const sky = ctx.createLinearGradient(0, 0, 0, ch * 0.62);
@@ -249,9 +258,9 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
   };
 
   const drawOrb = (cw, ch, pal) => {
-    const ox = cw * (0.72 + (mx / window.innerWidth - 0.5) * 0.02);
     const oy = ch * 0.2;
     const r = Math.min(cw, ch) * 0.042;
+    const ox = Math.min(cw * (0.72 + (mx / window.innerWidth - 0.5) * 0.02), panelLeft - r - 32);
 
     const halo = ctx.createRadialGradient(ox, oy, r * 0.4, ox, oy, r * 9);
     halo.addColorStop(0, pal.orb.halo0);
@@ -308,7 +317,8 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     // 风暴时灯频闪
     const strobe = squall > 0.1 ? (Math.sin(t * 34) > -0.3 ? 1 : 0.12) : 1;
     const s = Math.min(cw, ch) / 640;
-    const x = cw * 0.79;
+    // Distant lighthouse between the introduction and the boat, clear of the panels.
+    const x = cw * 0.46;
     const base = ch * 0.585;
     const h = 52 * s;
 
@@ -346,6 +356,10 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     ctx.closePath();
     ctx.fillStyle = pal.lhTower;
     ctx.fill();
+
+    ctx.strokeStyle = "rgba(132, 164, 176, 0.28)";
+    ctx.lineWidth = 0.7;
+    ctx.stroke();
 
     ctx.fillStyle = pal.lhTower;
     ctx.fillRect(x - 8.5 * s, base - h * 0.86, 17 * s, 3.2 * s);
@@ -415,7 +429,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     // IMOCA 60, 2022 foiling generation — proportions per published specs:
     // LOA 18.28m · mast ~29.5m (1.6×LOA) · main ~120m² · draft 4.5m · bulb ~3.4m
     const u = Math.min(cw, ch) / 540;
-    const bx = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
+    const bx = boatXFor(cw, ch);
     const layer = seaLayers[1];
     const mult = 1 + squall * 0.8;
     const surf = crestY(layer, bx, t, ch, mult);
@@ -609,7 +623,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     drawSeaLayer(seaLayers[1], 1, cw, ch, tSea, pal, waveMult);
     drawBoat(cw, ch, tSea, pal, squall);
     if (squall > 0.02) {
-      const boatX = cw * (0.55 + (mx / window.innerWidth - 0.5) * 0.015);
+      const boatX = boatXFor(cw, ch);
       drawDolphin(cw, ch, (ts - squallStart) / 1000, boatX, pal);
     }
     drawSeaLayer(seaLayers[2], 2, cw, ch, tSea, pal, waveMult);
