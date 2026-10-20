@@ -1,8 +1,11 @@
 name: Update Scholar stats
 
+# Scheduled scraping moved to the local Mac (launchd:
+# ~/Library/LaunchAgents/com.anyang.scholar-updater.plist, 08:00 daily) —
+# Google Scholar 403-blocks GitHub Actions datacenter IPs, so a cron here
+# fails every run. workflow_dispatch is kept for occasional manual attempts.
+
 on:
-  schedule:
-    - cron: "0 0 * * *" # daily 08:00 Beijing
   workflow_dispatch:
 
 permissions:

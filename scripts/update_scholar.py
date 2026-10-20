@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Fetch Google Scholar profile stats into assets/data/scholar.json.
-Runs daily via GitHub Actions. Exits non-zero without writing on failure,
-so the site keeps serving the last good data."""
+
+Runs daily on the local Mac via launchd (GitHub Actions datacenter IPs get
+403-blocked by Scholar). Exits non-zero without writing on failure, so the
+site keeps serving the last good data."""
 import datetime
 import json
 import re
@@ -14,10 +16,15 @@ URL = f"https://scholar.google.com/citations?user={USER}&hl=en"
 OUT = "assets/data/scholar.json"
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
       "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+# Scholar throttles rapid retries; space them far apart (total ~7.5 min)
+BACKOFFS = (30, 120, 300)
 
 
 def fetch_html():
-    req = urllib.request.Request(URL, headers={"User-Agent": UA})
+    req = urllib.request.Request(URL, headers={
+        "User-Agent": UA,
+        "Accept-Language": "en-US,en;q=0.9",
+    })
     with urllib.request.urlopen(req, timeout=30) as r:
         html = r.read().decode("utf-8", "ignore")
     if "gsc_rsb_std" not in html:
@@ -62,7 +69,7 @@ def parse(html):
 
 def main():
     last_err = None
-    for attempt in range(3):
+    for attempt, wait in enumerate((*BACKOFFS, 0)):
         try:
             data = parse(fetch_html())
             with open(OUT, "w", encoding="utf-8") as f:
@@ -73,7 +80,8 @@ def main():
         except Exception as e:
             last_err = e
             print(f"attempt {attempt + 1} failed: {e}", file=sys.stderr)
-            time.sleep(20)
+            if wait:
+                time.sleep(wait)
     print(f"giving up, keeping stale data: {last_err}", file=sys.stderr)
     sys.exit(1)
 
