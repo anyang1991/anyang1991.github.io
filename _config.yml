@@ -1,0 +1,6 @@
+# Legacy GitHub Pages Jekyll build: keep non-site files out of the published
+# output (they would otherwise be served as static downloads).
+exclude:
+  - scripts
+  - README.md
+  - _config.yml
