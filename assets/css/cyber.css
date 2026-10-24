@@ -1608,6 +1608,8 @@ body::before,
 .tl-logo img {
   height: 100%;
   width: 100%;
+  box-sizing: border-box;
+  padding: 8px;
   background: #f2f7fa;
   border-radius: 0.55rem;
   object-fit: contain;
