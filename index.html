@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yang An (安洋) — Autonomous Sailboats</title>
+  <meta name="description" content="Engineer at IDSSE, CAS. Research on autonomous sailboats, marine robotics, and intelligent navigation." />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css?v=20261031-preview-v5" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="hex-field" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scan-beam" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a class="active" href="/">About</a>
+      <a href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+      <a href="/teaching/">Mentoring</a>
+      <a href="/github/">Lab</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero" aria-label="Hero">
+      <div class="hero-visual">
+        <canvas id="hero-canvas"></canvas>
+        <div class="hero-wash"></div>
+        <div class="hud-frame" aria-hidden="true"></div>
+        <div class="hud-corners" aria-hidden="true"><span></span><span></span></div>
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker-track">
+            无人帆船 · AUTONOMOUS SAILBOATS · 海洋机器人 · PATH PLANNING · IDSSE / CAS · SANYA · WIND × OCEAN · LEARNING CONTROL ·&nbsp;
+            无人帆船 · AUTONOMOUS SAILBOATS · 海洋机器人 · PATH PLANNING · IDSSE / CAS · SANYA · WIND × OCEAN · LEARNING CONTROL ·&nbsp;
+          </div>
+        </div>
+      </div>
+      <div class="hero-layout">
+      <div class="hero-content">
+        <div class="hero-heading">
+        <p class="eyebrow"><span class="live-dot"></span>深海 · 无人帆船 · IDSSE · CAS</p>
+        <h1 class="hero-brand">
+          YANG AN
+          <span>安洋</span>
+        </h1>
+        </div>
+        <p class="hero-line typewriter" data-text="无人帆船系统优化与智能航行 —— 把竞技帆船经验迁入自主海洋观测。">无人帆船系统优化与智能航行 —— 把竞技帆船经验迁入自主海洋观测。</p>
+        <div class="hero-footer">
+        <div class="hero-meta">
+          <span><strong>Role</strong> Engineer</span>
+          <span><strong>Focus</strong> Autonomous Sailboats</span>
+          <span><strong>Base</strong> Sanya, China</span>
+        </div>
+        <div class="cta-row">
+          <a class="btn" href="/publications/">Publications</a>
+          <a class="btn btn-ghost" href="mailto:anyang@idsse.ac.cn">Contact</a>
+        </div>
+        </div>
+      </div>
+      <div class="hero-instruments">
+        <aside class="hero-polar" aria-label="VPP 极坐标控制">
+          <p class="hp-title">VPP · POLAR<span id="hp-tws">8 KT</span></p>
+          <div class="vpp-tws" role="group" aria-label="选择真风速">
+            <button type="button" data-tws="8" aria-pressed="true" class="active">8 kn</button>
+            <button type="button" data-tws="28" aria-pressed="false">28 kn</button>
+          </div>
+          <div class="vpp-polar" id="vpp-polar"></div>
+          <label class="vpp-angle-label" for="vpp-twa"><span>真风角 TWA</span><b id="ro-twa">90°</b></label>
+          <input id="vpp-twa" type="range" min="0" max="180" step="10" value="90" aria-label="真风角，每10度选择" />
+          <div class="hp-readout"><span>BOAT <b id="ro-bs">10.7 kn</b></span><span>HEEL <b id="ro-heel">12°</b></span></div>
+          <p class="vpp-sail-state" id="ro-sails" aria-live="polite">主帆全升 + MH0</p>
+          <div class="sail-legend" aria-label="帆的颜色图例">
+            <span><i style="--sail-color:#55747b"></i>主帆</span>
+            <span><i style="--sail-color:#73818b"></i>J0 前帆</span>
+            <span><i style="--sail-color:#465b70"></i>J2 前帆</span>
+            <span><i style="--sail-color:#36535c"></i>J3 前帆</span>
+            <span><i style="--sail-color:#6a828b"></i>MH0</span>
+            <span><i style="--sail-color:#91a3aa"></i>A2 球帆</span>
+          </div>
+        </aside>
+
+        <aside class="status-panel" aria-hidden="true">
+          <div><i></i> HOME PORT · SANYA</div>
+          <div><i class="amber"></i> <span id="live-wind">WIND · -- KT</span></div>
+          <div><i class="hot"></i> <span id="live-sea">WAVE · -- M</span></div>
+        </aside>
+      </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap">
+        <div class="profile-grid reveal">
+          <div class="portrait">
+            <img src="/images/bio.jpg" alt="Portrait of Yang An" width="1200" height="1600" />
+          </div>
+          <div>
+            <p class="page-kicker">01 / Identity</p>
+            <h2 class="section-title">About</h2>
+            <p class="bio-zh">中国科学院大学机械电子工程工学博士，曾于清华大学深圳国际研究生院从事博士后研究，现任中国科学院深海科学与工程研究所工程师。</p>
+            <p class="bio-zh">研究方向主要包括无人帆船系统优化设计、路径规划，以及面向人类竞技帆船操作经验的航行策略迁移，致力于提升复杂海况下无人帆船的海洋观测效率。</p>
+            <p class="bio-en">I am an Engineer at the Institute of Deep-sea Science and Engineering, Chinese Academy of Sciences, focusing on the performance and efficiency of autonomous sailboats in complex marine environments.</p>
+            <p class="bio-en">My academic background includes a Ph.D. in Mechatronic Engineering, with specialization in vessel performance via multidisciplinary design optimization. As a postdoctoral researcher, I pivoted toward intelligent navigation—bridging human sailing expertise and robotic control.</p>
+            <p class="bio-en">I am always open to collaboration on autonomous and competitive sailing.</p>
+            <div class="contact-chip">Email · <a href="mailto:anyang@idsse.ac.cn">anyang@idsse.ac.cn</a></div>
+            <div class="link-row">
+              <a href="https://scholar.google.com/citations?user=1vLLs6wAAAAJ&hl=en" target="_blank" rel="noopener">Google Scholar</a>
+              <a href="https://orcid.org/0000-0001-8838-3197" target="_blank" rel="noopener">ORCID</a>
+              <a href="https://www.researchgate.net/profile/Yang-An-12" target="_blank" rel="noopener">ResearchGate</a>
+              <a href="https://github.com/anyang1991" target="_blank" rel="noopener">GitHub</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="stat-strip reveal">
+          <div class="stat"><strong>11</strong><span>Publications</span></div>
+          <div class="stat"><strong id="stat-cites">113</strong><span>Citations</span></div>
+          <div class="stat"><strong id="stat-h">4</strong><span>H-index</span></div>
+          <div class="stat"><strong id="stat-i10">3</strong><span>i10-index</span></div>
+        </div>
+        <p class="stats-note" id="stats-note">Scholar metrics updated · 2026-08</p>
+        <div class="timeline-chart">
+          <p class="chart-title"><span>论文引用 · Cited by</span><span>GOOGLE SCHOLAR · 每日更新</span></p>
+          <div class="chart-bars" id="pub-chart"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="wrap reveal">
+        <p class="page-kicker">02 / Research</p>
+        <h2 class="section-title">Interests</h2>
+        <p class="section-lead">从总体优化到智能航行，把风力推进平台做成可部署的深海观测节点。</p>
+        <ul class="interest-list">
+          <li>无人帆船<span>Autonomous Sailboats</span></li>
+          <li>海洋机器人<span>Marine Robotics</span></li>
+          <li>基于仿真的优化<span>Simulation-Based Optimization</span></li>
+          <li>自适应路径规划<span>Adaptive Path Planning</span></li>
+          <li>基于学习的控制<span>Learning-Based Control</span></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Yang An / 安洋 · anyang.space · All Rights Reserved</span>
+      <span>SANYA · 18.3°N 109.5°E · IDSSE, CAS</span>
+    </div>
+  </footer>
+
+  <script src="/assets/js/imoca-sails.js?v=20261019-roll-v8"></script>
+  <script src="/assets/js/home-vpp.js?v=20261031-preview-v3"></script>
+  <script src="/assets/js/imoca-water.js?v=20261019-roll-v8"></script>
+  <script src="/assets/js/cyber.js?v=20261031-preview-v3"></script>
+  <script>
+    // 实时海况: Open-Meteo(免费无密钥, 支持跨域), 三亚近海; 失败时保留占位符
+    (function () {
+      function compass(deg) {
+        var names = ["N","NNE","NE","ENE","E","ESE","SE","SSE","S","SSW","SW","WSW","W","WNW","NW","NNW"];
+        return names[Math.round(deg / 22.5) % 16];
+      }
+      fetch("https://api.open-meteo.com/v1/forecast?latitude=18.2&longitude=109.7&current=wind_speed_10m,wind_direction_10m&wind_speed_unit=kn")
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var c = d.current, el = document.getElementById("live-wind");
+          if (el && c && c.wind_speed_10m != null) {
+            el.textContent = "WIND · " + compass(c.wind_direction_10m) + " " + Math.round(c.wind_speed_10m) + " KT";
+            window.__SEA_STATE__ = window.__SEA_STATE__ || {};
+            window.__SEA_STATE__.wind = c.wind_speed_10m;
+          }
+        })
+        .catch(function () {});
+      fetch("https://marine-api.open-meteo.com/v1/marine?latitude=18.3&longitude=109.5&current=wave_height&timezone=auto")
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+          var c = d.current, el = document.getElementById("live-sea");
+          if (el && c && c.wave_height != null) {
+            el.textContent = "WAVE · " + c.wave_height.toFixed(1) + " M";
+            window.__SEA_STATE__ = window.__SEA_STATE__ || {};
+            window.__SEA_STATE__.h = c.wave_height;
+          }
+        })
+        .catch(function () {});
+    })();
+    // 论文轨迹图: 柱 = 逐年产出(站内精选), 折线 = Scholar 逐年引用(assets/data/scholar.json 每日自动更新)
+    (function () {
+      var PUBS = [["2017",1],["2018",0],["2019",0],["2020",0],["2021",1],["2022",1],["2023",2],["2024",1],["2025",2],["2026",3]];
+      var max = 3;
+      window.__renderChart = function (CITES) {
+        var wrap = document.getElementById("pub-chart");
+        if (!wrap) return;
+        wrap.innerHTML = "";
+        var years = Object.keys(CITES || {}).sort();
+        if (!years.length) return;
+        var peak = Math.max.apply(null, years.map(function (y) { return CITES[y]; }).concat([1]));
+        var H = wrap.clientHeight || 92;
+        var innerH = H - 30;
+        var pts = [];
+        years.forEach(function (y, k) {
+          var v = CITES[y];
+          var bh = Math.max(4, Math.round((v / peak) * (innerH - 24)));
+          var col = document.createElement("div");
+          col.className = "pc-col";
+          var n = document.createElement("i");
+          n.textContent = v;
+          col.appendChild(n);
+          var bar = document.createElement("div");
+          bar.className = "pc-bar";
+          bar.style.height = bh + "px";
+          bar.title = y + " · 被引用 " + v + " 次";
+          col.appendChild(bar);
+          var yy = document.createElement("span");
+          yy.textContent = y.slice(2);
+          col.appendChild(yy);
+          wrap.appendChild(col);
+          pts.push([col.offsetLeft + col.offsetWidth / 2, (H - 14) - bh - 15]);
+        });
+        var NS = "http://www.w3.org/2000/svg";
+        var svg = document.createElementNS(NS, "svg");
+        svg.setAttribute("class", "pc-smooth");
+        svg.setAttribute("width", H > 0 ? pts[pts.length - 1][0] + 30 : 100);
+        svg.setAttribute("height", H);
+        svg.setAttribute("viewBox", "0 0 " + (pts[pts.length - 1][0] + 30) + " " + H);
+        var line = smoothPath(pts);
+        var ln = document.createElementNS(NS, "path");
+        ln.setAttribute("d", line);
+        ln.setAttribute("fill", "none");
+        ln.setAttribute("stroke", "#e0a248");
+        ln.setAttribute("stroke-width", "2");
+        ln.setAttribute("stroke-linecap", "round");
+        svg.appendChild(ln);
+        pts.forEach(function (p) {
+          var c = document.createElementNS(NS, "circle");
+          c.setAttribute("cx", p[0].toFixed(1)); c.setAttribute("cy", p[1].toFixed(1)); c.setAttribute("r", 2.6);
+          c.setAttribute("fill", "#e0a248");
+          svg.appendChild(c);
+        });
+        wrap.appendChild(svg);
+      };
+
+    })();
+    // Scholar 指标: assets/data/scholar.json 由 GitHub Actions 每日拉取更新
+    (function () {
+      fetch("/assets/data/scholar.json", { cache: "no-cache" })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (d) {
+          if (!d) return;
+          var set = function (id, v) { var el = document.getElementById(id); if (el && v != null) el.textContent = v; };
+          set("stat-cites", d.citations);
+          set("stat-h", d.h_index);
+          set("stat-i10", d.i10_index);
+          var note = document.getElementById("stats-note");
+          if (note && d.updated) note.textContent = "Scholar metrics updated · " + d.updated + " (auto)";
+          if (d.cites_per_year && window.__renderChart) window.__renderChart(d.cites_per_year);
+        })
+        .catch(function () {});
+    })();
+  </script>
+</body>
+</html>

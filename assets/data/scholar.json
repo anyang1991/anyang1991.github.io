@@ -1,0 +1,61 @@
+{
+  "updated": "2026-10-25",
+  "citations": 134,
+  "h_index": 4,
+  "i10_index": 4,
+  "cites_per_year": {
+    "2021": 1,
+    "2022": 9,
+    "2023": 17,
+    "2024": 21,
+    "2025": 27,
+    "2026": 58
+  },
+  "articles": [
+    {
+      "title": "Autonomous sailboat design: A review from the performance perspective",
+      "cites": 75,
+      "year": ""
+    },
+    {
+      "title": "Towards a general design evaluation tool: The development and validation of a VPP for autonomous sailing monohulls",
+      "cites": 26,
+      "year": ""
+    },
+    {
+      "title": "Optimising general configuration of wing-sailed autonomous sailing monohulls using Bayesian optimisation and knowledge transfer",
+      "cites": 14,
+      "year": ""
+    },
+    {
+      "title": "Estimating semi-stationary sea states through wavelet-based adaptive segmentation of ship motions",
+      "cites": 11,
+      "year": ""
+    },
+    {
+      "title": "Coverage path planning for autonomous sailboats in inhomogeneous and time-varying oceans: A spatiotemporal optimization approach",
+      "cites": 2,
+      "year": ""
+    },
+    {
+      "title": "A Coordinate Coverage Water Area Monitoring Scheme for Multiple Unmanned Surface Vehicles in Dynamic Environments",
+      "cites": 2,
+      "year": ""
+    },
+    {
+      "title": "High-fidelity process plant modeling of an unmanned sailboat with a wing sail based on multi-body dynamics",
+      "cites": 2,
+      "year": ""
+    },
+    {
+      "title": "Sailing forward: A review of contrasts and synergies between racing and robotic sailing",
+      "cites": 1,
+      "year": ""
+    },
+    {
+      "title": "Path planning for multipoint seabed survey mission using autonomous underwater vehicle",
+      "cites": 1,
+      "year": ""
+    }
+  ]
+}

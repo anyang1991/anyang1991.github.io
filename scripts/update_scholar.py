@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+"""Fetch Google Scholar profile stats into assets/data/scholar.json.
+
+Runs daily on the local Mac via launchd (GitHub Actions datacenter IPs get
+403-blocked by Scholar). Exits non-zero without writing on failure, so the
+site keeps serving the last good data."""
+import datetime
+import json
+import re
+import sys
+import time
+import urllib.request
+
+USER = "1vLLs6wAAAAJ"
+URL = f"https://scholar.google.com/citations?user={USER}&hl=en"
+OUT = "assets/data/scholar.json"
+UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) "
+      "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36")
+# Scholar throttles rapid retries; space them far apart (total ~7.5 min)
+BACKOFFS = (30, 120, 300)
+
+
+def fetch_html():
+    req = urllib.request.Request(URL, headers={
+        "User-Agent": UA,
+        "Accept-Language": "en-US,en;q=0.9",
+    })
+    with urllib.request.urlopen(req, timeout=30) as r:
+        html = r.read().decode("utf-8", "ignore")
+    if "gsc_rsb_std" not in html:
+        raise ValueError("profile page did not load (captcha or redirect)")
+    return html
+
+
+def parse(html):
+    def num(s):
+        return int(s.replace(",", ""))
+
+    cells = re.findall(r'class="gsc_rsb_std">([\d,]+)<', html)
+    if len(cells) < 6:
+        raise ValueError("stats table incomplete")
+    citations, h_index, i10_index = num(cells[0]), num(cells[2]), num(cells[4])
+
+    years = re.findall(r'class="gsc_g_t"[^>]*>(\d{4})<', html)
+    counts = re.findall(r'class="gsc_g_al">([\d,]+)<', html)
+    if not years or len(years) != len(counts):
+        raise ValueError("citation histogram incomplete")
+    cites_per_year = {y: num(c) for y, c in zip(years, counts)}
+
+    rows = re.findall(r'<tr class="gsc_a_tr">(.*?)</tr>', html, re.S)
+    articles = []
+    for r in rows:
+        tm = re.search(r'class="gsc_a_at"[^>]*>([^<]+)<', r)
+        cm = re.search(r'class="gsc_a_c"[^>]*>.*?([\d,]+)\s*</(?:a|td)', r, re.S)
+        ym = re.search(r'class="gsc_a_y"[^>]*>\s*(\d{4})', r)
+        if tm and cm:
+            articles.append({"title": tm.group(1), "cites": num(cm.group(1)),
+                             "year": ym.group(1) if ym else ""})
+
+    return {
+        "updated": datetime.date.today().isoformat(),
+        "citations": citations,
+        "h_index": h_index,
+        "i10_index": i10_index,
+        "cites_per_year": cites_per_year,
+        "articles": articles,
+    }
+
+
+def main():
+    last_err = None
+    for attempt, wait in enumerate((*BACKOFFS, 0)):
+        try:
+            data = parse(fetch_html())
+            with open(OUT, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+                f.write("\n")
+            print("updated:", json.dumps(data, ensure_ascii=False))
+            return
+        except Exception as e:
+            last_err = e
+            print(f"attempt {attempt + 1} failed: {e}", file=sys.stderr)
+            if wait:
+                time.sleep(wait)
+    print(f"giving up, keeping stale data: {last_err}", file=sys.stderr)
+    sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()

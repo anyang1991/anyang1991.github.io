@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lab — Yang An</title>
+  <meta name="description" content="业余开发的开源小工具：图表数据提取工具 Digitizer Plus、面向 AI agent 的航班全价查询技能 flight-fare。" />
+  <link rel="icon" href="/images/favicon.ico" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Sora:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/cyber.css?v=20261031-preview-v5" />
+</head>
+<body>
+  <a class="skip" href="#main">跳到主要内容 / Skip to main content</a>
+  <div class="site-bg" aria-hidden="true"></div>
+  <div class="hex-field" aria-hidden="true"></div>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+  <div class="scan-beam" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+  <div class="cursor-glow" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="/">
+      <span class="brand-mark">YANG AN</span>
+      <span class="brand-cn">安洋</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">MENU</button>
+    <nav id="site-nav" class="nav" aria-label="Primary">
+      <a href="/">About</a>
+      <a href="/publications/">Publications</a>
+      <a href="/cv/">CV</a>
+      <a href="/projects/">Projects</a>
+      <a href="/teaching/">Mentoring</a>
+      <a class="active" href="/github/">Lab</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1" class="wrap" style="padding-bottom:3rem">
+    <header class="page-head reveal in" style="border-bottom:none;margin-bottom:1.5rem;padding-bottom:0">
+      <p class="page-kicker">Lab // 开源工具</p>
+      <h1 class="section-title">LAB / 开源工具</h1>
+      <p class="section-lead">工作之余开发并开源的一些小工具，均托管于 <a href="https://github.com/anyang1991?tab=repositories" target="_blank" rel="noopener">github.com/anyang1991</a>。</p>
+    </header>
+
+    <section>
+      <article class="pub holo-card reveal in">
+        <a class="pub-link" href="https://github.com/anyang1991/Digitizer_Plus" target="_blank" rel="noopener">
+          <div class="pub-venue">Rust · Tauri 2 · React 19 · <span style="color:#3178c6">●</span> TypeScript · ⭐ 1</div>
+          <h3>Digitizer Plus — 图表数据提取工具</h3>
+          <p class="pub-cite">一款现代、跨平台（Windows / macOS / Linux）的桌面工具：从论文截图和扫描曲线中提取数据，把像素还原成数字 —— "converting pixels into numbers"。</p>
+          <div class="pub-excerpt">
+            <p class="pub-zh">从图表图片里手动取点，实时换算成数据坐标并导出 CSV。支持三类图表：XY 图（两轴独立线性/对数标定）、极坐标图（圆心-半径-角度三点标定，0–360 与 ±180 惯例）、三元相图（三顶点重心坐标，材料/化学/地质常用）。滚轮缩放、画布平移、完整撤销栈，安装包仅 ~15 MB，内置 GitHub Releases 签名自动更新。向 Engauge Digitizer 致敬 —— 全部代码为 Rust + TypeScript 独立重写（MIT）。</p>
+            <p class="pub-en">Calibrate and pick points on chart images, export to CSV. XY (linear/log per axis), polar (center–radius–angle, 0–360 and ±180 conventions) and ternary diagrams are supported, with wheel zoom, canvas panning and a full undo stack. Packaged with Tauri 2 at ~15 MB, signed auto-updates via GitHub Releases. A ground-up Rust + TypeScript rewrite inspired by Engauge Digitizer (MIT).</p>
+          </div>
+          <span class="pub-more">查看仓库 / View repository →</span>
+        </a>
+      </article>
+
+      <article class="pub holo-card reveal in">
+        <a class="pub-link" href="https://github.com/anyang1991/flight-fare" target="_blank" rel="noopener">
+          <div class="pub-venue">Python · Agent Skill · <span style="color:#3572A5">●</span> CI ✓</div>
+          <h3>flight-fare — 航班全价查询技能 ✈️</h3>
+          <p class="pub-cite">面向 AI agent 的查询技能（agentskills.io 规范）：在航空公司官网查询指定航班的全价经济舱价格，保存原始截图与查询记录，供机票报销比价参考。</p>
+          <div class="pub-excerpt">
+            <p class="pub-zh">一套可复用的查询流程，而非爬虫：按技能指引在航司官网核对全价与 Y 舱价格并留存原始截图，保证证据可追溯。支持 Codex、Claude Code、ZCode 等宿主（浏览器能力由宿主提供，可配 Playwright MCP / chrome-devtools MCP / web-access），git clone 进 skills 目录即可安装。</p>
+            <p class="pub-en">A reusable query procedure — not a scraper — for verifying full-fare economy and Y-class prices on airline websites, keeping original screenshots as traceable evidence. Works with Codex, Claude Code, ZCode and other hosts (browser tooling supplied by the host, e.g. Playwright MCP or chrome-devtools MCP). Install by cloning into your skills directory.</p>
+          </div>
+          <span class="pub-more">查看仓库 / View repository →</span>
+        </a>
+      </article>
+
+      <p style="font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;color:var(--fog-dim);text-transform:uppercase;text-align:center;margin-top:1.5rem">
+        更多工具随做随传 · MORE TO COME
+      </p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <span>© 2026 Yang An / 安洋 · anyang.space · All Rights Reserved</span>
+      <span>SANYA · 18.3°N 109.5°E · IDSSE, CAS</span>
+    </div>
+  </footer>
+  <script src="/assets/js/cyber.js?v=20261031-preview-v3"></script>
+</body>
+</html>
