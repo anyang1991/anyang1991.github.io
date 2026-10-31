@@ -1,0 +1,191 @@
+/* ==========================================================================
+   mobile-content.css — 内容页手机排版
+   范围: 论文列表 / 论文详情 / Projects / Mentoring / Lab
+   约束:
+   - 全部规则限制在 @media (max-width: 860px) 内, 480px 做按钮细化
+   - 不隐藏内容、不折叠摘要、不改 DOM/JS/功能/颜色/字体家族
+   - 不含首页 hero / nav / CV / timeline 规则
+   - 新增字号 16/14/12px, 间距 8/12/16/24/32px
+   - 本文件在 cyber.css 之后加载, 同权重规则以后者为准
+   ========================================================================== */
+
+@media (max-width: 860px) {
+  /* ------------------------------------------------------------------
+     1 · 长内容容器显示修正
+     cyber.js 的 IntersectionObserver threshold=0.12 + rootMargin -8%:
+     当 .reveal 容器高于约 8 个视口高度时, 交集比例永远达不到 0.12,
+     容器保持 opacity:0, 造成标题以下大片空白。
+     这里仅对超长分组容器强制可见; 卡片级 reveal 保持原样,
+     观察器随后加的 .in 与本规则值相同, 无任何副作用。
+     ------------------------------------------------------------------ */
+  .pub-group.reveal,
+  .pub-detail section.reveal,
+  main:has(.proj-bilingual) > section.reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ------------------------------------------------------------------
+     2 · 卡片内边距收紧 (桌面 1.6rem/1.75rem 在窄屏过宽)
+     ------------------------------------------------------------------ */
+  .holo-card {
+    padding: 16px;
+  }
+
+  .pub.holo-card {
+    padding: 24px 16px;
+    margin-bottom: 16px;
+  }
+
+  /* Projects 卡片 (.entry.holo-card 仅 Projects 使用) */
+  .entry.holo-card {
+    padding: 24px 16px;
+  }
+
+  /* Mentoring 卡片: 用 :has 限定含学生信息条目, 不影响 CV 的 .entry */
+  .entry:has(.stu-affil) {
+    padding: 24px 16px;
+  }
+
+  .stack:has(.proj-dl),
+  .stack:has(.stu-affil) {
+    gap: 16px;
+  }
+
+  .pub-excerpt {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .pub-link .pub-excerpt {
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
+
+  /* ------------------------------------------------------------------
+     3 · 分组标题与指标行
+     ------------------------------------------------------------------ */
+  .pub-group {
+    margin-bottom: 32px;
+  }
+
+  .pub-group h2 {
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 28px;
+    letter-spacing: 0.04em;
+  }
+
+  .pub-stats {
+    gap: 8px 16px;
+    margin-bottom: 16px;
+  }
+
+  .pub-stats span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  /* ------------------------------------------------------------------
+     4 · 长题名 / 引用 / 链接换行, 防横向溢出
+     ------------------------------------------------------------------ */
+  .pub h3,
+  .pub-venue,
+  .pub-cite,
+  .pub-zh,
+  .pub-en,
+  .pub-more,
+  .pub-detail-title {
+    overflow-wrap: break-word;
+  }
+
+  /* 链接与 URL 类长 token 允许任意断行 (含 DOI / GitHub 仓库链接) */
+  .pub-cite a,
+  .pub-excerpt a,
+  .section-lead a {
+    overflow-wrap: anywhere;
+  }
+
+  /* ------------------------------------------------------------------
+     5 · 小号等宽元信息提升到 12px, 提升手机可读性
+     ------------------------------------------------------------------ */
+  .pub-venue,
+  .pub-more,
+  .stu-affil {
+    font-size: 0.75rem;
+  }
+
+  /* ------------------------------------------------------------------
+     6 · Projects: 中英双列改上下 + dl 键值改上下
+     ------------------------------------------------------------------ */
+  .proj-bilingual {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .proj-col.en {
+    padding-top: 16px;
+    border-top: 1px dashed rgba(var(--accent-rgb), 0.2);
+  }
+
+  /* 键列 4.2rem 在窄屏过窄: 改为标签在上、内容在下 */
+  .proj-dl {
+    gap: 12px;
+  }
+
+  .proj-dl div {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .proj-dl dt {
+    padding-top: 0;
+    font-size: 0.75rem;
+  }
+
+  /* 项目编号等长 token (如 WDZC...) 不再撑破容器 */
+  .proj-dl dd {
+    overflow-wrap: anywhere;
+  }
+
+  /* ------------------------------------------------------------------
+     7 · 论文详情页
+     ------------------------------------------------------------------ */
+  .pub-detail .holo-card {
+    padding: 16px;
+  }
+
+  .back-link {
+    margin: 16px 0 0;
+    font-size: 0.75rem;
+  }
+
+  .back-link a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 48px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .long-abstract {
+    gap: 16px;
+  }
+
+  .abs-block {
+    padding: 16px;
+  }
+
+  .pub-actions {
+    gap: 12px;
+  }
+}
+
+/* 窄屏按钮: Download PDF / DOI 双按钮竖排满宽, 保证触摸尺寸 */
+@media (max-width: 480px) {
+  .pub-actions .btn {
+    width: 100%;
+  }
+}

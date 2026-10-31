@@ -1,0 +1,80 @@
+/* Responsive presentation only. The desktop stylesheet and behavior stay shared. */
+@media (max-width: 860px) {
+  :root { --nav-h: 64px; }
+
+  .wrap { width: min(calc(100% - 32px), var(--max)); min-width: 0; }
+  .topbar { padding-inline: 16px; }
+  .brand { gap: 8px; min-width: 0; }
+  .brand-mark { font-size: 16px; line-height: 24px; }
+  .brand-cn { font-size: 14px; letter-spacing: 0.16em; }
+  .nav-toggle { min-height: 48px; padding: 8px 12px; font-size: 12px; line-height: 16px; }
+  .nav {
+    max-height: calc(100svh - var(--nav-h));
+    padding: 8px 16px 16px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .nav a { display: flex; align-items: center; min-height: 48px; padding: 8px 0; font-size: 14px; line-height: 20px; }
+
+  .page-head { padding: 32px 0 24px; margin-bottom: 24px; }
+  .section-title { font-size: 24px; line-height: 32px; letter-spacing: 0.03em; overflow-wrap: break-word; }
+  .page-head > .section-title { font-size: 30px; line-height: 36px; }
+  .page-kicker { margin-bottom: 12px; font-size: 12px; line-height: 16px; letter-spacing: 0.08em; overflow-wrap: anywhere; }
+  .section-lead { margin-bottom: 24px; line-height: 24px; }
+  .section { padding-block: 48px; }
+  .site-footer { padding-block: 24px; }
+  .site-footer .wrap { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .site-footer span { max-width: 100%; overflow-wrap: anywhere; font-size: 12px; line-height: 20px; letter-spacing: 0.04em; }
+
+  .hero { padding: 32px 0; }
+  .hero-layout { margin-inline: 16px; min-width: 0; }
+  .hero-content { gap: 24px; min-width: 0; max-width: 100%; }
+  .hero-heading .eyebrow { margin-bottom: 16px; font-size: 12px; line-height: 20px; letter-spacing: 0.08em; }
+  .hero-brand { font-size: 48px; line-height: 1; letter-spacing: 0.02em; }
+  .hero-brand span { margin-top: 16px; font-size: 20px; line-height: 28px; }
+  .hero-line { font-size: 16px; line-height: 24px; }
+  .hero-meta { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-bottom: 24px; letter-spacing: 0.06em; }
+  .hero-meta > span { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; }
+  .cta-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .cta-row .btn { min-width: 0; min-height: 48px; padding: 8px 12px; font-size: 14px; line-height: 20px; letter-spacing: 0.06em; }
+  .hero-polar { min-width: 0; padding: 16px; }
+  .hp-title { font-size: 12px; line-height: 16px; letter-spacing: 0.08em; }
+  .vpp-tws { gap: 8px; }
+  .vpp-tws button { min-height: 48px; padding: 8px 12px; font-size: 14px; line-height: 20px; }
+  .vpp-angle-label { gap: 8px; font-size: 14px; line-height: 20px; }
+  .hp-readout { gap: 8px 16px; font-size: 12px; line-height: 20px; }
+  .vpp-sail-state { min-height: 0; margin-block: 12px; font-size: 14px; line-height: 20px; }
+  .sail-legend { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; font-size: 12px; line-height: 16px; }
+  .sail-legend span { min-width: 0; gap: 4px; }
+  .hero-instruments .status-panel { padding: 12px 16px; font-size: 12px; line-height: 20px; }
+
+  .profile-grid { gap: 32px; }
+  .profile-grid > div { min-width: 0; }
+  .portrait { width: min(100%, 192px); margin-inline: auto; }
+  .bio-zh { font-size: 16px; line-height: 24px; }
+  .bio-en { font-size: 14px; line-height: 24px; }
+  .contact-chip { max-width: 100%; display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; letter-spacing: 0.02em; }
+  .contact-chip a { min-width: 0; overflow-wrap: anywhere; }
+  .link-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 16px; margin-top: 16px; }
+  .link-row a { display: flex; align-items: center; min-height: 48px; padding-block: 8px; overflow-wrap: anywhere; }
+  .stat-strip { margin-top: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat { min-width: 0; padding: 16px 8px; }
+  .stat strong { font-size: 30px; line-height: 36px; }
+  .stat span { font-size: 12px; line-height: 16px; letter-spacing: 0.08em; }
+  .timeline-chart { padding: 16px; }
+  .chart-title { gap: 8px; font-size: 12px; line-height: 20px; letter-spacing: 0.04em; }
+  .chart-bars { gap: 8px; }
+  .pc-col { min-width: 0; }
+  .interest-list li { min-width: 0; padding: 16px; font-size: 16px; line-height: 24px; }
+  .interest-list li span { font-size: 14px; line-height: 20px; overflow-wrap: break-word; }
+}
+
+@media (max-width: 720px) {
+  .hero-instruments { width: 100%; max-width: 360px; margin-top: 32px; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+  .interest-list { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+}
+
+@media (max-width: 360px) {
+  .hero-brand { font-size: 36px; line-height: 40px; }
+  .sail-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}

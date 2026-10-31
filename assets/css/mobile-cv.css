@@ -1,0 +1,166 @@
+/* Mobile-only CV refinements.
+   Load after /cv/cv-download.css so these rules win only at <=860px. */
+
+@media (max-width: 860px) {
+  /* Download card: stack copy above a clear full-width action. */
+  .cv-download {
+    margin-bottom: 32px;
+  }
+
+  .cv-download-card {
+    grid-template-columns: minmax(0, 1fr);
+    align-items: stretch;
+    gap: 16px;
+    padding: 24px 16px;
+  }
+
+  .cv-download-copy h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    line-height: 32px;
+    letter-spacing: 0.04em;
+  }
+
+  .cv-download-copy p {
+    max-width: none;
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .cv-download-copy .cv-download-en {
+    margin-top: 4px;
+  }
+
+  .cv-download-action {
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .cv-download-link {
+    align-self: stretch;
+    width: 100%;
+    min-height: 48px;
+    gap: 12px;
+    padding: 8px 12px;
+  }
+
+  .cv-download-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .cv-download-label,
+  .cv-download-label strong,
+  .cv-download-label small {
+    align-items: center;
+    text-align: center;
+  }
+
+  .cv-download-label {
+    gap: 4px;
+  }
+
+  .cv-download-label strong {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .cv-download-label small {
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .cv-download-meta {
+    align-self: center;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+  }
+
+  /* Timeline: logo and date form a compact header; the record body gets the
+     full remaining width instead of being confined beside the logo. */
+  .timeline {
+    gap: 24px;
+  }
+
+  .tl-item {
+    grid-template-columns: minmax(0, 72px) minmax(0, 1fr);
+    grid-template-areas:
+      "logo year"
+      "body body";
+    align-items: center;
+    gap: 8px 12px;
+    padding: 16px 0;
+  }
+
+  .tl-item .tl-logo {
+    grid-area: logo;
+    align-self: start;
+    width: 72px;
+    height: 72px;
+    margin-top: 0;
+  }
+
+  .tl-item .tl-year {
+    grid-area: year;
+    align-self: start;
+    padding-top: 0;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .tl-item .tl-body {
+    grid-area: body;
+    min-width: 0;
+    padding-top: 8px;
+  }
+
+  .tl-body h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.02em;
+    overflow-wrap: break-word;
+  }
+
+  .tl-body p,
+  .tl-body .zh {
+    margin: 0 0 4px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+
+  .tl-body p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .cv-download-card {
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .cv-download-copy h2 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+
+  .tl-item {
+    grid-template-columns: minmax(0, 64px) minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .tl-item .tl-logo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .tl-item .tl-year {
+    letter-spacing: 0.04em;
+    overflow-wrap: anywhere;
+  }
+}
