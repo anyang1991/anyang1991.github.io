@@ -275,9 +275,9 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     canvas.height = Math.floor(rect.height * dpr);
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const panels = document.querySelector(".hero-instruments");
-    panelLeft = panels && window.innerWidth > 900
+    panelLeft = panels && window.innerWidth > 1024
       ? panels.getBoundingClientRect().left - rect.left : Infinity;
-    panelTop = panels && window.innerWidth <= 900
+    panelTop = panels && window.innerWidth <= 1024
       ? panels.getBoundingClientRect().top - rect.top : Infinity;
     const introduction = document.querySelector(".hero-line")?.getBoundingClientRect();
     dolphinLeft = introduction ? introduction.left - rect.left : rect.width * 0.12;
@@ -581,7 +581,7 @@ window.__err = []; window.addEventListener("error", (e) => window.__err.push(Str
     const seaY = Math.min(ch * 0.655, panelTop - 95 * s);
     const jumpX = dolphinLeft + 65 * s;
     const landingX = Math.max(jumpX + 35 * s, Math.min(dolphinRight - 70 * s,
-      window.innerWidth > 900 ? boatXFor(cw, ch) - 130 * s : dolphinRight - 70 * s));
+      window.innerWidth > 1024 ? boatXFor(cw, ch) - 130 * s : dolphinRight - 70 * s));
     const travel = landingX - jumpX;
 
     function body(x, y, ang, alpha, bend, beat) {

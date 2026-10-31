@@ -11,13 +11,13 @@
   display: none !important;
 }
 
-@media (min-width: 861px) {
+@media (min-width: 1025px) {
   .vpp-disclosure .vpp-panel {
     display: contents !important;
   }
 }
 
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
   .vpp-disclosure.vpp-ready .vpp-disclosure-toggle,
   .vpp-disclosure.vpp-ready.vpp-focus-redirect .vpp-disclosure-toggle {
     display: flex;

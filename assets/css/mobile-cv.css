@@ -1,7 +1,7 @@
 /* Mobile-only CV refinements.
-   Load after /cv/cv-download.css so these rules win only at <=860px. */
+   Load after /cv/cv-download.css so these rules win only at <=1024px. */
 
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
   /* Download card: stack copy above a clear full-width action. */
   .cv-download {
     margin-bottom: 32px;

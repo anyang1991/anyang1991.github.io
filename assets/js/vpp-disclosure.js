@@ -4,7 +4,7 @@
   const panel = document.getElementById("vpp-disclosure-panel");
   if (!disclosure || !toggle || !panel) return;
 
-  const query = window.matchMedia("(max-width: 860px)");
+  const query = window.matchMedia("(max-width: 1024px)");
   let mobileOpen = false;
   let wasMobile = query.matches;
 

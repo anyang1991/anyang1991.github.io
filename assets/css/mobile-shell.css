@@ -1,5 +1,5 @@
 /* Responsive presentation only. The desktop stylesheet and behavior stay shared. */
-@media (max-width: 860px) {
+@media (max-width: 1024px) {
   :root { --nav-h: 64px; }
 
   .wrap { width: min(calc(100% - 32px), var(--max)); min-width: 0; }
@@ -7,14 +7,35 @@
   .brand { gap: 8px; min-width: 0; }
   .brand-mark { font-size: 16px; line-height: 24px; }
   .brand-cn { font-size: 14px; letter-spacing: 0.16em; }
-  .nav-toggle { min-height: 48px; padding: 8px 12px; font-size: 12px; line-height: 16px; }
+  .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: center;
+    text-indent: 0.12em;
+  }
   .nav {
+    display: none;
+    position: absolute;
+    top: var(--nav-h);
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
     max-height: calc(100svh - var(--nav-h));
     padding: 8px 16px 16px;
+    background: rgba(var(--bg-rgb), 0.96);
+    border-bottom: 1px solid rgba(var(--accent-rgb), 0.15);
     overflow-y: auto;
     overscroll-behavior: contain;
   }
-  .nav a { display: flex; align-items: center; min-height: 48px; padding: 8px 0; font-size: 14px; line-height: 20px; }
+  .nav.open { display: flex; }
+  .nav a { display: flex; align-items: center; width: 100%; min-height: 48px; padding: 8px 0; border-bottom: 1px solid rgba(var(--accent-rgb), 0.08); font-size: 14px; line-height: 20px; }
 
   .page-head { padding: 32px 0 24px; margin-bottom: 24px; }
   .section-title { font-size: 24px; line-height: 32px; letter-spacing: 0.03em; overflow-wrap: break-word; }
@@ -82,6 +103,11 @@
   .pc-col { min-width: 0; }
   .interest-list li { min-width: 0; padding: 16px; font-size: 16px; line-height: 24px; }
   .interest-list li span { font-size: 14px; line-height: 20px; overflow-wrap: break-word; }
+}
+
+@media (min-width: 721px) and (max-width: 1024px) {
+  .hero-instruments { grid-template-columns: minmax(0, 320px) minmax(0, 232px); align-items: start; }
+  .interest-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 720px) {
