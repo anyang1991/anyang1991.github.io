@@ -1,0 +1,66 @@
+/* Progressive VPP disclosure. Without JavaScript the instrument stays expanded. */
+.vpp-disclosure .vpp-disclosure-toggle {
+  display: none;
+}
+
+.vpp-disclosure .vpp-panel {
+  display: contents;
+}
+
+.vpp-disclosure .vpp-panel[hidden] {
+  display: none !important;
+}
+
+@media (min-width: 861px) {
+  .vpp-disclosure .vpp-panel {
+    display: contents !important;
+  }
+}
+
+@media (max-width: 860px) {
+  .vpp-disclosure.vpp-ready .vpp-disclosure-toggle,
+  .vpp-disclosure.vpp-ready.vpp-focus-redirect .vpp-disclosure-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    min-height: 48px;
+    margin: 12px 0 0;
+    padding: 8px 12px;
+    background: rgba(var(--accent-rgb), 0.08);
+    border: 1px solid rgba(var(--accent-rgb), 0.3);
+    color: #c0d3d6;
+    font-family: var(--mono);
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .vpp-disclosure.vpp-ready .vpp-disclosure-toggle::after {
+    content: "+";
+    color: var(--cyan);
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  .vpp-disclosure.vpp-ready.vpp-open .vpp-disclosure-toggle {
+    border-color: rgba(var(--accent-rgb), 0.55);
+  }
+
+  .vpp-disclosure.vpp-ready.vpp-open .vpp-disclosure-toggle::after {
+    content: "\2212";
+  }
+
+  .vpp-disclosure.vpp-ready .vpp-disclosure-toggle:focus-visible {
+    outline: 3px solid rgba(var(--accent-rgb), 0.9);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .vpp-disclosure.vpp-ready.vpp-collapsed .vpp-panel {
+    display: none !important;
+  }
+}
