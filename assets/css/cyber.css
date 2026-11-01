@@ -2380,17 +2380,28 @@ input:focus-visible,
 
 .btn {
   min-height: 48px;
+  min-width: 0;
+  max-width: 100%;
   padding: 8px 12px;
   font-size: 1rem;
   line-height: 24px;
-  font-weight: 600;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-align: center;
 }
 
 .btn-mini,
 .vpp-tws button {
-  padding: 0.75rem 1rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-align: center;
 }
 
 #vpp-twa {

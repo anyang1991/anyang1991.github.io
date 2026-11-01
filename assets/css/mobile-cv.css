@@ -63,13 +63,16 @@
 
   .cv-download-label strong {
     font-size: 16px;
+    font-weight: 500;
     line-height: 24px;
+    letter-spacing: 0.02em;
   }
 
   .cv-download-label small {
     font-size: 12px;
+    font-weight: 400;
     line-height: 16px;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
   }
 
   .cv-download-meta {

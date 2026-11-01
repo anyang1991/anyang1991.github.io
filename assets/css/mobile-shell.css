@@ -13,10 +13,12 @@
     justify-content: center;
     min-height: 48px;
     padding: 8px 12px;
-    font-size: 12px;
-    line-height: 16px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
     text-align: center;
-    text-indent: 0.12em;
+    text-indent: 0.08em;
   }
   .nav {
     display: none;
@@ -72,7 +74,7 @@
   .hero-meta { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; margin-bottom: 24px; letter-spacing: 0.06em; }
   .hero-meta > span { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 8px; }
   .cta-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .cta-row .btn { min-width: 0; min-height: 48px; padding: 8px 12px; font-size: 14px; line-height: 20px; letter-spacing: 0.06em; }
+  .cta-row .btn { min-width: 0; min-height: 48px; padding: 8px 12px; font-size: 14px; line-height: 20px; letter-spacing: 0.04em; }
   .hero-polar { min-width: 0; padding: 16px; }
   .hp-title { font-size: 12px; line-height: 16px; letter-spacing: 0.08em; }
   .vpp-tws { gap: 8px; }
@@ -117,5 +119,6 @@
 
 @media (max-width: 360px) {
   .hero-brand { font-size: 36px; line-height: 40px; }
+  .cta-row .btn { font-size: 12px; line-height: 16px; }
   .sail-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

@@ -44,6 +44,7 @@
   justify-content: center;
   gap: 0.85rem;
   min-height: 3.25rem;
+  min-width: 0;
   padding: 0.75rem 1.5rem;
   border: 1px solid var(--cyan);
   border-radius: 2px;
@@ -62,25 +63,31 @@
 .cv-download-label {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.125rem;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .cv-download-label strong {
   font-family: var(--body);
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.5rem;
-  white-space: nowrap;
+  letter-spacing: 0.02em;
+  text-align: center;
+  overflow-wrap: break-word;
 }
 
 .cv-download-label small {
   font-family: var(--mono);
   font-size: 0.75rem;
+  font-weight: 400;
   line-height: 1rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   color: rgba(4, 18, 31, 0.78);
-  white-space: nowrap;
+  text-align: center;
+  overflow-wrap: break-word;
 }
 
 .cv-download-meta {
