@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Lab — Yang An</title>
-  <meta name="description" content="业余开发的开源小工具：图表数据提取工具 Digitizer Plus、面向 AI agent 的航班全价查询技能 flight-fare。" />
+  <meta name="description" content="安洋开发的开源工具：Monitor Plus 额度与算力监控、Digitizer Plus 图表数据提取、flight-fare 航班全价核验与证据整理。" />
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico?v=20261031-sail-v1" />
   <link rel="icon" type="image/svg+xml" href="/images/favicon.svg?v=20261031-sail-v1" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -43,39 +43,49 @@
     <header class="page-head reveal in" style="border-bottom:none;margin-bottom:1.5rem;padding-bottom:0">
       <p class="page-kicker">Lab // 开源工具</p>
       <h1 class="section-title">LAB / 开源工具</h1>
-      <p class="section-lead">工作之余开发并开源的一些小工具，均托管于 <a href="https://github.com/anyang1991?tab=repositories" target="_blank" rel="noopener">github.com/anyang1991</a>。</p>
+      <p class="section-lead">记录科研与日常工作中开发的开源工具，代码和使用说明见 <a href="https://github.com/anyang1991?tab=repositories" target="_blank" rel="noopener noreferrer">github.com/anyang1991</a>。</p>
     </header>
 
     <section>
       <article class="pub holo-card reveal in">
-        <a class="pub-link" href="https://github.com/anyang1991/Digitizer_Plus" target="_blank" rel="noopener">
-          <div class="pub-venue">Rust · Tauri 2 · React 19 · <span style="color:#3178c6">●</span> TypeScript · ⭐ 1</div>
-          <h3>Digitizer Plus — 图表数据提取工具</h3>
-          <p class="pub-cite">一款现代、跨平台（Windows / macOS / Linux）的桌面工具：从论文截图和扫描曲线中提取数据，把像素还原成数字 —— "converting pixels into numbers"。</p>
+        <a class="pub-link" href="https://github.com/anyang1991/monitor_plus" target="_blank" rel="noopener noreferrer">
+          <div class="pub-venue">Windows · Tauri 2 · Vue 3 · Rust · Python Agent</div>
+          <h3>Monitor Plus — 额度与算力监控</h3>
+          <p class="pub-cite">把 GLM / Codex 订阅额度与多台服务器的 CPU、GPU 和显存状态，集中放进桌面悬浮窗。</p>
           <div class="pub-excerpt">
-            <p class="pub-zh">从图表图片里手动取点，实时换算成数据坐标并导出 CSV。支持三类图表：XY 图（两轴独立线性/对数标定）、极坐标图（圆心-半径-角度三点标定，0–360 与 ±180 惯例）、三元相图（三顶点重心坐标，材料/化学/地质常用）。滚轮缩放、画布平移、完整撤销栈，安装包仅 ~15 MB，内置 GitHub Releases 签名自动更新。向 Engauge Digitizer 致敬 —— 全部代码为 Rust + TypeScript 独立重写（MIT）。</p>
-            <p class="pub-en">Calibrate and pick points on chart images, export to CSV. XY (linear/log per axis), polar (center–radius–angle, 0–360 and ±180 conventions) and ternary diagrams are supported, with wheel zoom, canvas panning and a full undo stack. Packaged with Tauri 2 at ~15 MB, signed auto-updates via GitHub Releases. A ground-up Rust + TypeScript rewrite inspired by Engauge Digitizer (MIT).</p>
+            <p class="pub-zh">支持置顶、拖动和折叠为紧凑模式，随时查看额度用量、重置倒计时以及服务器负载。通过单文件 Python Agent 接入多台机器，集中展示 CPU、内存及 NVIDIA GPU 的利用率、显存和温度；提供 Windows 安装包。</p>
+            <p class="pub-en">Keep GLM Coding Plan and Codex usage, reset countdowns and server workloads beside your work. The floating window can stay on top, be moved or collapsed into a compact view. A Python agent packaged in one file supplies CPU, memory and NVIDIA GPU metrics from multiple machines, including GPU utilization, memory usage and temperature. Windows installers are available from GitHub Releases.</p>
           </div>
           <span class="pub-more">查看仓库 / View repository →</span>
         </a>
       </article>
 
       <article class="pub holo-card reveal in">
-        <a class="pub-link" href="https://github.com/anyang1991/flight-fare" target="_blank" rel="noopener">
-          <div class="pub-venue">Python · Agent Skill · <span style="color:#3572A5">●</span> CI ✓</div>
-          <h3>flight-fare — 航班全价查询技能 ✈️</h3>
-          <p class="pub-cite">面向 AI agent 的查询技能（agentskills.io 规范）：在航空公司官网查询指定航班的全价经济舱价格，保存原始截图与查询记录，供机票报销比价参考。</p>
+        <a class="pub-link" href="https://github.com/anyang1991/Digitizer_Plus" target="_blank" rel="noopener noreferrer">
+          <div class="pub-venue">Tauri 2 · Rust · React · TypeScript</div>
+          <h3>Digitizer Plus — 图表数据提取工具</h3>
+          <p class="pub-cite">把论文里的曲线，变成可分析的数据：导入图表、标定取点，再导出 CSV 继续分析。</p>
           <div class="pub-excerpt">
-            <p class="pub-zh">一套可复用的查询流程，而非爬虫：按技能指引在航司官网核对全价与 Y 舱价格并留存原始截图，保证证据可追溯。支持 Codex、Claude Code、ZCode 等宿主（浏览器能力由宿主提供，可配 Playwright MCP / chrome-devtools MCP / web-access），git clone 进 skills 目录即可安装。</p>
-            <p class="pub-en">A reusable query procedure — not a scraper — for verifying full-fare economy and Y-class prices on airline websites, keeping original screenshots as traceable evidence. Works with Codex, Claude Code, ZCode and other hosts (browser tooling supplied by the host, e.g. Playwright MCP or chrome-devtools MCP). Install by cloning into your skills directory.</p>
+            <p class="pub-zh">导入论文配图、扫描曲线或实验图像，标定已知坐标后沿曲线点击取点，即可导出 CSV 继续分析。支持 XY 线性与对数轴、极坐标和三元相图，取点结果实时换算显示，图像处理与坐标计算全部在本机完成，提供 Windows 和 macOS 安装包。</p>
+            <p class="pub-en">Turn chart images from papers and scans into data you can analyze. Import a plot, calibrate known coordinates, then click along curves to sample points and export them as CSV. Digitizer Plus supports linear and logarithmic XY axes, polar coordinates and ternary diagrams, shows converted values as you work, and processes everything locally. It runs on Windows and macOS.</p>
           </div>
           <span class="pub-more">查看仓库 / View repository →</span>
         </a>
       </article>
 
-      <p style="font-family:var(--mono);font-size:.68rem;letter-spacing:.14em;color:var(--fog-dim);text-transform:uppercase;text-align:center;margin-top:1.5rem">
-        更多工具随做随传 · MORE TO COME
-      </p>
+      <article class="pub holo-card reveal in">
+        <a class="pub-link" href="https://github.com/anyang1991/flight-fare" target="_blank" rel="noopener noreferrer">
+          <div class="pub-venue">Agent Skill · Browser automation · Fare evidence</div>
+          <h3>flight-fare — 航班全价查询与证据整理</h3>
+          <p class="pub-cite">让 AI agent 整理航班全价经济舱比价证据，保留官网原始截图与查询记录。</p>
+          <div class="pub-excerpt">
+            <p class="pub-zh">按航班号、日期和航段查询航司官网，核验页面明示的舱位与价格，保存原始截图和结构化汇总，为报销比价留存可追溯证据。内置多家航司的站点经验，可配合具备浏览器能力的 Codex、Claude Code 等 AI agent 使用。</p>
+            <p class="pub-en">An Agent Skill for collecting full-fare economy price evidence from airline websites. Given a flight number, date and route, the agent checks the displayed fare and cabin, saves original screenshots and produces a structured summary. Guidance for individual airlines supports repeatable queries, while the saved records help prepare reimbursement comparisons. It works with Codex, Claude Code and other AI assistants that can operate a browser.</p>
+          </div>
+          <span class="pub-more">查看仓库 / View repository →</span>
+        </a>
+      </article>
+
     </section>
   </main>
 
