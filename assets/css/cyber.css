@@ -2029,6 +2029,30 @@ body::after {
   overflow: visible;
 }
 
+/* The dolphin projects 26px above its card. Reserve 40px in the flow so
+   its silhouette clears the preceding text or border by at least 12px. */
+main .pub.holo-card {
+  margin-bottom: 40px;
+}
+
+main .pub.holo-card:first-of-type,
+.pub-detail > .holo-card {
+  margin-top: 40px;
+}
+
+.stack:has(> .entry:is(.dolphin-card, .holo-card)) {
+  padding-top: 28px;
+  row-gap: 40px;
+}
+
+.stack > .entry.holo-card {
+  margin-block: 0;
+}
+
+.profile-grid + .stat-strip {
+  margin-top: 40px;
+}
+
 /* 小海豚: 论文列表奇数卡 + 详情页引用卡 */
 article.pub.holo-card:nth-of-type(odd)::after,
 .entry.holo-card:nth-of-type(odd)::after,
