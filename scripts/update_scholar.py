@@ -77,6 +77,16 @@ def main():
                 f.write("\n")
             print("updated:", json.dumps(data, ensure_ascii=False))
             return
+        except urllib.error.HTTPError as e:
+            last_err = e
+            print(f"attempt {attempt + 1} failed: {e}", file=sys.stderr)
+            if e.code in (403, 429):
+                # rate-limited: retrying only deepens Google's IP ban;
+                # back off completely and wait for the block to lapse
+                print("rate-limited by Google — skipping remaining retries", file=sys.stderr)
+                break
+            if wait:
+                time.sleep(wait)
         except Exception as e:
             last_err = e
             print(f"attempt {attempt + 1} failed: {e}", file=sys.stderr)
