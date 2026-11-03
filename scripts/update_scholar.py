@@ -81,10 +81,10 @@ def main():
             last_err = e
             print(f"attempt {attempt + 1} failed: {e}", file=sys.stderr)
             if e.code in (403, 429):
-                # rate-limited: retrying only deepens Google's IP ban;
-                # back off completely and wait for the block to lapse
-                print("rate-limited by Google — skipping remaining retries", file=sys.stderr)
-                break
+                # rate-limited: retrying only deepens Google's IP ban.
+                # Exit 42 tells scholar_daily.py to switch exit nodes.
+                print("rate-limited by Google — exit 42 for node switch", file=sys.stderr)
+                sys.exit(42)
             if wait:
                 time.sleep(wait)
         except Exception as e:
