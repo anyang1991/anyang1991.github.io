@@ -1,0 +1,77 @@
+/* Keep scientific diagrams on paper; the surrounding site supplies the navy. */
+.pub-link:has(.pub-visual) {
+  display: flow-root;
+}
+
+.pub-visual {
+  float: right;
+  width: clamp(220px, 30%, 320px);
+  margin: 0 0 16px 24px;
+  border: 1px solid rgba(198, 220, 236, 0.24);
+  background: #f7f9fb;
+  line-height: 0;
+}
+
+.pub-visual img,
+.graphical-abstract img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+}
+
+.pub-link:has(.pub-visual) .pub-excerpt {
+  clear: both;
+}
+
+.graphical-abstract {
+  margin: 48px 0;
+}
+
+.graphical-abstract-link {
+  display: block;
+  border: 1px solid rgba(198, 220, 236, 0.24);
+  background: #f7f9fb;
+  line-height: 0;
+  transition: border-color 180ms ease;
+}
+
+.graphical-abstract-link:hover {
+  border-color: rgba(102, 207, 196, 0.5);
+}
+
+.graphical-abstract figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 20px;
+  color: var(--fog-dim);
+}
+
+.graphical-abstract figcaption > span:first-child {
+  color: var(--cyan);
+}
+
+@media (max-width: 1024px) {
+  .pub-visual {
+    width: min(42%, 280px);
+    margin-left: 16px;
+  }
+
+  .graphical-abstract {
+    margin-block: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .pub-visual {
+    float: none;
+    width: 100%;
+    margin: 0 0 24px;
+  }
+}
