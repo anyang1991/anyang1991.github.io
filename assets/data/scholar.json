@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-04",
-  "citations": 134,
+  "updated": "2026-11-05",
+  "citations": 135,
   "h_index": 4,
   "i10_index": 4,
   "cites_per_year": {
@@ -9,7 +9,7 @@
     "2023": 17,
     "2024": 21,
     "2025": 27,
-    "2026": 58
+    "2026": 59
   },
   "articles": [
     {
@@ -34,7 +34,7 @@
     },
     {
       "title": "Coverage path planning for autonomous sailboats in inhomogeneous and time-varying oceans: A spatiotemporal optimization approach",
-      "cites": 2,
+      "cites": 3,
       "year": ""
     },
     {
