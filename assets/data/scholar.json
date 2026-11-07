@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-06",
-  "citations": 135,
+  "updated": "2026-11-07",
+  "citations": 136,
   "h_index": 4,
   "i10_index": 4,
   "cites_per_year": {
@@ -9,12 +9,12 @@
     "2023": 17,
     "2024": 21,
     "2025": 27,
-    "2026": 59
+    "2026": 60
   },
   "articles": [
     {
       "title": "Autonomous sailboat design: A review from the performance perspective",
-      "cites": 75,
+      "cites": 76,
       "year": ""
     },
     {
