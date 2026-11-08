@@ -1,6 +1,6 @@
 {
-  "updated": "2026-11-07",
-  "citations": 136,
+  "updated": "2026-11-08",
+  "citations": 137,
   "h_index": 4,
   "i10_index": 4,
   "cites_per_year": {
@@ -9,7 +9,7 @@
     "2023": 17,
     "2024": 21,
     "2025": 27,
-    "2026": 60
+    "2026": 61
   },
   "articles": [
     {
@@ -29,7 +29,7 @@
     },
     {
       "title": "Estimating semi-stationary sea states through wavelet-based adaptive segmentation of ship motions",
-      "cites": 11,
+      "cites": 12,
       "year": ""
     },
     {
