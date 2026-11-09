@@ -145,12 +145,16 @@ def main():
     run([GIT, "-C", REPO, "add", "assets/data/scholar.json"])
     date = datetime.date.today().isoformat()
     run([GIT, "commit", "-q", "-m", f"scholar: daily stats update {date}"])
-    for attempt in range(5):
-        r = run([GIT, "-C", REPO, "push"])
+    # cross-border direct pushes fail often; alternate direct and proxy
+    for attempt in range(6):
+        cmd = [GIT, "-C", REPO]
+        if attempt % 2 == 1:
+            cmd += ["-c", "http.proxy=http://127.0.0.1:7890"]
+        r = run(cmd + ["push"])
         if r.returncode == 0:
             log(f"pushed {date}")
             return
-        time.sleep(20)
+        time.sleep(15)
     log("push failed after retries")
     sys.exit(1)
 
