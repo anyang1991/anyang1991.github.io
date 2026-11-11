@@ -34,7 +34,6 @@
 .cv-download-action {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
   gap: 0.5rem;
 }
 
@@ -90,15 +89,6 @@
   overflow-wrap: break-word;
 }
 
-.cv-download-meta {
-  margin: 0;
-  color: var(--fog-dim);
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  line-height: 1rem;
-  letter-spacing: 0.12em;
-}
-
 @media (hover: hover) {
   .cv-download-link:hover {
     border-color: #8be6dc;
@@ -145,10 +135,6 @@
   .cv-download-label small {
     align-items: center;
     text-align: center;
-  }
-
-  .cv-download-meta {
-    align-self: center;
   }
 }
 
